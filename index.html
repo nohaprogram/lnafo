@@ -122,6 +122,10 @@ section.room{padding-block:22px;margin:14px 0}
 .toggle-all{display:flex;gap:8px;justify-content:flex-end;margin:6px 0 -8px}
 .visits{margin-inline-end:auto;align-self:center;padding:6px 14px;border-radius:999px;background:var(--mint);color:var(--mint-deep);font-size:14px;font-weight:600}
 .visits[hidden]{display:none}
+.hits{margin-inline-end:auto;align-self:center;display:inline-flex;align-items:center;gap:8px;padding:5px 6px 5px 14px;border-radius:999px;background:var(--mint);color:var(--mint-deep);font-size:14px;font-weight:600;text-decoration:none}
+.hits[hidden]{display:none}
+.hits img{display:block;height:20px;border-radius:4px}
+.visits:not([hidden])~.hits{margin-inline-end:0}
 .toggle-all button{padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:14px;color:var(--lav-deep)}
 .toggle-all button:hover{background:var(--lav)}
 @media (max-width:560px){
@@ -398,7 +402,7 @@ footer b{color:var(--mint-deep)}
       <p>مساحة هادئة تتأملين فيها معنى التسامح: مع الآخرين، ومع نفسك، ومع الاختلاف. حللي مواقف حقيقية، وقيسي مستوى تسامحك، وجرّبي رحلة المسامحة خطوة خطوة.</p>
     </div>
   </header>
-  <div class="toggle-all"><span class="visits" id="visits" hidden></span><button type="button" id="openAll">فتح كل الأقسام</button><button type="button" id="closeAll">طي كل الأقسام</button></div>
+  <div class="toggle-all"><span class="visits" id="visits" hidden></span><a class="hits" id="hits" hidden href="https://hits.sh/nohaprogram.github.io/lnafo/"><span>عدد الزيارات</span><img alt="" height="20"></a><button type="button" id="openAll">فتح كل الأقسام</button><button type="button" id="closeAll">طي كل الأقسام</button></div>
 
   <!-- lugha -->
   <section class="room" id="lugha">
@@ -1318,6 +1322,11 @@ footer b{color:var(--mint-deep)}
   });
 
   /* ---------- visitor counter ---------- */
+  if(/github\.io$/.test(location.hostname)){
+    const hits=document.getElementById("hits");
+    hits.querySelector("img").src="https://hits.sh/nohaprogram.github.io/lnafo.svg?label=%20&color=6c58ad&labelColor=d6f1e4";
+    hits.hidden=false;
+  }
   if(SHEET_URL){
     fetch(SHEET_URL).then(r=>r.json()).then(d=>{
       if(!d||!d.visitors) return;
