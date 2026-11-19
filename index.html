@@ -120,6 +120,8 @@ nav.top .wrap{display:flex;align-items:center;gap:14px;padding-block:10px}
 .room-body[hidden]{display:none}
 section.room{padding-block:22px;margin:14px 0}
 .toggle-all{display:flex;gap:8px;justify-content:flex-end;margin:6px 0 -8px}
+.visits{margin-inline-end:auto;align-self:center;padding:6px 14px;border-radius:999px;background:var(--mint);color:var(--mint-deep);font-size:14px;font-weight:600}
+.visits[hidden]{display:none}
 .toggle-all button{padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:14px;color:var(--lav-deep)}
 .toggle-all button:hover{background:var(--lav)}
 @media (max-width:560px){
@@ -396,7 +398,7 @@ footer b{color:var(--mint-deep)}
       <p>مساحة هادئة تتأملين فيها معنى التسامح: مع الآخرين، ومع نفسك، ومع الاختلاف. حللي مواقف حقيقية، وقيسي مستوى تسامحك، وجرّبي رحلة المسامحة خطوة خطوة.</p>
     </div>
   </header>
-  <div class="toggle-all"><button type="button" id="openAll">فتح كل الأقسام</button><button type="button" id="closeAll">طي كل الأقسام</button></div>
+  <div class="toggle-all"><span class="visits" id="visits" hidden></span><button type="button" id="openAll">فتح كل الأقسام</button><button type="button" id="closeAll">طي كل الأقسام</button></div>
 
   <!-- lugha -->
   <section class="room" id="lugha">
@@ -1314,6 +1316,16 @@ footer b{color:var(--mint-deep)}
     svForm.reset();
     msg.innerHTML='<p class="toast">وصل تقييمك، شكرًا لكِ. رأيك يساعدنا على تطوير المنصة.</p>';
   });
+
+  /* ---------- visitor counter ---------- */
+  if(SHEET_URL){
+    fetch(SHEET_URL).then(r=>r.json()).then(d=>{
+      if(!d||!d.visitors) return;
+      const el=document.getElementById("visits");
+      el.textContent=`زارت المنصة ${ar(d.visitors)} زائرة`;
+      el.hidden=false;
+    }).catch(()=>{});
+  }
 
   /* ---------- collapsible sections ---------- */
   function setOpen(sec, open){
