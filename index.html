@@ -402,7 +402,7 @@ footer b{color:var(--mint-deep)}
       <p>مساحة هادئة تتأملين فيها معنى التسامح: مع الآخرين، ومع نفسك، ومع الاختلاف. حللي مواقف حقيقية، وقيسي مستوى تسامحك، وجرّبي رحلة المسامحة خطوة خطوة.</p>
     </div>
   </header>
-  <div class="toggle-all"><span class="visits" id="visits" hidden></span><a class="hits" id="hits" hidden href="https://hits.sh/nohaprogram.github.io/lnafo/"><span>عدد الزيارات</span><img alt="" height="20"></a><button type="button" id="openAll">فتح كل الأقسام</button><button type="button" id="closeAll">طي كل الأقسام</button></div>
+  <div class="toggle-all"><span class="visits" id="visits" hidden></span><button type="button" id="openAll">فتح كل الأقسام</button><button type="button" id="closeAll">طي كل الأقسام</button></div>
 
   <!-- lugha -->
   <section class="room" id="lugha">
@@ -1322,11 +1322,6 @@ footer b{color:var(--mint-deep)}
   });
 
   /* ---------- visitor counter ---------- */
-  if(/github\.io$/.test(location.hostname)){
-    const hits=document.getElementById("hits");
-    hits.querySelector("img").src="https://hits.sh/nohaprogram.github.io/lnafo.svg?label=%20&color=6c58ad&labelColor=d6f1e4";
-    hits.hidden=false;
-  }
   if(SHEET_URL){
     fetch(SHEET_URL).then(r=>r.json()).then(d=>{
       if(!d||!d.visitors) return;
