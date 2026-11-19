@@ -880,15 +880,29 @@ footer b{color:var(--mint-deep)}
 (function(){
   /* ضعي هنا رابط تطبيق جدول Google (Web App) لاستقبال الإحصاءات والاستبانة */
   const SHEET_URL = "";
+  /* إعدادات Supabase: رابط المشروع (Project URL) والمفتاح العام (anon / publishable key) */
+  const SUPA_URL = "https://rwigljdrxfqfmcbhceop.supabase.co";
+  const SUPA_KEY = "sb_publishable_MW-LIAlBRB2NhA6DUWj3hA_UeEq4FXl";
   const ar = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
   const store = {
     get(k, d){ try{ const v = localStorage.getItem("samah_"+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
     set(k, v){ try{ localStorage.setItem("samah_"+k, JSON.stringify(v)); }catch(e){} }
   };
   const visitor = (()=>{ let v = store.get("vid",""); if(!v){ v = Math.random().toString(36).slice(2,10); store.set("vid",v); } return v; })();
+  function supa(path, body){
+    return fetch(SUPA_URL.replace(/\/$/,"")+path,{method:"POST",keepalive:true,headers:Object.assign({"apikey":SUPA_KEY,"Content-Type":"application/json","Prefer":"return=minimal"}, SUPA_KEY.startsWith("sb_")?{}:{"Authorization":"Bearer "+SUPA_KEY}),body:JSON.stringify(body)});
+  }
   function send(payload){
+    const p = Object.assign({v:visitor},payload);
+    if(SUPA_URL && SUPA_KEY){
+      try{
+        if(p.type==="survey") supa("/rest/v1/survey",{visitor:p.v,q1:p.q[0],q2:p.q[1],q3:p.q[2],q4:p.q[3],q5:p.q[4],note:(p.note||"").slice(0,1000)}).catch(()=>{});
+        else if(p.action==="زيارة") supa("/rest/v1/visits",{visitor:p.v}).catch(()=>{});
+        else supa("/rest/v1/events",{visitor:p.v,section:String(p.section).slice(0,80),action:String(p.action).slice(0,80),detail:String(p.detail).slice(0,300)}).catch(()=>{});
+      }catch(e){}
+    }
     if(!SHEET_URL) return;
-    try{ fetch(SHEET_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({v:visitor},payload))}).catch(()=>{}); }catch(e){}
+    try{ fetch(SHEET_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)}).catch(()=>{}); }catch(e){}
   }
   function track(section, action, detail){ send({type:"event", section, action, detail: detail==null ? "" : String(detail)}); }
   try{ if(!sessionStorage.getItem("samah_visit")){ sessionStorage.setItem("samah_visit","1"); track("المنصة","زيارة",""); } }catch(e){ track("المنصة","زيارة",""); }
@@ -1322,7 +1336,15 @@ footer b{color:var(--mint-deep)}
   });
 
   /* ---------- visitor counter ---------- */
-  if(SHEET_URL){
+  const showVisits=d=>{
+    if(!d||!d.visitors) return;
+    const el=document.getElementById("visits");
+    el.textContent=`زارت المنصة ${ar(d.visitors)} زائرة`;
+    el.hidden=false;
+  };
+  if(SUPA_URL && SUPA_KEY){
+    setTimeout(()=>supa("/rest/v1/rpc/visit_stats",{}).then(r=>r.json()).then(showVisits).catch(()=>{}),1200);
+  } else if(SHEET_URL){
     fetch(SHEET_URL).then(r=>r.json()).then(d=>{
       if(!d||!d.visitors) return;
       const el=document.getElementById("visits");
