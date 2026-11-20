@@ -348,7 +348,7 @@ button{cursor:pointer}
     }catch(e){ return false; }
   }
   try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices(); }catch(e){}
-  const AUD = n => "audio/"+String(n).padStart(2,"0")+".m4a";
+  const AUD = n => "audio/"+String(n).padStart(2,"0")+".m4a?v=2";
   let curAudio=null, sayKey={hello:1, meaningText:2, feelTip:3, storyText:null, whatText:null};
   function stopAll(){ try{ speechSynthesis.cancel(); }catch(e){} if(curAudio){ try{curAudio.pause();}catch(e){} curAudio=null; } }
   function say(text, num){
