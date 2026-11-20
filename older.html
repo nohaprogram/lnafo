@@ -161,6 +161,26 @@ section.room{padding-block:22px;margin:14px 0}
 .hello{font-family:var(--font-display);font-size:22px;color:var(--lav-deep);margin-top:8px}
 .hello small{display:block;font-family:var(--font-body);font-size:13px;color:var(--muted);font-weight:400}
 @media (max-width:640px){.age-row{justify-content:center}}
+.song-tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px}
+.song-tips div{padding:12px 14px;border-radius:16px;display:grid;gap:2px}
+.song-tips span{font-size:14.5px;color:var(--ink)}
+.song-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:start}
+@media (max-width:760px){.song-grid{grid-template-columns:1fr}}
+.song-form{display:grid;gap:8px}
+.song-form textarea{margin-top:0;min-height:150px}
+.song-starts{display:flex;flex-wrap:wrap;gap:6px}
+.song-starts button{padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);font-size:14.5px}
+.song-starts button:hover{border-color:var(--lav-deep)}
+.rh{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:6px}
+.rh b{font-size:13.5px;color:var(--muted);min-width:44px}
+.rh button{padding:4px 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);font-size:14.5px}
+.rh button:hover{border-color:var(--lav-deep)}
+.song-card{position:sticky;top:80px;padding:24px 20px;border-radius:24px;background:linear-gradient(160deg,var(--pink),var(--lav));text-align:center;display:grid;gap:10px}
+.song-card h3{font-size:26px;color:var(--lav-deep)}
+.song-card .v{font-family:var(--font-display);font-size:20px;line-height:1.9;white-space:pre-wrap}
+.song-card .ch{font-family:var(--font-display);font-size:19px;font-weight:600;color:var(--pink-deep);padding:6px 12px;border-radius:12px;background:color-mix(in srgb,var(--surface) 65%,transparent)}
+.song-card .by{font-size:14px;color:var(--muted)}
+.song-card .empty{color:var(--muted)}
 /* hero */
 .hero{padding:48px 0 28px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center}
 .hero-icon{width:150px;height:150px;border-radius:40px;background:linear-gradient(145deg,var(--lav),var(--pink));display:grid;place-items:center}
@@ -406,6 +426,7 @@ footer b{color:var(--mint-deep)}
       <a href="#letter">رسالة لن تُرسل</a>
       <a href="#challenge">تحدي ٢١ يومًا</a>
       <a href="#quotes">عبارات</a>
+      <a href="#song">اكتبي نشيدك</a>
       <a href="#survey">رأيك يهمنا</a>
     </div>
   </div>
@@ -851,10 +872,46 @@ footer b{color:var(--mint-deep)}
     </div>
   </section>
 
+  <!-- song -->
+  <section class="room" id="song">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-song">
+      <div class="room-mark p-pink">١٣</div>
+      <div><h2>اكتبي نشيدك</h2><p>اكتبي نشيدًا قصيرًا عن التسامح، بمساعدة كلمات مقفّاة وأفكار جاهزة. يُحفظ ما تكتبينه على جهازك.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-song" hidden>
+    <div class="song-tips">
+      <div class="p-lav"><b>١. فكرة واحدة</b><span>مثل: أسامح صديقتي، أو نختلف ونبقى معًا.</span></div>
+      <div class="p-mint"><b>٢. قافية واحدة</b><span>اجعلي نهايات الأبيات متشابهة: سلام، وئام، أيام.</span></div>
+      <div class="p-peach"><b>٣. لازمة تتكرر</b><span>جملة قصيرة يردّدها الجميع بعد كل مقطع.</span></div>
+    </div>
+    <div class="song-grid">
+      <div class="song-form">
+        <label class="ap-label" for="songTitle">عنوان النشيد</label>
+        <input id="songTitle" class="ap-input" type="text" maxlength="40" placeholder="مثلًا: قلبي واسع">
+        <label class="ap-label" for="songVerses">الأبيات (كل بيت في سطر)</label>
+        <textarea id="songVerses" placeholder="اكتبي هنا أبيات نشيدك…"></textarea>
+        <span class="ap-label">ابدئي بفكرة</span>
+        <div class="song-starts" id="songStarts"></div>
+        <span class="ap-label">كلمات مقفّاة (اضغطي لإضافتها)</span>
+        <div id="songRhymes"></div>
+        <label class="ap-label" for="songChorus">اللازمة (تتكرر بعد كل بيتين)</label>
+        <input id="songChorus" class="ap-input" type="text" maxlength="80" placeholder="مثلًا: سامح، سامح، قلبك يرتاح">
+      </div>
+      <div class="song-card" id="songCard" aria-live="polite"></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="songCopy" type="button">انسخي النشيد</button>
+      <button class="btn soft" id="songClear" type="button">ابدئي من جديد</button>
+    </div>
+    <div id="songMsg" aria-live="polite"></div>
+    </div>
+  </section>
+
   <!-- survey -->
   <section class="room" id="survey">
     <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-survey">
-      <div class="room-mark p-mint">١٣</div>
+      <div class="room-mark p-mint">١٤</div>
       <div><h2>رأيك يهمنا</h2><p>خمسة أسئلة قصيرة عن محتوى المنصة ومدى استفادتك منها. اختاري لكل سؤال رقمًا من ١ إلى ٥، حيث ١ أقل تقييم و٥ أعلى تقييم. الاستبانة بلا اسم.</p></div>
       <span class="chev" aria-hidden="true"></span>
     </div>
@@ -1391,6 +1448,51 @@ footer b{color:var(--mint-deep)}
       el.hidden=false;
     }).catch(()=>{});
   }
+
+  /* ---------- write a song ---------- */
+  (function(){
+    const t=document.getElementById("songTitle"), v=document.getElementById("songVerses"), c=document.getElementById("songChorus");
+    const s=store.get("song",{t:"",v:"",c:""}); t.value=s.t; v.value=s.v; c.value=s.c;
+    const starts=["قلبي واسع مثل السماء","إن أخطأتِ يا صديقتي","نختلف ونبقى معًا","كلمة طيبة تكفي","نمدّ أيدينا بالسلام"];
+    const rhymes=[["ـام",["سلام","وئام","كلام","أيام","احترام"]],["ـاح",["سماح","صباح","أفراح","ارتياح","جناح"]],["ـوب",["قلوب","دروب","تذوب","نتوب","غروب"]],["ـير",["كبير","خير","منير","ضمير","عبير"]],["ـنا",["بيننا","قلبنا","دربنا","حولنا","صفّنا"]]];
+    function insert(txt){ const st=v.selectionStart??v.value.length, en=v.selectionEnd??v.value.length; const pre=v.value.slice(0,st), sep=(pre && !/[\s\n]$/.test(pre))?" ":""; v.value=pre+sep+txt+v.value.slice(en); v.focus(); const p=(pre+sep+txt).length; v.setSelectionRange(p,p); save(); }
+    const sEl=document.getElementById("songStarts");
+    sEl.innerHTML=starts.map(x=>`<button type="button">${x}</button>`).join("");
+    sEl.querySelectorAll("button").forEach(b=>b.onclick=()=>{ const val=v.value; v.value = val + (val && !val.endsWith("\n") ? "\n" : "") + b.textContent + " "; save(); v.focus(); });
+    const rEl=document.getElementById("songRhymes");
+    rEl.innerHTML=rhymes.map(([k,ws])=>`<div class="rh"><b>${k}</b>${ws.map(w=>`<button type="button">${w}</button>`).join("")}</div>`).join("");
+    rEl.querySelectorAll(".rh button").forEach(b=>b.onclick=()=>insert(b.textContent));
+    function lines(){ return v.value.split("\n").map(x=>x.trim()).filter(Boolean); }
+    function songText(){
+      const ls=lines(), ch=c.value.trim(); const out=[];
+      ls.forEach((l,i)=>{ out.push(l); if(ch && i%2===1) out.push("— "+ch+" —"); });
+      if(ch && ls.length%2===1) out.push("— "+ch+" —");
+      return (t.value.trim()?"«"+t.value.trim()+"»\n\n":"")+out.join("\n")+(NAME?"\n\nكلمات: "+NAME:"");
+    }
+    function render(){
+      const ls=lines(), ch=c.value.trim(), card=document.getElementById("songCard");
+      if(!ls.length && !t.value.trim()){ card.innerHTML='<p class="empty">سيظهر نشيدك هنا وأنتِ تكتبين 🎶</p>'; return; }
+      let html=`<h3>${esc(t.value.trim()||"نشيدي")}</h3>`;
+      let block=[];
+      ls.forEach((l,i)=>{ block.push(esc(l)); if(i%2===1){ html+=`<p class="v">${block.join("\n")}</p>`; block=[]; if(ch) html+=`<p class="ch">${esc(ch)}</p>`; } });
+      if(block.length){ html+=`<p class="v">${block.join("\n")}</p>`; if(ch) html+=`<p class="ch">${esc(ch)}</p>`; }
+      if(NAME) html+=`<p class="by">كلمات: ${esc(NAME)}</p>`;
+      card.innerHTML=html;
+    }
+    function save(){ store.set("song",{t:t.value,v:v.value,c:c.value}); render(); }
+    [t,v,c].forEach(el=>el.addEventListener("input",save));
+    render();
+    document.getElementById("songCopy").onclick=async e=>{
+      const b=e.currentTarget, msg=document.getElementById("songMsg");
+      if(lines().length<2){ msg.innerHTML='<p class="toast" style="background:var(--peach);color:var(--peach-deep)">اكتبي بيتين على الأقل، ثم انسخي نشيدك.</p>'; return; }
+      try{ await navigator.clipboard.writeText(songText()); b.textContent="نُسخ ✓"; }catch(err){ b.textContent="ظلّلي النشيد وانسخيه"; }
+      msg.innerHTML=`<p class="toast">نشيد جميل${yaName}! 🎶 شاركيه مع معلمتك أو صديقاتك، وقد يُنشد في الإذاعة المدرسية.</p>`;
+      if(!store.get("songDone",false)){ store.set("songDone",true); if(typeof addPts==="function") addPts(15); }
+      track("اكتبي نشيدك","نسخ النشيد",lines().length+" أبيات");
+      setTimeout(()=>b.textContent="انسخي النشيد",1800);
+    };
+    document.getElementById("songClear").onclick=()=>{ t.value=""; v.value=""; c.value=""; save(); document.getElementById("songMsg").innerHTML=""; };
+  })();
 
   /* ---------- collapsible sections ---------- */
   function setOpen(sec, open){

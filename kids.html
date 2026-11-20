@@ -123,6 +123,9 @@ button{cursor:pointer}
 .mc.done{background:var(--leaf);box-shadow:none}
 .mc .back{font-size:28px;opacity:.6}
 .lbl{font-weight:600}
+.sl{display:grid;gap:8px;padding:12px 14px;border-radius:20px;background:#fffaf0;margin-bottom:10px}
+.sl p{font-family:var(--font-display);font-size:23px}
+.sl p i{font-style:normal;display:inline-block;min-width:70px;border-bottom:3px dashed #f2b8c9;text-align:center;color:var(--pink-deep)}
 .inp{width:100%;max-width:320px;padding:12px 16px;border-radius:16px;border:2px solid var(--line);font-size:19px}
 .inp:focus{outline:none;border-color:var(--lav-deep)}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
@@ -227,6 +230,7 @@ button{cursor:pointer}
     <button type="button" class="tile t6" data-go="card"><span>💌</span>بطاقة صلح</button>
     <button type="button" class="tile t7" data-go="week"><span>⭐</span>نجوم ٧ أيام</button>
     <button type="button" class="tile t8" data-go="words"><span>🎵</span>كلمات حلوة</button>
+    <button type="button" class="tile t6" data-go="song"><span>✏️</span>اكتبي نشيدًا</button>
     <button type="button" class="tile t9" data-go="vote"><span>💬</span>هل أحببتِ البستان؟</button>
   </nav>
 
@@ -269,7 +273,7 @@ button{cursor:pointer}
 
   <section class="spot" id="card" hidden>
     <div class="spot-head"><span>💌</span><h2>بطاقة صلح</h2></div>
-    <p class="soft">اصنعي بطاقة جميلة لصديقة زعلتِ منها أو زعلت منك.</p>
+    <p class="soft">اصنعي بطاقة جميلة لصديقة أحزنتكِ أو حزنت منكِ.</p>
     <label class="lbl" for="friend">اسم صديقتك</label>
     <input id="friend" class="inp" type="text" maxlength="20" placeholder="مثلًا: ريم">
     <p class="lbl">اختاري زهرة</p>
@@ -291,6 +295,16 @@ button{cursor:pointer}
     <div class="spot-head"><span>🎵</span><h2>كلمات حلوة</h2></div>
     <p class="soft">ردّدي هذه الكلمات مع صديقاتك.</p>
     <div class="lines" id="lines"></div>
+  </section>
+
+  <section class="spot" id="song" hidden>
+    <div class="spot-head"><span>✏️</span><h2>اكتبي نشيدًا</h2></div>
+    <p class="soft">اختاري كلمة لكل سطر، فيصير عندك نشيد عن التسامح 🎶</p>
+    <div id="songLines"></div>
+    <label class="lbl" for="kSongMine">وإن أحببتِ، اكتبي سطرًا من عندك</label>
+    <input id="kSongMine" class="inp" type="text" maxlength="50" placeholder="مثلًا: نضحك ونلعب في كل مكان">
+    <div class="peace-card" id="kSongCard"></div>
+    <div class="row"><button type="button" class="btn" id="kSongCopy">انسخي النشيد</button></div>
   </section>
 
   <section class="spot" id="vote" hidden>
@@ -525,6 +539,34 @@ button{cursor:pointer}
   }
   friend.oninput=renderCard; renderCard();
   document.getElementById("cardCopy").onclick=async e=>{ const b=e.currentTarget; try{ await navigator.clipboard.writeText(cardText()); b.textContent="نُسخت ✓"; }catch(err){ b.textContent="صوّري البطاقة وأرسليها"; } if(!store.get("cardDone",false)){store.set("cardDone",true);addStars(1);} track("بطاقة صلح","نسخ البطاقة",""); setTimeout(()=>b.textContent="انسخي الكلمات",1800); };
+
+  /* ---------- write a song (kids) ---------- */
+  const songT=[
+    {a:"أنا قلبي",b:"",w:["كبير","منير","جميل"]},
+    {a:"يسامح ويحب",b:"",w:["الخير","الكثير","الصغير"]},
+    {a:"نلعب معًا في",b:"",w:["البستان","الميدان","الفصل"]},
+    {a:"ونعيش في",b:"",w:["أمان","حنان","سلام"]}
+  ];
+  const kpick=store.get("kSong",songT.map(()=>-1));
+  const mine=document.getElementById("kSongMine"); mine.value=store.get("kSongMine","");
+  function kSongLines(){ const out=songT.map((s,i)=>kpick[i]>=0?`${s.a} ${s.w[kpick[i]]}`:null).filter(Boolean); if(mine.value.trim()) out.push(mine.value.trim()); return out; }
+  function renderKSong(){
+    const box=document.getElementById("songLines");
+    box.innerHTML=songT.map((s,i)=>`<div class="sl"><p>${s.a} <i>${kpick[i]>=0?s.w[kpick[i]]:"…"}</i></p><div class="chips">${s.w.map((w,j)=>`<button type="button" class="${kpick[i]===j?'on':''}" data-i="${i}" data-j="${j}">${w}</button>`).join("")}</div></div>`).join("");
+    box.querySelectorAll(".chips button").forEach(b=>b.onclick=()=>{ kpick[+b.dataset.i]=+b.dataset.j; store.set("kSong",kpick); renderKSong(); });
+    const ls=kSongLines();
+    document.getElementById("kSongCard").innerHTML = ls.length ? `<div class="fl" aria-hidden="true">🎶</div><p class="to">نشيدي</p><p class="msg" style="white-space:pre-line">${ls.map(esc).join("\n")}</p>${NAME?`<p class="from">كلمات ${esc(NAME)}</p>`:""}` : `<p class="from">اختاري الكلمات ليظهر نشيدك هنا 🌼</p>`;
+  }
+  mine.oninput=()=>{ store.set("kSongMine",mine.value); renderKSong(); };
+  renderKSong();
+  document.getElementById("kSongCopy").onclick=async e=>{
+    const b=e.currentTarget, ls=kSongLines();
+    if(ls.length<2){ b.textContent="اختاري كلمتين على الأقل"; setTimeout(()=>b.textContent="انسخي النشيد",1600); return; }
+    try{ await navigator.clipboard.writeText("نشيدي 🎶\n"+ls.join("\n")+(NAME?"\nكلمات "+NAME:"")); b.textContent="نُسخ ✓"; }catch(err){ b.textContent="صوّري النشيد وأرسليه"; }
+    if(!store.get("kSongDone",false)){ store.set("kSongDone",true); addStars(1); }
+    track("اكتبي نشيدًا","نسخ النشيد",ls.length+" أسطر");
+    setTimeout(()=>b.textContent="انسخي النشيد",1800);
+  };
 
   /* ---------- 7 days ---------- */
   const tasks=[["😊","ابتسمي لصديقة"],["🙏","قولي «شكرًا» ثلاث مرات"],["🧺","ساعدي والدتك في شيء"],["🤝","العبي مع زميلة وحيدة"],["💚","سامحي من أخطأت عليكِ"],["🌷","قولي «آسفة» إذا أخطأتِ"],["💌","ارسمي قلبًا وأهديه لأحد"]];
