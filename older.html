@@ -435,7 +435,7 @@ footer b{color:var(--mint-deep)}
       <a href="#letter">رسالة لن تُرسل</a>
       <a href="#challenge">تحدي ٢١ يومًا</a>
       <a href="#quotes">عبارات</a>
-      <a href="#song">اكتبي نشيدك</a>
+      <a href="#song">أناشيد</a>
       <a href="#color">لوّني بالأرقام</a>
       <a href="#survey">رأيك يهمنا</a>
     </div>
@@ -887,40 +887,15 @@ footer b{color:var(--mint-deep)}
   <section class="room" id="song">
     <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-song">
       <div class="room-mark p-pink">١٣</div>
-      <div><h2>اكتبي نشيدك</h2><p>اكتبي نشيدًا قصيرًا عن التسامح، بمساعدة كلمات مقفّاة وأفكار جاهزة. يُحفظ ما تكتبينه على جهازك.</p></div>
+      <div><h2>أناشيد عن التسامح</h2><p>استمعي لأناشيد عن العفو والتسامح.</p></div>
       <span class="chev" aria-hidden="true"></span>
     </div>
     <div class="room-body" id="body-song" hidden>
     <figure class="yt">
       <div class="yt-pick" role="group" aria-label="اختاري الأنشودة"><button type="button" class="on" data-v="fmUlNy-Mkg4">«سامح» · مولانا كورتش (بدون موسيقى)</button><button type="button" data-v="REG3-zVSSuQ">التسامح · ماهر زين</button></div>
       <div class="yt-box"><iframe id="ytFrame" src="https://www.youtube-nocookie.com/embed/fmUlNy-Mkg4?rel=0" title="أنشودة عن التسامح" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-      <figcaption>🎵 استمعي لأنشودة عن التسامح، ثم اكتبي نشيدك</figcaption>
+      <figcaption>🎵 استمعي لأنشودة عن التسامح</figcaption>
     </figure>
-    <div class="song-tips">
-      <div class="p-lav"><b>١. فكرة واحدة</b><span>مثل: أسامح صديقتي، أو نختلف ونبقى معًا.</span></div>
-      <div class="p-mint"><b>٢. قافية واحدة</b><span>اجعلي نهايات الأبيات متشابهة: سلام، وئام، أيام.</span></div>
-      <div class="p-peach"><b>٣. لازمة تتكرر</b><span>جملة قصيرة يردّدها الجميع بعد كل مقطع.</span></div>
-    </div>
-    <div class="song-grid">
-      <div class="song-form">
-        <label class="ap-label" for="songTitle">عنوان النشيد</label>
-        <input id="songTitle" class="ap-input" type="text" maxlength="40" placeholder="مثلًا: قلبي واسع">
-        <label class="ap-label" for="songVerses">الأبيات (كل بيت في سطر)</label>
-        <textarea id="songVerses" placeholder="اكتبي هنا أبيات نشيدك…"></textarea>
-        <span class="ap-label">ابدئي بفكرة</span>
-        <div class="song-starts" id="songStarts"></div>
-        <span class="ap-label">كلمات مقفّاة (اضغطي لإضافتها)</span>
-        <div id="songRhymes"></div>
-        <label class="ap-label" for="songChorus">اللازمة (تتكرر بعد كل بيتين)</label>
-        <input id="songChorus" class="ap-input" type="text" maxlength="80" placeholder="مثلًا: سامح، سامح، قلبك يرتاح">
-      </div>
-      <div class="song-card" id="songCard" aria-live="polite"></div>
-    </div>
-    <div class="row">
-      <button class="btn" id="songCopy" type="button">انسخي النشيد</button>
-      <button class="btn soft" id="songClear" type="button">ابدئي من جديد</button>
-    </div>
-    <div id="songMsg" aria-live="polite"></div>
     </div>
   </section>
 
@@ -1477,51 +1452,6 @@ footer b{color:var(--mint-deep)}
       el.hidden=false;
     }).catch(()=>{});
   }
-
-  /* ---------- write a song ---------- */
-  (function(){
-    const t=document.getElementById("songTitle"), v=document.getElementById("songVerses"), c=document.getElementById("songChorus");
-    const s=store.get("song",{t:"",v:"",c:""}); t.value=s.t; v.value=s.v; c.value=s.c;
-    const starts=["قلبي واسع مثل السماء","إن أخطأتِ يا صديقتي","نختلف ونبقى معًا","كلمة طيبة تكفي","نمدّ أيدينا بالسلام"];
-    const rhymes=[["ـام",["سلام","وئام","كلام","أيام","احترام"]],["ـاح",["سماح","صباح","أفراح","ارتياح","جناح"]],["ـوب",["قلوب","دروب","تذوب","نتوب","غروب"]],["ـير",["كبير","خير","منير","ضمير","عبير"]],["ـنا",["بيننا","قلبنا","دربنا","حولنا","صفّنا"]]];
-    function insert(txt){ const st=v.selectionStart??v.value.length, en=v.selectionEnd??v.value.length; const pre=v.value.slice(0,st), sep=(pre && !/[\s\n]$/.test(pre))?" ":""; v.value=pre+sep+txt+v.value.slice(en); v.focus(); const p=(pre+sep+txt).length; v.setSelectionRange(p,p); save(); }
-    const sEl=document.getElementById("songStarts");
-    sEl.innerHTML=starts.map(x=>`<button type="button">${x}</button>`).join("");
-    sEl.querySelectorAll("button").forEach(b=>b.onclick=()=>{ const val=v.value; v.value = val + (val && !val.endsWith("\n") ? "\n" : "") + b.textContent + " "; save(); v.focus(); });
-    const rEl=document.getElementById("songRhymes");
-    rEl.innerHTML=rhymes.map(([k,ws])=>`<div class="rh"><b>${k}</b>${ws.map(w=>`<button type="button">${w}</button>`).join("")}</div>`).join("");
-    rEl.querySelectorAll(".rh button").forEach(b=>b.onclick=()=>insert(b.textContent));
-    function lines(){ return v.value.split("\n").map(x=>x.trim()).filter(Boolean); }
-    function songText(){
-      const ls=lines(), ch=c.value.trim(); const out=[];
-      ls.forEach((l,i)=>{ out.push(l); if(ch && i%2===1) out.push("— "+ch+" —"); });
-      if(ch && ls.length%2===1) out.push("— "+ch+" —");
-      return (t.value.trim()?"«"+t.value.trim()+"»\n\n":"")+out.join("\n")+(NAME?"\n\nكلمات: "+NAME:"");
-    }
-    function render(){
-      const ls=lines(), ch=c.value.trim(), card=document.getElementById("songCard");
-      if(!ls.length && !t.value.trim()){ card.innerHTML='<p class="empty">سيظهر نشيدك هنا وأنتِ تكتبين 🎶</p>'; return; }
-      let html=`<h3>${esc(t.value.trim()||"نشيدي")}</h3>`;
-      let block=[];
-      ls.forEach((l,i)=>{ block.push(esc(l)); if(i%2===1){ html+=`<p class="v">${block.join("\n")}</p>`; block=[]; if(ch) html+=`<p class="ch">${esc(ch)}</p>`; } });
-      if(block.length){ html+=`<p class="v">${block.join("\n")}</p>`; if(ch) html+=`<p class="ch">${esc(ch)}</p>`; }
-      if(NAME) html+=`<p class="by">كلمات: ${esc(NAME)}</p>`;
-      card.innerHTML=html;
-    }
-    function save(){ store.set("song",{t:t.value,v:v.value,c:c.value}); render(); }
-    [t,v,c].forEach(el=>el.addEventListener("input",save));
-    render();
-    document.getElementById("songCopy").onclick=async e=>{
-      const b=e.currentTarget, msg=document.getElementById("songMsg");
-      if(lines().length<2){ msg.innerHTML='<p class="toast" style="background:var(--peach);color:var(--peach-deep)">اكتبي بيتين على الأقل، ثم انسخي نشيدك.</p>'; return; }
-      try{ await navigator.clipboard.writeText(songText()); b.textContent="نُسخ ✓"; }catch(err){ b.textContent="ظلّلي النشيد وانسخيه"; }
-      msg.innerHTML=`<p class="toast">نشيد جميل${yaName}! 🎶 شاركيه مع معلمتك أو صديقاتك، وقد يُنشد في الإذاعة المدرسية.</p>`;
-      if(!store.get("songDone",false)){ store.set("songDone",true); if(typeof addPts==="function") addPts(15); }
-      track("اكتبي نشيدك","نسخ النشيد",lines().length+" أبيات");
-      setTimeout(()=>b.textContent="انسخي النشيد",1800);
-    };
-    document.getElementById("songClear").onclick=()=>{ t.value=""; v.value=""; c.value=""; save(); document.getElementById("songMsg").innerHTML=""; };
-  })();
 
   /* ---------- collapsible sections ---------- */
   function setOpen(sec, open){
