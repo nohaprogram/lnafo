@@ -122,6 +122,9 @@ button{cursor:pointer}
 .mc.open{background:#fff;box-shadow:inset 0 0 0 3px var(--lav)}
 .mc.done{background:var(--leaf);box-shadow:none}
 .mc .back{font-size:28px;opacity:.6}
+.yt-pick{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.yt-pick button{padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:14.5px;cursor:pointer}
+.yt-pick button.on{border-color:var(--lav-deep);color:var(--lav-deep);font-weight:600}
 .yt{margin:0 0 14px;display:grid;gap:6px}
 .yt-box{position:relative;width:100%;max-width:560px;margin:0 auto;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:#000}
 .yt-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
@@ -306,8 +309,9 @@ button{cursor:pointer}
   <section class="spot" id="song" hidden>
     <div class="spot-head"><span>✏️</span><h2>اكتبي نشيدًا</h2></div>
     <figure class="yt">
-      <div class="yt-box"><iframe src="https://www.youtube-nocookie.com/embed/REG3-zVSSuQ?rel=0" title="أنشودة عن التسامح - ماهر زين" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-      <figcaption>🎵 استمعي لأنشودة عن التسامح (ماهر زين)، ثم اكتبي نشيدك 🌼</figcaption>
+      <div class="yt-pick" role="group" aria-label="اختاري الأنشودة"><button type="button" class="on" data-v="fmUlNy-Mkg4">«سامح» · مولانا كورتش (بدون موسيقى)</button><button type="button" data-v="REG3-zVSSuQ">التسامح · ماهر زين</button></div>
+      <div class="yt-box"><iframe id="ytFrame" src="https://www.youtube-nocookie.com/embed/fmUlNy-Mkg4?rel=0" title="أنشودة عن التسامح" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <figcaption>🎵 استمعي لأنشودة عن التسامح، ثم اكتبي نشيدك 🌼</figcaption>
     </figure>
     <p class="soft">اختاري كلمة لكل سطر، فيصير عندك نشيد عن التسامح 🎶</p>
     <div id="songLines"></div>
@@ -606,6 +610,11 @@ button{cursor:pointer}
     if(!store.get("voted",false)){ store.set("voted",true); addStars(1); }
     document.getElementById("voteMsg").innerHTML=`<p class="toast">شكرًا لكِ${esc(ya)}! 🌸</p>`;
   });
+  document.querySelectorAll(".yt-pick button").forEach(b=>b.addEventListener("click",()=>{
+    b.parentElement.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
+    const fr=b.closest(".yt").querySelector("iframe"); fr.src="https://www.youtube-nocookie.com/embed/"+b.dataset.v+"?rel=0";
+    try{ track("أنشودة التسامح","اختيار أنشودة",b.textContent); }catch(e){}
+  }));
 })();
 </script>
 </body>
