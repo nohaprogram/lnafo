@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منصة سَعَة · رحلة الاكتشاف</title>
+<meta property="og:title" content="منصة سَعَة">
+<meta property="og:description" content="مساحةٌ لقلوبٍ تتّسع للعفو والتسامح. منصة تفاعلية من توجيه الطالبات في مدارس الذكر للبنات">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: a soft single scroll, sticky chip navigation, each tool in its own pastel "room" */
+:root{
+  --bg:#fbf8fd; --surface:#ffffff; --ink:#3a3350; --muted:#6f6787; --line:#ece6f4;
+  --lav:#d5efec; --lav-deep:#1f6f68;
+  --pink:#fadbe5; --pink-deep:#a94a6e;
+  --mint:#d6f1e4; --mint-deep:#2f7a5d;
+  --peach:#fde6d3; --peach-deep:#9c5a26;
+  --sky:#d9eaf8; --sky-deep:#2f6a99;
+  --lemon:#f4f3c6; --lemon-deep:#6b6714;
+  --font-display:"El Messiri", "IBM Plex Sans Arabic", Tahoma, sans-serif;
+  --font-body:"IBM Plex Sans Arabic", Tahoma, "Segoe UI", sans-serif;
+  --radius:20px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:#fbf8fd;color-scheme:light}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.8}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;line-height:1.35;margin:0}
+p{margin:0}
+button,textarea,input{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--lav-deep);outline-offset:3px;border-radius:10px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+/* nav */
+nav.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;align-items:center;gap:14px;padding-block:10px}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--lav-deep);text-decoration:none;flex-shrink:0}
+.brand svg{width:34px;height:34px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-block:2px}
+.chips::-webkit-scrollbar{display:none}
+.chips a{white-space:nowrap;text-decoration:none;color:var(--ink);font-size:14.5px;padding:6px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
+.chips a:hover{background:var(--lav)}
+
+/* side navigation on wide screens */
+@media (min-width:900px){
+  .layout{display:grid;grid-template-columns:232px minmax(0,1fr);gap:28px;max-width:1320px;margin:0 auto;padding:0 20px;align-items:start}
+  nav.top{position:sticky;top:0;height:100vh;background:transparent;backdrop-filter:none;border-bottom:none;border-inline-end:1px solid var(--line);overflow-y:auto}
+  nav.top .wrap{flex-direction:column;align-items:stretch;gap:18px;padding:26px 0 26px 18px;max-width:none}
+  .brand{font-size:24px;padding-inline:8px}
+  .brand svg{width:42px;height:42px}
+  .chips{flex-direction:column;overflow:visible;gap:4px}
+  .chips a{border:none;background:transparent;border-radius:12px;padding:9px 14px;font-size:15.5px;display:flex;align-items:center;gap:10px}
+  .chips a::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--line);flex-shrink:0;transition:background .2s}
+  .chips a:hover{background:var(--lav)}
+  .chips a.active{background:var(--lav);color:var(--lav-deep);font-weight:600}
+  .chips a.active::before{background:var(--lav-deep)}
+  main.wrap{max-width:none;padding:0;margin:0}
+  section.room{scroll-margin-top:20px}
+}
+.chips a.active{background:var(--lav);color:var(--lav-deep)}
+
+/* lexicon */
+.lex{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start}
+@media (max-width:640px){.lex{grid-template-columns:1fr}}
+.lex-root{padding:20px;border-radius:var(--radius);background:linear-gradient(150deg,var(--sky),var(--lav));display:grid;justify-items:center;gap:8px}
+.lex-tag{font-size:13.5px;font-weight:600;color:var(--sky-deep)}
+.root-letters{display:flex;gap:8px}
+.root-letters span{width:54px;height:54px;border-radius:16px;background:var(--surface);display:grid;place-items:center;font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--lav-deep)}
+.lex-def h3{font-size:19px;color:var(--sky-deep);margin-bottom:4px}
+.lex-def p{max-width:68ch}
+.sub-h{font-size:20px;margin:26px 0 12px}
+.syns{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.syn{padding:14px 16px;border-radius:16px;display:grid;gap:4px;align-content:start}
+.syn b{font-family:var(--font-display);font-size:20px}
+.syn .ex{font-size:13.5px;opacity:.85;font-style:normal;margin-top:2px}
+.syn span{color:var(--ink);font-size:15px;line-height:1.7}
+.ladder{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:end}
+@media (max-width:640px){.ladder{grid-template-columns:1fr}}
+.rung{padding:16px;border-radius:16px;display:grid;gap:4px}
+.rung:nth-child(1){min-height:110px}.rung:nth-child(2){min-height:140px}.rung:nth-child(3){min-height:170px}
+@media (max-width:640px){.rung{min-height:0!important}}
+.rung i{font-style:normal;font-family:var(--font-display);font-weight:700;font-size:15px;opacity:.8}
+.rung b{font-family:var(--font-display);font-size:21px}
+.rung span{color:var(--ink);font-size:15px}
+.ants{display:flex;flex-wrap:wrap;gap:8px}
+.ants span{padding:6px 16px;border-radius:999px;border:1.5px dashed var(--line);color:var(--muted);text-decoration:line-through;text-decoration-color:var(--pink-deep)}
+
+.credit{text-align:center;font-family:var(--font-display);font-size:20px;color:var(--lav-deep);margin:4px 0 8px}
+
+.school{display:flex;align-items:center;gap:14px;padding:16px 0 0;justify-content:flex-start}
+.school img{width:80px;height:80px;border-radius:14px;background:#fff;padding:3px;object-fit:contain;box-shadow:0 0 0 1px var(--line)}
+.school b{display:block;font-family:var(--font-display);font-size:21px;color:#7d2a5e;line-height:1.4}
+.school span{font-size:15px;color:#3f8f78;font-weight:600}
+@media (min-width:900px){.school{padding-top:26px}}
+@media (max-width:640px){.school{justify-content:center}}
+/* survey */
+#svForm{margin-top:16px}
+#svForm[hidden]{display:none}
+.sv-legend{display:flex;justify-content:space-between;font-size:13.5px;color:var(--muted);max-width:262px;margin-inline-start:auto}
+.sv-q{border:none;margin:0;padding:12px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 16px}
+.sv-q legend{float:right;max-width:60ch;font-size:16px;padding:0}
+@media (max-width:820px){.sv-q legend{width:100%}}
+.sv-faces{display:flex;gap:8px}
+.sv-faces input{position:absolute;opacity:0;pointer-events:none}
+.sv-faces label{display:grid;justify-items:center;gap:2px;min-width:74px;padding:8px 10px;border-radius:16px;border:1.5px solid var(--line);background:var(--bg);font-size:13.5px;cursor:pointer}
+.sv-faces label span{font-size:28px;line-height:1.2}
+.sv-faces input:checked+label{background:var(--mint);border-color:var(--mint-deep);color:var(--mint-deep);font-weight:600}
+.sv-faces input:focus-visible+label{outline:3px solid var(--lav-deep);outline-offset:2px}
+.sv-scale{display:flex;gap:8px}
+.sv-scale input{position:absolute;opacity:0;pointer-events:none}
+.sv-scale label{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;border:1.5px solid var(--line);background:var(--bg);font-family:var(--font-display);font-size:19px;font-weight:600;cursor:pointer;transition:background .15s}
+.sv-scale label:hover{background:var(--lav)}
+.sv-scale input:checked+label{background:var(--mint);border-color:var(--mint-deep);color:var(--mint-deep)}
+.sv-scale input:focus-visible+label{outline:3px solid var(--lav-deep);outline-offset:2px}
+
+/* collapsible sections */
+.room-head[role=button]{cursor:pointer;margin-bottom:0;align-items:center;border-radius:16px;user-select:none}
+.room-head[role=button] > div:nth-child(2){flex:1}
+.room-head[role=button]:hover h2{color:var(--lav-deep)}
+.chev{width:38px;height:38px;border-radius:50%;background:var(--bg);border:1px solid var(--line);flex-shrink:0;display:grid;place-items:center;transition:transform .25s,background .2s}
+.chev::before{content:"";width:9px;height:9px;border-left:2.5px solid var(--lav-deep);border-bottom:2.5px solid var(--lav-deep);transform:translateY(-2px) rotate(-45deg)}
+.room-head[aria-expanded=true] .chev{transform:rotate(180deg);background:var(--lav)}
+.room-body{margin-top:20px}
+.room-body[hidden]{display:none}
+section.room{padding-block:22px;margin:14px 0}
+.toggle-all{display:flex;gap:8px;justify-content:flex-end;margin:6px 0 -8px}
+.visits{margin-inline-end:auto;align-self:center;padding:6px 14px;border-radius:999px;background:var(--mint);color:var(--mint-deep);font-size:14px;font-weight:600}
+.visits[hidden]{display:none}
+.pts{margin-inline-end:auto;align-self:center;padding:6px 14px;border-radius:999px;background:var(--lemon);color:var(--lemon-deep);font-size:14px;font-weight:600}
+.pts.bump{animation:bump .5s ease}
+@keyframes bump{40%{transform:scale(1.12)}}
+.visits:not([hidden]){margin-inline-end:0}
+.badge-earned{display:inline-block;padding:6px 14px;border-radius:999px;background:var(--lemon);color:var(--lemon-deep);font-weight:600}
+.hits{margin-inline-end:auto;align-self:center;display:inline-flex;align-items:center;gap:8px;padding:5px 6px 5px 14px;border-radius:999px;background:var(--mint);color:var(--mint-deep);font-size:14px;font-weight:600;text-decoration:none}
+.hits[hidden]{display:none}
+.hits img{display:block;height:20px;border-radius:4px}
+.visits:not([hidden])~.hits{margin-inline-end:0}
+.toggle-all button{padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:14px;color:var(--lav-deep)}
+.toggle-all button:hover{background:var(--lav)}
+@media (max-width:560px){
+  .room-head h2{font-size:21px}
+  .room-head p{font-size:14px;line-height:1.7}
+  .room-mark{width:38px;height:38px;font-size:16px;border-radius:12px}
+  .chev{width:32px;height:32px}
+  .hero{padding:24px 0 16px;gap:16px}
+  .hero-icon{width:92px!important;height:92px!important;border-radius:28px}
+  .hero-icon svg{width:64px!important;height:64px!important}
+  .school img{width:64px;height:64px}
+  .school b{font-size:19px}
+  .toggle-all{justify-content:center}
+}
+
+.help{display:grid;gap:10px;flex:1}
+.help-head{display:grid;gap:0;font-family:var(--font-display);font-size:22px;line-height:1.5;color:var(--mint-deep)}
+.helpline{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:14px 16px;border-radius:16px;background:var(--surface);border:1.5px solid color-mix(in srgb,var(--mint-deep) 35%,transparent)}
+.hl-text{display:grid;gap:2px;flex:1;min-width:200px}
+.hl-text b{font-family:var(--font-display);font-size:19px;color:var(--mint-deep)}
+.hl-text span{font-size:14.5px;line-height:1.7}
+.hl-num{font-family:var(--font-display);font-size:30px;font-weight:700;letter-spacing:2px;direction:ltr;color:#fff;background:var(--mint-deep);padding:6px 22px;border-radius:999px;text-decoration:none;font-variant-numeric:tabular-nums}
+.hl-quote{flex-basis:100%;margin:0;padding:12px 14px;border-radius:12px;background:var(--mint);color:var(--ink);font-size:15.5px;line-height:1.8}
+.hl-quote b{color:var(--mint-deep)}
+.hl-video{display:block;width:100%;max-width:340px;margin-inline:auto;aspect-ratio:576/816;border-radius:16px;background:#e8f3ee;box-shadow:0 6px 20px rgba(47,122,93,.15)}
+.hl-num:hover{filter:brightness(1.08)}
+.age-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.age-chip{padding:4px 12px;border-radius:999px;background:var(--lav);color:var(--lav-deep);font-size:13.5px;font-weight:600}
+.age-change{font-size:13.5px;color:var(--muted)}
+@media (max-width:640px){.age-row{justify-content:center}}
+/* hero */
+.hero{padding:48px 0 28px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center}
+.hero-icon{width:150px;height:150px;border-radius:40px;background:linear-gradient(145deg,var(--lav),var(--pink));display:grid;place-items:center}
+.hero-icon svg{width:104px;height:104px}
+.hero h1{font-size:clamp(30px,5vw,44px);color:var(--ink)}
+.hero h1{font-size:clamp(40px,6vw,58px);line-height:1.2;color:var(--lav-deep)!important}
+.hero h1 span{display:block;color:#c97a9c;font-size:clamp(20px,2.6vw,26px);font-weight:600;margin-top:4px}
+.hero p{color:var(--muted);max-width:60ch;margin-top:10px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pill{font-size:14px;padding:4px 12px;border-radius:999px;font-weight:500}
+.p-lav{background:var(--lav);color:var(--lav-deep)}
+.p-pink{background:var(--pink);color:var(--pink-deep)}
+.p-mint{background:var(--mint);color:var(--mint-deep)}
+.p-peach{background:var(--peach);color:var(--peach-deep)}
+.p-sky{background:var(--sky);color:var(--sky-deep)}
+.p-lemon{background:var(--lemon);color:var(--lemon-deep)}
+@media (max-width:640px){.hero{grid-template-columns:1fr;text-align:center;justify-items:center}.hero p{margin-inline:auto}.pills{justify-content:center}.hero-icon{width:120px;height:120px}.hero-icon svg{width:84px;height:84px}}
+
+/* sections */
+section.room{margin:26px 0;padding:30px;border-radius:28px;background:var(--surface);border:1px solid var(--line);scroll-margin-top:80px}
+.room-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px}
+.room-mark{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;flex-shrink:0;font-family:var(--font-display);font-weight:700;font-size:18px}
+.room-head h2{font-size:26px}
+.room-head p{color:var(--muted);font-size:15.5px}
+@media (max-width:560px){section.room{padding:20px 16px}}
+
+/* concepts */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.concept{padding:18px;border-radius:var(--radius)}
+.concept h3{font-size:19px;margin-bottom:6px}
+.concept p{font-size:15.5px}
+
+/* cases */
+.case-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.dots{display:flex;gap:6px}
+.dots button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-size:13px}
+.dots button.on{background:var(--pink);color:var(--pink-deep);border-color:transparent;font-weight:600}
+.dots button.done{background:var(--mint);color:var(--mint-deep);border-color:transparent}
+.scenario{background:var(--pink);color:var(--ink);padding:20px;border-radius:var(--radius);font-size:17.5px}
+.scenario .tag{display:inline-block;font-size:13px;font-weight:600;color:var(--pink-deep);margin-bottom:4px}
+.options{display:grid;gap:10px;margin-top:14px}
+.opt{text-align:start;padding:14px 16px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface);transition:background .2s,border-color .2s}
+.opt:hover{border-color:var(--lav-deep)}
+.opt[disabled]{cursor:default}
+.opt.best{background:var(--mint);border-color:var(--mint-deep)}
+.opt.mid{background:var(--peach);border-color:var(--peach-deep)}
+.opt.low{background:var(--pink);border-color:var(--pink-deep)}
+.feedback{margin-top:14px;padding:16px;border-radius:16px;background:var(--lav)}
+.feedback strong{color:var(--lav-deep)}
+.feedback .reflect{margin-top:8px;font-size:15.5px;color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.btn{padding:10px 20px;border-radius:999px;border:none;background:var(--lav-deep);color:var(--surface);font-weight:600}
+.btn.soft{background:var(--lav);color:var(--lav-deep)}
+.btn.mint{background:var(--mint);color:var(--mint-deep)}
+.btn.pink{background:var(--pink);color:var(--pink-deep)}
+.hint{color:var(--muted);font-size:14.5px}
+
+/* meter */
+.meter{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
+@media (max-width:700px){.meter{grid-template-columns:1fr}}
+.meter label{font-weight:600;display:block;margin-bottom:8px}
+input[type=range]{width:100%;accent-color:var(--pink-deep);height:28px}
+.scale-labels{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.meter-num{font-family:var(--font-display);font-size:58px;line-height:1;color:var(--pink-deep);font-variant-numeric:tabular-nums}
+.meter-card{padding:20px;border-radius:var(--radius);transition:background .3s}
+.meter-card h3{font-size:21px;margin-bottom:6px}
+.meter-card ul{margin:8px 0 0;padding-inline-start:20px}
+
+.hadith{margin-top:20px;padding:20px 22px;border-radius:var(--radius);background:linear-gradient(140deg,var(--peach),var(--pink));display:grid;gap:6px}
+.hadith-tag{font-size:13.5px;font-weight:600;color:var(--peach-deep)}
+.hadith-text{font-family:var(--font-display);font-size:clamp(19px,2.6vw,23px);line-height:1.8}
+.hadith-src{font-size:14px;color:var(--muted)}
+.hadith-sep{border:none;border-top:1.5px dashed color-mix(in srgb,var(--peach-deep) 35%,transparent);width:100%;margin:8px 0}
+
+.stories{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.story{border:1px solid var(--line);border-radius:var(--radius);padding:18px;display:grid;gap:10px;align-content:start}
+.story h3{font-size:20px;display:flex;align-items:center;gap:8px}
+.story-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.story p{font-size:16px}
+.story-lesson{padding:10px 12px;border-radius:12px;font-size:15px!important}
+.story-lesson b{color:inherit}
+.htabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.htab{padding:9px 20px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);font-weight:500}
+.htab.on{background:var(--lemon);border-color:var(--lemon-deep);color:var(--lemon-deep);font-weight:600}
+.hpanel[hidden]{display:none}
+.act-hint{margin:-6px 0 12px}
+.htabs[data-collapsible] .htab.on::after{content:" ✕";font-size:12px;opacity:.7}
+.htabs[data-collapsible]{margin-bottom:0}
+.htabs[data-collapsible]~.hpanel{margin-top:18px}
+.ayah{font-family:var(--font-display);font-size:18.5px!important;line-height:1.9;padding:12px 14px;border-radius:12px;background:var(--bg);border-inline-start:3px solid var(--lav-deep)}
+
+/* activities */
+.wheel-wrap{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+@media (max-width:700px){.wheel-wrap{grid-template-columns:1fr;justify-items:center}}
+.wheel-box{position:relative;width:290px;height:290px}
+@media (max-width:360px){.wheel-box{width:250px;height:250px}}
+.wheel{width:100%;height:100%;border-radius:50%;border:6px solid var(--surface);box-shadow:0 0 0 1px var(--line),0 10px 30px rgba(108,88,173,.15);position:relative;transition:transform 3.6s cubic-bezier(.17,.67,.12,1)}
+.wheel span{position:absolute;left:50%;top:50%;width:0;height:0;font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--ink)}
+.wheel span i{position:absolute;transform:translate(-50%,-50%);font-style:normal}
+.wheel::after{content:"";position:absolute;inset:38%;border-radius:50%;background:var(--surface);box-shadow:0 0 0 1px var(--line)}
+.wheel-pointer{position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid var(--lav-deep);z-index:2}
+.wheel-side{display:grid;gap:14px;max-width:440px}
+.wheel-side .btn{justify-self:start}
+@media (max-width:700px){.wheel-side .btn{justify-self:center}}
+.wheel-result{padding:18px;border-radius:var(--radius);background:var(--lemon);display:grid;gap:4px;min-height:96px}
+.wheel-result b{font-family:var(--font-display);font-size:20px;color:var(--lemon-deep)}
+.myths{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.myth{border:1px solid var(--line);border-radius:var(--radius);padding:16px;display:grid;gap:10px;align-content:start}
+.myth p.st{font-weight:500;font-size:16.5px}
+.myth .vote button{padding:6px 18px}
+.myth .ans{padding:10px 12px;border-radius:12px;font-size:15px}
+.myth-score{margin-top:12px;font-weight:600;color:var(--lav-deep)}
+.rp-card{background:var(--pink);padding:18px 20px;border-radius:var(--radius);font-family:var(--font-display);font-size:22px}
+.rp-card small{display:block;font-family:var(--font-body);font-size:13px;color:var(--pink-deep);font-weight:600}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:600px){.match{gap:8px}}
+.match-col{display:grid;gap:8px;align-content:start}
+.mitem{text-align:start;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);font-size:15.5px;line-height:1.6}
+.mitem.sel{border-color:var(--lav-deep);background:var(--lav)}
+.mitem.ok{border-color:var(--mint-deep);background:var(--mint);cursor:default}
+.mitem.bad{border-color:var(--pink-deep);background:var(--pink)}
+.apology{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;align-items:start}
+@media (max-width:760px){.apology{grid-template-columns:1fr}}
+.ap-form{display:grid;gap:8px}
+.ap-label{font-weight:600;font-size:15px;margin-top:6px;display:block}
+.ap-input{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface)}
+.ap-input:focus{border-color:var(--lav-deep);outline:none}
+.ap-chips{display:flex;flex-wrap:wrap;gap:6px}
+.ap-chips button{padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);font-size:14.5px}
+.ap-chips button.sel{background:var(--pink);border-color:var(--pink-deep);color:var(--pink-deep);font-weight:600}
+.ap-preview{position:sticky;top:80px;padding:22px;border-radius:var(--radius);background:linear-gradient(150deg,var(--pink),var(--peach));display:grid;gap:12px}
+.ap-preview p#apText{font-family:var(--font-display);font-size:19px;line-height:1.9;white-space:pre-wrap}
+.ap-preview .btn{justify-self:start}
+
+/* reach */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.step-btn{padding:10px 6px;border-radius:14px;border:1px solid var(--line);background:var(--bg);display:grid;justify-items:center;gap:2px;font-size:13.5px}
+.step-btn b{font-family:var(--font-display);font-size:20px;color:var(--sky-deep)}
+.step-btn.on{background:var(--sky);border-color:var(--sky-deep)}
+.step-btn.filled b::after{content:" ✓";font-size:14px;color:var(--mint-deep)}
+@media (max-width:560px){.step-btn span{display:none}}
+.step-panel{background:var(--sky);padding:20px;border-radius:var(--radius)}
+.step-panel h3{font-size:21px}
+.step-panel p{margin-top:4px}
+textarea{width:100%;min-height:110px;margin-top:12px;padding:14px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);resize:vertical;line-height:1.7}
+textarea:focus{border-color:var(--lav-deep);outline:none}
+.certificate{margin-top:16px;padding:22px;border-radius:var(--radius);border:2px dashed var(--lav-deep);background:var(--lav)}
+.certificate h3{color:var(--lav-deep)}
+.certificate dl{margin:10px 0 0;display:grid;gap:8px}
+.certificate dt{font-weight:600;font-size:14px;color:var(--lav-deep)}
+.certificate dd{margin:0;white-space:pre-wrap}
+
+/* scale */
+.q{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.q:last-of-type{border-bottom:none}
+@media (max-width:700px){.q{grid-template-columns:1fr}}
+.q-text{font-size:16px}
+.q-num{color:var(--muted);font-variant-numeric:tabular-nums;margin-inline-end:6px}
+.likert{display:flex;gap:4px}
+.likert input{position:absolute;opacity:0;pointer-events:none}
+.likert label{padding:5px 10px;border-radius:999px;border:1px solid var(--line);font-size:13px;cursor:pointer;background:var(--bg);white-space:nowrap}
+.likert input:checked+label{background:var(--lav);border-color:var(--lav-deep);color:var(--lav-deep);font-weight:600}
+.likert input:focus-visible+label{outline:3px solid var(--lav-deep);outline-offset:2px}
+.progress{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin:6px 0 4px}
+.progress i{display:block;height:100%;background:var(--lav-deep);border-radius:99px;transition:width .3s}
+.results{display:grid;gap:14px;margin-top:18px}
+.res{padding:16px;border-radius:16px}
+.res-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.res-top b{font-family:var(--font-display);font-size:19px}
+.res-top span{font-variant-numeric:tabular-nums;font-weight:600}
+.bar{height:12px;border-radius:99px;background:color-mix(in srgb,var(--surface) 60%,transparent);margin:8px 0;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px}
+
+/* debate */
+.debate{display:grid;gap:12px}
+.dq{border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.dq h3{font-size:19px}
+.vote{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.vote button{padding:7px 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg)}
+.vote button.sel{background:var(--peach);border-color:var(--peach-deep);color:var(--peach-deep);font-weight:600}
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+@media (max-width:640px){.sides{grid-template-columns:1fr}}
+.side{padding:12px 14px;border-radius:14px;font-size:15.5px}
+.side b{display:block;font-size:14px;margin-bottom:2px}
+
+/* letter */
+.letter-box{position:relative}
+.letter-box textarea{min-height:170px;background:var(--peach);border-color:transparent;font-size:17px}
+.released{animation:float 1.6s ease forwards}
+@keyframes float{to{opacity:0;transform:translateY(-40px) scale(.96);filter:blur(4px)}}
+.toast{margin-top:12px;padding:12px 16px;border-radius:14px;background:var(--mint);color:var(--mint-deep);font-weight:500}
+.kept{display:grid;gap:8px;margin-top:14px}
+.kept div{padding:10px 14px;border-radius:12px;background:var(--bg);border:1px solid var(--line);font-size:15px;white-space:pre-wrap}
+.kept small{display:block;color:var(--muted);font-size:12.5px}
+
+/* challenge */
+.ch-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.ch-count{font-family:var(--font-display);font-size:22px;color:var(--lemon-deep);font-variant-numeric:tabular-nums}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.day{text-align:start;padding:12px;border-radius:16px;border:1.5px solid var(--line);background:var(--bg);display:grid;gap:4px;align-content:start;min-height:120px;font-size:14.5px;line-height:1.6}
+.day b{font-family:var(--font-display);font-size:15px;color:var(--muted)}
+.day.done{background:var(--lemon);border-color:var(--lemon-deep)}
+.day.done b{color:var(--lemon-deep)}
+.day.done b::after{content:" ✓"}
+
+/* quotes */
+.quote-card{position:relative;padding:30px 26px;border-radius:24px;background:linear-gradient(140deg,var(--lemon),var(--lav) 55%,var(--pink));min-height:180px;display:grid;align-content:center;gap:10px}
+.quote-card .q-body{font-family:var(--font-display);font-size:clamp(20px,3vw,26px);line-height:1.7}
+.quote-card .q-src{color:var(--muted);font-size:14.5px}
+.quote-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;flex-wrap:wrap}
+.quote-nav .count{color:var(--muted);font-variant-numeric:tabular-nums}
+
+footer{margin:30px 0 40px;padding:22px;border-radius:24px;background:var(--mint);color:var(--ink);display:flex;gap:14px;align-items:flex-start}
+footer b{color:var(--mint-deep)}
+.small{font-size:13.5px;color:var(--muted);text-align:center;margin-bottom:30px}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 100 100">
+    <path d="M50 88 C22 68 8 52 8 35 C8 21 18 13 30 13 C40 13 47 19 50 28 Z" fill="#b9a6ec"/>
+    <path d="M50 88 C78 68 92 52 92 35 C92 21 82 13 70 13 C60 13 53 19 50 28 Z" fill="#f2a9c2" opacity=".9"/>
+    <path d="M50 30 C51 18 58 9 72 5 C70 18 62 27 50 30 Z" fill="#8fd3b4"/>
+    <path d="M50 30 C56 22 62 15 70 8" stroke="#ffffff" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".8"/>
+  </symbol>
+</svg>
+
+<div class="layout">
+<nav class="top" aria-label="أقسام المنصة">
+  <div class="wrap">
+    <a class="brand" href="#home"><svg aria-hidden="true"><use href="#logo"/></svg>سَعَة</a>
+    <div class="chips">
+      <a href="#lugha">معنى التسامح</a>
+      <a href="#concepts">مفاهيم</a>
+      <a href="#cases">مواقف</a>
+      <a href="#meter">ميزان الغضب</a>
+      <a href="#hidayat">هدايات</a>
+      <a href="#activities">أنشطة</a>
+      <a href="#reach">رحلة المسامحة</a>
+      <a href="#scale">مقياس التسامح</a>
+      <a href="#debate">ماذا تختارين؟</a>
+      <a href="#letter">رسالة لن تُرسل</a>
+      <a href="#challenge">تحدي ١٤ يومًا</a>
+      <a href="#quotes">عبارات</a>
+      <a href="#survey">رأيك يهمنا</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap" id="home">
+  <div class="school">
+    <img src="data:image/jpeg;base64,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" alt="شعار مدارس الذكر" width="72" height="72">
+    <div><b>مدارس الذكر للبنات</b></div>
+  </div>
+  <header class="hero">
+    <div class="hero-icon"><svg aria-hidden="true"><use href="#logo"/></svg></div>
+    <div>
+      <h1>سَعَة<span>مساحةٌ لقلوبٍ تتّسع للعفو والتسامح</span></h1>
+      <div class="age-row"><span class="age-chip">رحلة الاكتشاف · من ١٢ إلى ١٥ سنة</span><a class="age-change" href="index.html?choose=1">تغيير العمر</a></div>
+      <p>مساحة تكتشفين فيها كيف تتعاملين بلطف مع مواقفك اليومية: في المدرسة، ومع الصديقات، وفي القروبات والألعاب. أنجزي الأنشطة واجمعي النقاط لتصبحي سفيرة التسامح.</p>
+    </div>
+  </header>
+  <div class="toggle-all"><span class="pts" id="ptsPill" aria-live="polite"></span><span class="visits" id="visits" hidden></span><button type="button" id="openAll">فتح كل الأقسام</button><button type="button" id="closeAll">طي كل الأقسام</button></div>
+
+  <!-- lugha -->
+  <section class="room" id="lugha">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-lugha">
+      <div class="room-mark p-sky">١</div>
+      <div><h2>معنى التسامح</h2><p>من أين جاءت الكلمة، وما معناها، وما الكلمات القريبة منها.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-lugha" hidden>
+    <div class="lex">
+      <div class="lex-root">
+        <span class="lex-tag">الجذر</span>
+        <div class="root-letters"><span>س</span><span>م</span><span>ح</span></div>
+      </div>
+      <div class="lex-def">
+        <h3>ما معنى التسامح؟</h3>
+        <p>التسامح أن أعفو عمّن أخطأ في حقي، وأن أتعامل مع من يختلف عني بلطف واحترام، دون أن أتنازل عن حقي أو أسكت عن الأذى.</p>
+        <h3 style="margin-top:12px">في المعجم</h3>
+        <p>«السماحة» في اللغة تعني الكرم وسهولة التعامل، و«تسامحوا» أي تساهلوا فيما بينهم.</p>
+      </div>
+    </div>
+
+    <h3 class="sub-h">كلمات قريبة من التسامح</h3>
+    <div class="syns">
+        <div class="syn p-lav"><b>العفو</b><span>أن أترك معاقبة من أخطأ في حقي.</span><span class="ex">مثال: سامحت أختي حين أخذت أغراضي دون إذن.</span></div>
+        <div class="syn p-pink"><b>الصفح</b><span>أن أسامح ولا أذكّر بالخطأ مرة أخرى.</span><span class="ex">مثال: لا أقول لصديقتي كل مرة: «تذكرين يوم…؟»</span></div>
+        <div class="syn p-mint"><b>الحِلم</b><span>أن أهدأ عند الغضب ولا أتسرع في الرد.</span><span class="ex">مثال: انتظرت قليلًا قبل أن أرد على الرسالة.</span></div>
+        <div class="syn p-peach"><b>كظم الغيظ</b><span>أن أحبس غضبي فلا أقول كلامًا جارحًا.</span><span class="ex">مثال: كنت زعلانة، لكني لم أقل كلمة أندم عليها.</span></div>
+        <div class="syn p-sky"><b>الرفق</b><span>أن ألين في كلامي وتصرفي.</span><span class="ex">مثال: طلبت من زميلتي بلطف أن تخفض صوتها.</span></div>
+        <div class="syn p-lemon"><b>سلامة الصدر</b><span>أن يكون قلبي خاليًا من الحقد.</span><span class="ex">مثال: نمت وأنا لا أحمل في قلبي شيئًا على أحد.</span></div>
+    </div>
+
+    <h3 class="sub-h">سُلَّم التسامح في القرآن</h3>
+    <p class="ayah" style="margin-bottom:12px">﴿وَالْكَاظِمِينَ الْغَيْظَ وَالْعَافِينَ عَنِ النَّاسِ ۗ وَاللَّهُ يُحِبُّ الْمُحْسِنِينَ﴾ <small style="font-family:var(--font-body);font-size:13.5px;color:var(--muted)">آل عمران، الآية ١٣٤</small></p>
+    <div class="ladder">
+      <div class="rung p-peach"><i>١</i><b>كظم الغيظ</b><span>أحبس غضبي.</span></div>
+      <div class="rung p-mint"><i>٢</i><b>العفو</b><span>أسامح من أخطأ.</span></div>
+      <div class="rung p-lav"><i>٣</i><b>الإحسان</b><span>أرد بالكلمة الطيبة.</span></div>
+    </div>
+
+    <h3 class="sub-h">عكس التسامح</h3>
+    <div class="ants"><span>الانتقام</span><span>الحقد</span><span>السخرية</span><span>التنمر</span><span>الشماتة</span></div>
+    </div>
+  </section>
+
+  <!-- concepts -->
+  <section class="room" id="concepts">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-concepts">
+      <div class="room-mark p-lav">٢</div>
+      <div><h2>مفاهيم قبل أن نبدأ</h2><p>أربع أفكار مهمة تساعدك أن تسامحي بطريقة صحيحة.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-concepts" hidden>
+    <div class="grid3">
+      <div class="concept p-pink"><h3>أسامح ≠ أسكت عن التنمر</h3><p>إذا تكرر الأذى أو تعرّضتِ للتنمر، أخبري موجهة الطالبات أو أهلك. هذا حقك.</p></div>
+      <div class="concept p-lav"><h3>أسامح ≠ أنسى كل شيء</h3><p>أسامح، وأتعلّم من الموقف، وأحمي نفسي إن تكرر.</p></div>
+      <div class="concept p-mint"><h3>أسامح نفسي أيضًا</h3><p>كلنا نخطئ. الخطأ فرصة للتعلم، لا سبب لأن ألوم نفسي طويلًا.</p></div>
+      <div class="concept p-peach"><h3>الاختلاف ليس عداوة</h3><p>صديقتي قد تختلف عني في رأيها أو لهجتها أو هواياتها، ونبقى صديقات.</p></div>
+    </div>
+    </div>
+  </section>
+
+  <!-- cases -->
+  <section class="room" id="cases">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-cases">
+      <div class="room-mark p-pink">٣</div>
+      <div><h2>مواقف من حياتك</h2><p>اقرئي الموقف واختاري ما ستفعلينه فعلًا. بعدها تظهر لك نصيحة، وتكسبين نقاطًا.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-cases" hidden>
+    <div class="case-top">
+      <div class="dots" id="caseDots" role="group" aria-label="اختيار الحالة"></div>
+      <span class="hint" id="caseCount"></span>
+    </div>
+    <div id="caseBox"></div>
+    </div>
+  </section>
+
+  <!-- meter -->
+  <section class="room" id="meter">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-meter">
+      <div class="room-mark p-peach">٤</div>
+      <div><h2>ميزان الغضب</h2><p>قبل أي رد: كم درجة غضبك الآن؟ حرّكي المؤشر لتظهر لكِ الخطوة المناسبة.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-meter" hidden>
+    <div class="meter">
+      <div>
+        <label for="anger">درجة الغضب</label>
+        <div class="meter-num" id="angerNum">٤</div>
+        <input type="range" id="anger" min="1" max="10" value="4" aria-describedby="angerCard">
+        <div class="scale-labels"><span>١ هادئة</span><span>١٠ غضب شديد</span></div>
+      </div>
+      <div class="meter-card" id="angerCard" aria-live="polite"></div>
+    </div>
+    <div class="hadith">
+      <span class="hadith-tag">من هدي النبي ﷺ في الغضب</span>
+      <p class="hadith-text">«إذا غضب أحدكم وهو قائم فليجلس، فإن ذهب عنه الغضب، وإلا فليضطجع»</p>
+      <p class="hadith-src">رواه أبو داود وأحمد</p>
+      <hr class="hadith-sep">
+      <p class="hadith-text">«ليس الشديدُ بالصُّرَعة، إنما الشديدُ الذي يملك نفسه عند الغضب»</p>
+      <p class="hadith-src">متفق عليه</p>
+    </div>
+    </div>
+  </section>
+
+  <!-- hidayat -->
+  <section class="room" id="hidayat">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-hidayat">
+      <div class="room-mark p-lemon">٥</div>
+      <div><h2>هدايات</h2><p>قصص قصيرة في التسامح من القرآن الكريم، ومن هدي النبي ﷺ، ومن حياة الصحابة.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-hidayat" hidden>
+    <div class="htabs" role="tablist" aria-label="أقسام الهدايات"><button type="button" role="tab" class="htab on" aria-selected="true" aria-controls="hp-quran" data-t="quran">قصص من القرآن</button><button type="button" role="tab" class="htab" aria-selected="false" aria-controls="hp-sunnah" data-t="sunnah">من هدي النبي ﷺ</button><button type="button" role="tab" class="htab" aria-selected="false" aria-controls="hp-sahaba" data-t="sahaba">من هدي الصحابة</button></div>
+    <div class="stories hpanel" id="hp-quran" role="tabpanel">
+      <article class="story">
+        <h3><span class="story-dot p-sky"></span>يوسف وإخوته</h3>
+        <p>ألقاه إخوته في البئر وهو صغير. وبعد سنين صار عزيز مصر، وجاؤوه يطلبون المساعدة، فسامحهم فورًا ولم يعاتبهم.</p>
+        <p class="ayah">﴿قَالَ لَا تَثْرِيبَ عَلَيْكُمُ الْيَوْمَ ۖ يَغْفِرُ اللَّهُ لَكُمْ ۖ وَهُوَ أَرْحَمُ الرَّاحِمِينَ﴾</p>
+        <p class="story-lesson p-sky"><b>ماذا أتعلّم؟</b> أسامح دون أن أذكّر من أخطأ بخطئه.</p>
+        <p class="hadith-src">سورة يوسف، الآية ٩٢</p>
+      </article>
+      <article class="story">
+        <h3><span class="story-dot p-lav"></span>إبراهيم وأبوه</h3>
+        <p>كلّم إبراهيم عليه السلام أباه بلطف، فغضب أبوه وطرده. فرد عليه إبراهيم بالسلام والدعاء.</p>
+        <p class="ayah">﴿قَالَ سَلَامٌ عَلَيْكَ ۖ سَأَسْتَغْفِرُ لَكَ رَبِّي ۖ إِنَّهُ كَانَ بِي حَفِيًّا﴾</p>
+        <p class="story-lesson p-lav"><b>ماذا أتعلّم؟</b> حتى عندما يقسو أحد عليّ، أستطيع أن أرد بكلمة طيبة.</p>
+        <p class="hadith-src">سورة مريم، الآية ٤٧</p>
+      </article>
+      <article class="story">
+        <h3><span class="story-dot p-peach"></span>موسى وهارون أمام فرعون</h3>
+        <p>أمر الله موسى وهارون عليهما السلام أن يكلّما فرعون، وهو أشد الناس ظلمًا، بكلام ليّن.</p>
+        <p class="ayah">﴿فَقُولَا لَهُ قَوْلًا لَّيِّنًا لَّعَلَّهُ يَتَذَكَّرُ أَوْ يَخْشَىٰ﴾</p>
+        <p class="story-lesson p-peach"><b>ماذا أتعلّم؟</b> الكلام اللطيف يفتح القلوب، حتى مع من نختلف معه.</p>
+        <p class="hadith-src">سورة طه، الآية ٤٤</p>
+      </article>
+    </div>
+    <div class="stories hpanel" id="hp-sunnah" role="tabpanel" hidden>
+      <article class="story">
+        <h3><span class="story-dot p-lav"></span>الرداء الذي جُذب بقوة</h3>
+        <p>جذب أعرابي النبي ﷺ من ردائه بقوة حتى أثّر في عنقه، وطلب منه مالًا. فالتفت إليه النبي ﷺ وضحك، وأمر له بعطاء.</p>
+        <p class="story-lesson p-lav"><b>ماذا أتعلّم؟</b> أرد على الأسلوب القاسي بابتسامة.</p>
+        <p class="hadith-src">متفق عليه، من حديث أنس رضي الله عنه</p>
+      </article>
+      <article class="story">
+        <h3><span class="story-dot p-mint"></span>الأعرابي في المسجد</h3>
+        <p>أخطأ رجل في المسجد فغضب منه الناس، فقال ﷺ: «دعوه»، ثم علّمه بلطف.</p>
+        <p class="story-lesson p-mint"><b>ماذا أتعلّم؟</b> من يخطئ لأنه لا يعرف، أعلّمه بهدوء ولا أوبّخه.</p>
+        <p class="hadith-src">رواه البخاري</p>
+      </article>
+      <article class="story">
+        <h3><span class="story-dot p-sky"></span>يوم الطائف</h3>
+        <p>آذى أهل الطائف النبي ﷺ، فجاءه ملَك الجبال يعرض أن يعاقبهم، فرفض ﷺ ورجا أن يخرج منهم من يعبد الله.</p>
+        <p class="story-lesson p-sky"><b>ماذا أتعلّم؟</b> أختار الخير لمن آذاني بدل الانتقام.</p>
+        <p class="hadith-src">متفق عليه، من حديث عائشة رضي الله عنها</p>
+      </article>
+      <article class="story">
+        <h3><span class="story-dot p-pink"></span>يوم فتح مكة</h3>
+        <p>دخل ﷺ مكة منتصرًا على من آذوه سنوات طويلة، فعفا عنهم وأعلن الأمان لهم.</p>
+        <p class="story-lesson p-pink"><b>ماذا أتعلّم؟</b> أعظم القوة أن أعفو وأنا قادرة.</p>
+        <p class="hadith-src">رواه مسلم</p>
+      </article>
+    </div>
+    <div class="stories hpanel" id="hp-sahaba" role="tabpanel" hidden>
+      <article class="story">
+        <h3><span class="story-dot p-lav"></span>أبو بكر ومِسطح</h3>
+        <p>كان أبو بكر رضي الله عنه يساعد قريبه مسطحًا بالمال، فتكلّم مسطح في ابنته عائشة كلامًا جارحًا، فحلف أبو بكر ألا يساعده. فنزلت آية تدعوه إلى العفو، فعاد يساعده.</p>
+        <p class="story-lesson p-lav"><b>ماذا أتعلّم؟</b> أسامح لأني أحب أن يسامحني الله.</p>
+        <p class="hadith-src">رواه البخاري</p>
+      </article>
+      <article class="story">
+        <h3><span class="story-dot p-mint"></span>عمر والآية</h3>
+        <p>غضب عمر رضي الله عنه من رجل أساء إليه، فذكّره أحد الحاضرين بقوله تعالى: ﴿خُذِ الْعَفْوَ﴾، فتوقّف عمر عندها ولم يعاقبه.</p>
+        <p class="story-lesson p-mint"><b>ماذا أتعلّم؟</b> كلمة طيبة من صديقة قد تطفئ غضبي.</p>
+        <p class="hadith-src">رواه البخاري</p>
+      </article>
+      <article class="story">
+        <h3><span class="story-dot p-peach"></span>خلاف بين صديقين</h3>
+        <p>اختلف أبو بكر وعمر رضي الله عنهما، فبادر أبو بكر بالاعتذار، ثم ندم عمر وذهب يبحث عنه ليصالحه.</p>
+        <p class="story-lesson p-peach"><b>ماذا أتعلّم؟</b> حتى أقرب الصديقات يختلفن، والأجمل من تبادر بالصلح.</p>
+        <p class="hadith-src">رواه البخاري</p>
+      </article>
+    </div>
+    </div>
+  </section>
+
+  <!-- activities -->
+  <section class="room" id="activities">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-activities">
+      <div class="room-mark p-pink">٦</div>
+      <div><h2>أنشطة تفاعلية</h2><p>خمسة أنشطة قصيرة. اختاري نشاطًا وابدئي، واجمعي النقاط.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-activities" hidden>
+    <p class="hint act-hint" id="actHint">اضغطي على اسم النشاط لفتحه، واضغطي عليه مرة أخرى لإغلاقه.</p>
+    <div class="htabs" role="tablist" aria-label="الأنشطة التفاعلية" data-collapsible="1">
+      <button type="button" role="tab" class="htab" aria-selected="false" data-t="wheel">عجلة التسامح</button>
+      <button type="button" role="tab" class="htab" aria-selected="false" data-t="myths">صح أم خطأ؟</button>
+      <button type="button" role="tab" class="htab" aria-selected="false" data-t="rephrase">أعيدي الصياغة</button>
+      <button type="button" role="tab" class="htab" aria-selected="false" data-t="match">طابقي القصة بالدرس</button>
+      <button type="button" role="tab" class="htab" aria-selected="false" data-t="apology">اكتبي اعتذارك</button>
+    </div>
+
+    <div class="hpanel" id="hp-wheel" role="tabpanel" hidden>
+      <div class="wheel-wrap">
+        <div class="wheel-box">
+          <div class="wheel-pointer" aria-hidden="true"></div>
+          <div class="wheel" id="wheel"></div>
+        </div>
+        <div class="wheel-side">
+          <p class="hint">أديري العجلة لتظهر لكِ مهمة أو سؤال للتأمل. تصلح أيضًا للعب الجماعي في الفصل أو الإذاعة.</p>
+          <button class="btn" id="spinBtn" type="button">أديري العجلة</button>
+          <div class="wheel-result" id="wheelResult" aria-live="polite"><b>المهمة ستظهر هنا</b><span>كل رقم على العجلة مهمة مختلفة.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hpanel" id="hp-myths" role="tabpanel" hidden>
+      <p class="hint" style="margin-bottom:12px">عبارات شائعة عن التسامح. هل هي صحيحة أم خاطئة؟</p>
+      <div class="myths" id="myths"></div>
+      <p class="myth-score" id="mythScore" aria-live="polite"></p>
+    </div>
+
+    <div class="hpanel" id="hp-rephrase" role="tabpanel" hidden>
+      <p class="hint" style="margin-bottom:12px">جملة قاسية قيلت في لحظة غضب. اختاري الصياغة التي تحفظ حقك واحترام الآخر.</p>
+      <div id="rephraseBox"></div>
+    </div>
+
+    <div class="hpanel" id="hp-match" role="tabpanel" hidden>
+      <p class="hint" style="margin-bottom:12px">اختاري قصة من العمود الأول، ثم اختاري درسها من العمود الثاني.</p>
+      <div class="match">
+        <div class="match-col" id="matchL"></div>
+        <div class="match-col" id="matchR"></div>
+      </div>
+      <div class="row"><span class="hint" id="matchStatus" aria-live="polite"></span><button type="button" class="btn soft" id="matchReset">ابدئي من جديد</button></div>
+    </div>
+
+    <div class="hpanel" id="hp-apology" role="tabpanel" hidden>
+      <div class="apology">
+        <div class="ap-form">
+          <label for="apWho" class="ap-label">١. لمن الاعتذار؟</label>
+          <input id="apWho" type="text" class="ap-input" placeholder="مثلًا: سارة">
+          <label for="apWhat" class="ap-label">٢. ماذا حدث؟ اعترفي بالخطأ بوضوح</label>
+          <input id="apWhat" type="text" class="ap-input" placeholder="مثلًا: رفعت صوتي عليكِ أمام الزميلات">
+          <span class="ap-label">٣. ماذا تفهمين من مشاعرها؟</span>
+          <div class="ap-chips" data-k="feel"></div>
+          <span class="ap-label">٤. كيف ستصلحين الموقف؟</span>
+          <div class="ap-chips" data-k="fix"></div>
+          <span class="ap-label">٥. ما الذي تعدين به؟</span>
+          <div class="ap-chips" data-k="promise"></div>
+        </div>
+        <div class="ap-preview">
+          <span class="ap-label" style="color:var(--pink-deep)">رسالتك</span>
+          <p id="apText"></p>
+          <button class="btn pink" id="apCopy" type="button">انسخي الرسالة</button>
+          <p class="hint" style="font-size:13.5px">الاعتذار الصادق: اعتراف بلا تبرير، وفهم لمشاعر الآخر، وإصلاح، ووعد.</p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- reach -->
+  <section class="room" id="reach">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-reach">
+      <div class="room-mark p-sky">٧</div>
+      <div><h2>رحلة المسامحة</h2><p>ثلاث خطوات: أهدأ، ثم أفهم، ثم أسامح. اختاري موقفًا ضايقك وجرّبي.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-reach" hidden>
+    <div class="steps" id="steps" role="tablist" aria-label="خطوات الرحلة"></div>
+    <div class="step-panel" id="stepPanel"></div>
+    <div id="certificate"></div>
+    </div>
+  </section>
+
+  <!-- scale -->
+  <section class="room" id="scale">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-scale">
+      <div class="room-mark p-lav">٨</div>
+      <div><h2>مقياس التسامح</h2><p>ثماني عبارات. اختاري لكل عبارة: يشبهني، أو أحيانًا، أو لا يشبهني. لا أحد يرى إجاباتك.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-scale" hidden>
+    <div class="hint" id="scaleProg">أجبتِ عن ٠ من ٨</div>
+    <div class="progress"><i id="scaleBar" style="width:0%"></i></div>
+    <form id="scaleForm"></form>
+    <div class="row"><button class="btn" id="scaleBtn" type="button">اعرضي النتيجة</button><button class="btn soft" id="scaleReset" type="button">ابدئي من جديد</button></div>
+    <div class="results" id="scaleResults" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- debate -->
+  <section class="room" id="debate">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-debate">
+      <div class="room-mark p-peach">٩</div>
+      <div><h2>ماذا تختارين؟</h2><p>ثلاثة أسئلة. صوّتي أولًا، ثم اقرئي رأي الطرفين.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-debate" hidden>
+    <div class="debate" id="debateBox"></div>
+    </div>
+  </section>
+
+  <!-- letter -->
+  <section class="room" id="letter">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-letter">
+      <div class="room-mark p-pink">١٠</div>
+      <div><h2>رسالة لن تُرسل</h2><p>اكتبي لمن ضايقك كل ما في قلبك. لن تصل إليه. بعدها اختاري: تحتفظين بها، أو تحررينها وتتركينها تمضي.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-letter" hidden>
+    <div class="letter-box">
+      <label for="letterText" class="hint">إلى من آذاني…</label>
+      <textarea id="letterText" placeholder="أكتب لكِ لأن…"></textarea>
+    </div>
+    <div class="row">
+      <button class="btn pink" id="releaseBtn" type="button">أحررها</button>
+      <button class="btn soft" id="keepBtn" type="button">أحتفظ بها</button>
+    </div>
+    <div id="letterMsg" aria-live="polite"></div>
+    <div class="kept" id="keptList"></div>
+    </div>
+  </section>
+
+  <!-- challenge -->
+  <section class="room" id="challenge">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-challenge">
+      <div class="room-mark p-lemon">١١</div>
+      <div><h2>تحدي ١٤ يومًا</h2><p>مهمة صغيرة كل يوم. اضغطي على اليوم بعد إنجازه، واحصلي على الشارات.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-challenge" hidden>
+    <div class="ch-head">
+      <div class="ch-count" id="chCount">٠ / ١٤</div><div id="chBadge"></div>
+      <button class="btn soft" id="chReset" type="button">إعادة التحدي</button>
+    </div>
+    <div class="progress"><i id="chBar" style="width:0%;background:var(--lemon-deep)"></i></div>
+    <div class="days" id="days" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <!-- quotes -->
+  <section class="room" id="quotes">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-quotes">
+      <div class="room-mark p-sky">١٢</div>
+      <div><h2>عبارات للتأمل والمشاركة</h2><p>تنقّلي بين العبارات وانسخي ما يلامسك لتشاركيه.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-quotes" hidden>
+    <div class="quote-card" id="quoteCard" aria-live="polite">
+      <div class="q-body" id="qBody"></div>
+      <div class="q-src" id="qSrc"></div>
+    </div>
+    <div class="quote-nav">
+      <div class="row" style="margin:0">
+        <button class="btn soft" id="qPrev" type="button">السابقة</button>
+        <button class="btn soft" id="qNext" type="button">التالية</button>
+      </div>
+      <span class="count" id="qCount"></span>
+      <button class="btn" id="qCopy" type="button">انسخي العبارة</button>
+    </div>
+    </div>
+  </section>
+
+  <!-- survey -->
+  <section class="room" id="survey">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-survey">
+      <div class="room-mark p-mint">١٣</div>
+      <div><h2>رأيك يهمنا</h2><p>ثلاثة أسئلة سريعة عن المنصة. اختاري الوجه الذي يعبّر عنكِ. الاستبانة بلا اسم.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-survey" hidden>
+    <button class="btn" type="button" id="svOpen" aria-expanded="false" aria-controls="svForm">شاركينا رأيك</button>
+    <form id="svForm" hidden>
+      <fieldset class="sv-q">
+        <legend><span class="q-num">١.</span>هل فهمتِ معنى التسامح أكثر بعد المنصة؟</legend>
+        <div class="sv-faces"><input type="radio" name="sv0" id="sv0_1" value="1"><label for="sv0_1"><span aria-hidden="true">😕</span>لا</label><input type="radio" name="sv0" id="sv0_3" value="3"><label for="sv0_3"><span aria-hidden="true">😐</span>قليلًا</label><input type="radio" name="sv0" id="sv0_5" value="5"><label for="sv0_5"><span aria-hidden="true">😊</span>نعم</label></div>
+      </fieldset>
+      <fieldset class="sv-q">
+        <legend><span class="q-num">٢.</span>هل تشبه المواقف في المنصة حياتك؟</legend>
+        <div class="sv-faces"><input type="radio" name="sv1" id="sv1_1" value="1"><label for="sv1_1"><span aria-hidden="true">😕</span>لا</label><input type="radio" name="sv1" id="sv1_3" value="3"><label for="sv1_3"><span aria-hidden="true">😐</span>قليلًا</label><input type="radio" name="sv1" id="sv1_5" value="5"><label for="sv1_5"><span aria-hidden="true">😊</span>نعم</label></div>
+      </fieldset>
+      <fieldset class="sv-q">
+        <legend><span class="q-num">٣.</span>هل ستطبّقين ما تعلّمتِه؟</legend>
+        <div class="sv-faces"><input type="radio" name="sv2" id="sv2_1" value="1"><label for="sv2_1"><span aria-hidden="true">😕</span>لا</label><input type="radio" name="sv2" id="sv2_3" value="3"><label for="sv2_3"><span aria-hidden="true">😐</span>قليلًا</label><input type="radio" name="sv2" id="sv2_5" value="5"><label for="sv2_5"><span aria-hidden="true">😊</span>نعم</label></div>
+      </fieldset>
+      <label for="svNote" class="ap-label">ملاحظة أو اقتراح (اختياري)</label>
+      <textarea id="svNote" style="min-height:80px" placeholder="ما أكثر ما أثّر فيكِ من المحتوى؟ وما الذي تقترحين إضافته؟"></textarea>
+      <div class="row"><button class="btn" type="submit">أرسلي التقييم</button></div>
+      <div id="svMsg" aria-live="polite"></div>
+    </form>
+    </div>
+  </section>
+
+  <footer>
+    <svg width="40" height="40" aria-hidden="true" style="flex-shrink:0"><use href="#logo"/></svg>
+    <div class="help">
+      <p class="help-head"><b>التسامح قوة</b><b>وطلب المساعدة حق</b></p>
+      <p>التسامح لا يعني السكوت عن التنمر أو الإساءة المتكررة. إن كنتِ تمرين بموقف يؤذيكِ، تحدثي مع موجهة الطالبات أو شخص تثقين به.</p>
+      <div class="helpline">
+        <div class="hl-text">
+          <b>خط مساندة الطفل</b>
+          <span>صوت يُسمع وحقوق تُصان ورعاية تُعزّز أمن الطفل وسلامته وتوفر له بيئة آمنة وداعمة لنموّه وازدهاره.</span>
+        </div>
+        <a class="hl-num" href="tel:116111" aria-label="اتصلي بخط مساندة الطفل 116111">116111</a>
+        <video class="hl-video" src="helpline.mp4" poster="helpline-poster.jpg" controls playsinline preload="none" aria-label="فيديو تعريفي بخط مساندة الطفل من وزارة التعليم"></video>
+      </div>
+    </div>
+  </footer>
+  <p class="credit">توجيه الطالبات</p>
+  <p class="small"><a href="admin.html" style="color:var(--muted)">دخول الموجهة</a></p>
+  <p class="small">منصة سَعَة · ما تكتبينه في الأنشطة يُحفظ على جهازك فقط. نجمع إحصاءات مجهولة الاسم عن استخدام الأنشطة لتطوير المنصة.</p>
+</main>
+</div>
+
+<script>
+(function(){
+  /* ضعي هنا رابط تطبيق جدول Google (Web App) لاستقبال الإحصاءات والاستبانة */
+  const SHEET_URL = "";
+  /* إعدادات Supabase: رابط المشروع (Project URL) والمفتاح العام (anon / publishable key) */
+  const SUPA_URL = "https://rwigljdrxfqfmcbhceop.supabase.co";
+  const SUPA_KEY = "sb_publishable_MW-LIAlBRB2NhA6DUWj3hA_UeEq4FXl";
+  const ar = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+  const store = {
+    get(k, d){ try{ const v = localStorage.getItem((k==="vid"?"samah_":"saaa_mid_")+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+    set(k, v){ try{ localStorage.setItem((k==="vid"?"samah_":"saaa_mid_")+k, JSON.stringify(v)); }catch(e){} }
+  };
+  const visitor = (()=>{ let v = store.get("vid",""); if(!v){ v = Math.random().toString(36).slice(2,10); store.set("vid",v); } return v; })();
+  function supa(path, body){
+    return fetch(SUPA_URL.replace(/\/$/,"")+path,{method:"POST",keepalive:true,headers:Object.assign({"apikey":SUPA_KEY,"Content-Type":"application/json","Prefer":"return=minimal"}, SUPA_KEY.startsWith("sb_")?{}:{"Authorization":"Bearer "+SUPA_KEY}),body:JSON.stringify(body)});
+  }
+  function send(payload){
+    const p = Object.assign({v:visitor},payload);
+    if(p.section && p.action!=="زيارة") p.section = "١٢–١٥ · "+p.section;
+    if(SUPA_URL && SUPA_KEY){
+      try{
+        if(p.type==="survey") supa("/rest/v1/survey",{visitor:p.v,q1:p.q[0],q2:p.q[1],q3:p.q[2],q4:p.q[3],q5:p.q[4],note:(p.note||"").slice(0,1000)}).catch(()=>{});
+        else if(p.action==="زيارة") supa("/rest/v1/visits",{visitor:p.v}).catch(()=>{});
+        else supa("/rest/v1/events",{visitor:p.v,section:String(p.section).slice(0,80),action:String(p.action).slice(0,80),detail:String(p.detail).slice(0,300)}).catch(()=>{});
+      }catch(e){}
+    }
+    if(!SHEET_URL) return;
+    try{ fetch(SHEET_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)}).catch(()=>{}); }catch(e){}
+  }
+  function track(section, action, detail){ send({type:"event", section, action, detail: detail==null ? "" : String(detail)}); }
+  try{ if(!sessionStorage.getItem("samah_visit")){ sessionStorage.setItem("samah_visit","1"); track("المنصة","زيارة","١٢–١٥"); } }catch(e){ track("المنصة","زيارة","أكبر من ١٥"); }
+  let pts = store.get("pts",0);
+  function lvl(p){ return p>=150 ? "سفيرة التسامح" : p>=60 ? "مستكشفة" : "مبتدئة"; }
+  function renderPts(bump){
+    const el=document.getElementById("ptsPill"); if(!el) return;
+    el.textContent = `${lvl(pts)} · ${ar(pts)} نقطة`;
+    if(bump){ el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
+  }
+  function addPts(n){ pts+=n; store.set("pts",pts); renderPts(true); }
+  setTimeout(()=>renderPts(false),0);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+  /* ---------- cases ---------- */
+  const tiers = {
+    best:{label:"رد ناضج", cls:"best"},
+    mid:{label:"رد مفهوم لكنه ناقص", cls:"mid"},
+    low:{label:"رد قد يزيد الموقف سوءًا", cls:"low"}
+  };
+  const cases = [
+    {tag:"في قروب الفصل", text:"زميلة كتبت تعليقًا ساخرًا على صورتك في قروب الفصل، وضحكت بعض الطالبات.",
+     opts:[
+      {t:"أرد عليها بسخرية أقوى أمام الجميع.", tier:"low", fb:"الرد بالسخرية يكبّر المشكلة، ويحوّل القروب إلى ساحة خلاف."},
+      {t:"لا أرد الآن، ثم أكلمها على الخاص بهدوء: «تعليقك ضايقني». وإن تكرر أخبر المعلمة.", tier:"best", fb:"هدأتِ أولًا، ثم عبّرتِ عن مشاعرك دون إساءة، وعرفتِ متى تطلبين المساعدة."},
+      {t:"أخرج من القروب وأتجاهل الجميع.", tier:"mid", fb:"حميتِ نفسك من الإحراج، لكن الخروج لا يحل المشكلة، وقد يجعلك تشعرين بالوحدة."}
+     ], reflect:"لو كنتِ أنتِ من كتبت التعليق دون أن تقصدي الإيذاء، ماذا تتمنين أن يحدث؟"},
+    {tag:"مع الصديقات", text:"أخبرتِ صديقتك سرًّا، فقالته لصديقة أخرى.",
+     opts:[
+      {t:"أقاطعها دون أن أقول لها السبب.", tier:"mid", fb:"من حقك أن تحزني، لكن المقاطعة دون كلام تترك الموقف معلّقًا."},
+      {t:"أفضح سرًّا من أسرارها لأرد عليها.", tier:"low", fb:"الانتقام يجعلك تخسرين ثقة الجميع، لا ثقتها هي فقط."},
+      {t:"أصارحها: «حزنت لأنك قلتِ سري»، وأسمع منها، ثم أقرر كم أثق بها بعد ذلك.", tier:"best", fb:"المصارحة الهادئة تعطيها فرصة للاعتذار. ويمكنك أن تسامحي وتكوني أكثر حذرًا."}
+     ], reflect:"هل المسامحة تعني أن أخبرها بأسراري مرة أخرى؟"},
+    {tag:"في حصة الرياضة", text:"أثناء المباراة دفعتك زميلة من الفريق الآخر فسقطتِ، ثم قالت: «آسفة، لم أقصد».",
+     opts:[
+      {t:"أقبل اعتذارها وأكمل اللعب، فالخطأ غير مقصود.", tier:"best", fb:"افترضتِ حسن النية، وهذا من أجمل صور التسامح."},
+      {t:"أقبل اعتذارها، لكن أبقى غاضبة طوال الحصة.", tier:"mid", fb:"قبلتِ الاعتذار بلسانك، لكن قلبك ما زال مشغولًا. حاولي أن تتركي الموقف يمضي."},
+      {t:"أدفعها في الجولة القادمة.", tier:"low", fb:"الرد بالمثل يحوّل خطأً بسيطًا إلى مشكلة حقيقية، وقد يؤذي أحدًا."}
+     ], reflect:"كيف أفرّق بين الخطأ المقصود وغير المقصود؟"},
+    {tag:"في الألعاب الإلكترونية", text:"لاعبة في لعبة جماعية شتمتك في الدردشة لأنكِ خسرتِ الجولة.",
+     opts:[
+      {t:"أشتمها بكلام أقوى.", tier:"low", fb:"الشتم يجعلك تنزلين إلى مستوى لا يشبهك، ولا يغيّر شيئًا."},
+      {t:"أتوقف عن اللعب وأبقى منزعجة طوال اليوم.", tier:"mid", fb:"توقفك عن اللعب يحميك، لكن لا تسمحي لكلمة من شخص غريب أن تفسد يومك."},
+      {t:"لا أرد، وأستخدم زر الحظر أو الإبلاغ، وأكمل يومي.", tier:"best", fb:"لستِ مضطرة للرد على كل إساءة. الحظر يحميك، والتجاهل يحفظ هدوءك."}
+     ], reflect:"لماذا يسهل على بعض الناس الإساءة من خلف الشاشات؟"},
+    {tag:"طالبة جديدة", text:"انضمت إلى فصلك طالبة جديدة لهجتها مختلفة، وبعض الطالبات يقلّدن كلامها ويضحكن.",
+     opts:[
+      {t:"أرحّب بها وأدعوها لتجلس معنا، وأقول للبقية بلطف: «لهجتها جميلة، دعوها براحتها».", tier:"best", fb:"احترمتِ الاختلاف ودافعتِ عنها بلطف، وهذا تسامح وشجاعة معًا."},
+      {t:"أضحك معهن، فالأمر مجرد مزاح.", tier:"low", fb:"ما تراه بعضهن مزاحًا قد يكون جرحًا كبيرًا لمن تتعرض له."},
+      {t:"لا أضحك، لكن لا أتدخل.", tier:"mid", fb:"جيد أنك لم تشاركي، لكن كلمة صغيرة منكِ كانت ستفرق معها كثيرًا."}
+     ], reflect:"كيف تشعرين لو كنتِ أنتِ الطالبة الجديدة؟"},
+    {tag:"في البيت", text:"أختك الصغيرة كسرت شيئًا تحبينه كثيرًا، ثم بكت خوفًا.",
+     opts:[
+      {t:"أشتكيها لأمي وأرفض أن أكلمها.", tier:"mid", fb:"من حقك أن تحزني، لكن رفض الكلام يطيل الخلاف بينكما."},
+      {t:"أهدأ أولًا، ثم أقول لها: «زعلت، لكني أسامحك. انتبهي المرة القادمة».", tier:"best", fb:"عبّرتِ عن حزنك وسامحتِ في الوقت نفسه، وعلّمتِها بلطف."},
+      {t:"أصرخ عليها وأكسر شيئًا من أغراضها.", tier:"low", fb:"الانتقام يزيد الحزن عندكما معًا، ولا يعيد ما انكسر."}
+     ], reflect:"لماذا يكون التسامح مع الأهل أحيانًا أصعب، وأحيانًا أسهل؟"}
+  ];
+  let caseIdx = 0;
+  const caseAnswers = store.get("cases", {});
+  const caseDots = document.getElementById("caseDots");
+  const caseBox = document.getElementById("caseBox");
+  function renderDots(){
+    caseDots.innerHTML = cases.map((c,i)=>`<button type="button" class="${i===caseIdx?'on':''} ${caseAnswers[i]!==undefined&&i!==caseIdx?'done':''}" aria-label="الحالة ${i+1}" aria-current="${i===caseIdx}">${ar(i+1)}</button>`).join("");
+    caseDots.querySelectorAll("button").forEach((b,i)=>b.onclick=()=>{caseIdx=i;renderCase();});
+    const doneN = Object.keys(caseAnswers).length;
+    document.getElementById("caseCount").textContent = `حللتِ ${ar(doneN)} من ${ar(cases.length)} حالات`;
+  }
+  function renderCase(){
+    const c = cases[caseIdx], ans = caseAnswers[caseIdx];
+    let html = `<div class="scenario"><span class="tag">${c.tag}</span><p>${c.text}</p></div><div class="options">`;
+    c.opts.forEach((o,i)=>{
+      const cls = ans!==undefined ? (i===ans ? tiers[o.tier].cls : "") : "";
+      html += `<button type="button" class="opt ${cls}" data-i="${i}" ${ans!==undefined?'disabled':''}>${o.t}</button>`;
+    });
+    html += `</div>`;
+    if(ans!==undefined){
+      const o = c.opts[ans];
+      const best = c.opts.find(x=>x.tier==="best");
+      html += `<div class="feedback" aria-live="polite"><strong>${tiers[o.tier].label}.</strong> ${o.fb}`;
+      if(o.tier!=="best") html += `<p style="margin-top:8px"><strong>الرد الأنضج:</strong> ${best.t}</p>`;
+      html += `<p class="reflect">سؤال للتأمل: ${c.reflect}</p></div>`;
+    }
+    html += `<div class="row">${ans!==undefined?'<button type="button" class="btn soft" id="caseRetry">أعيدي المحاولة</button>':''}${caseIdx<cases.length-1?'<button type="button" class="btn" id="caseNext">الحالة التالية</button>':''}</div>`;
+    caseBox.innerHTML = html;
+    caseBox.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{caseAnswers[caseIdx]=+b.dataset.i;store.set("cases",caseAnswers);track("دراسة حالة","إجابة","الحالة "+(caseIdx+1)+": "+tiers[c.opts[+b.dataset.i].tier].label);addPts(c.opts[+b.dataset.i].tier==="best"?10:3);renderCase();});
+    const r = document.getElementById("caseRetry"); if(r) r.onclick=()=>{delete caseAnswers[caseIdx];store.set("cases",caseAnswers);renderCase();};
+    const n = document.getElementById("caseNext"); if(n) n.onclick=()=>{caseIdx++;renderCase();};
+    renderDots();
+  }
+  renderCase();
+
+  /* ---------- anger meter ---------- */
+  const bands = [
+    {max:3, title:"هادئة", bg:"var(--mint)", color:"var(--mint-deep)", tips:["هذا وقت مناسب للحوار.","عبّري عن مشاعرك بصيغة «أنا شعرت…» بدل «أنتِ فعلتِ…».","استمعي للطرف الآخر حتى النهاية."]},
+    {max:6, title:"متوترة", bg:"var(--sky)", color:"var(--sky-deep)", tips:["تنفّسي: شهيق ٤ ثوانٍ، حبس ٤، زفير ٤، وكرريها ثلاث مرات.","أجّلي الرد عشر دقائق على الأقل.","اسألي نفسك: هل سيهمني هذا الموقف بعد أسبوع؟"]},
+    {max:8, title:"غاضبة", bg:"var(--peach)", color:"var(--peach-deep)", tips:["ابتعدي عن الموقف قليلًا، فالمسافة تحميكِ من كلمة تندمين عليها.","لا تكتبي رسائل ولا منشورات الآن.","امشي قليلًا أو اشربي ماءً، واكتبي ما تشعرين به في ورقة لكِ وحدك."]},
+    {max:10, title:"غضب شديد", bg:"var(--pink)", color:"var(--pink-deep)", tips:["لا قرارات الآن، فالغضب الشديد يغيّر طريقة رؤيتنا للأمور.","تحدثي مع شخص تثقين به أو مع موجهة الطالبات.","عودي إلى الموقف عندما ينزل الميزان تحت ٥."]}
+  ];
+  const anger = document.getElementById("anger");
+  function renderAnger(){
+    const v = +anger.value, b = bands.find(x=>v<=x.max);
+    document.getElementById("angerNum").textContent = ar(v);
+    document.getElementById("angerNum").style.color = b.color;
+    const card = document.getElementById("angerCard");
+    card.style.background = b.bg;
+    card.innerHTML = `<h3 style="color:${b.color}">أنتِ الآن: ${b.title}</h3><ul>${b.tips.map(t=>`<li>${t}</li>`).join("")}</ul>`;
+  }
+  let angerTracked=false;
+  anger.addEventListener("input", renderAnger); anger.addEventListener("change",()=>{ if(!angerTracked){ angerTracked=true; track("ميزان الغضب","استخدام","الدرجة "+anger.value); } }); renderAnger();
+
+  /* ---------- REACH ---------- */
+  const steps = [
+    {l:"١", n:"أهدأ", h:"أهدأ أولًا", p:"خذي نفسًا عميقًا، ثم اكتبي ما حدث باختصار، كأنكِ تحكينه لصديقة.", ph:"ما حدث هو…"},
+    {l:"٢", n:"أفهم", h:"أحاول أن أفهم", p:"لماذا تصرّفت هكذا؟ هل كانت متعبة، أو حزينة من شيء آخر، أو لم تقصد؟ أن أفهم لا يعني أنها محقّة.", ph:"ربما تصرّفت هكذا لأن…"},
+    {l:"٣", n:"أسامح", h:"أقرر أن أسامح", p:"اكتبي جملة تقولين فيها لنفسك إنكِ اخترتِ المسامحة، وماذا ستفعلين إن تكرر الأمر.", ph:"أختار أن أسامح لأن… وإن تكرر الأمر سأ…"}
+  ];
+  let stepIdx = 0;
+  const reach = store.get("reach", steps.map(()=>""));
+  function renderSteps(){
+    const wrap = document.getElementById("steps");
+    wrap.innerHTML = steps.map((s,i)=>`<button type="button" role="tab" aria-selected="${i===stepIdx}" class="step-btn ${i===stepIdx?'on':''} ${reach[i].trim()?'filled':''}"><b>${s.l}</b><span>${s.n}</span></button>`).join("");
+    wrap.querySelectorAll("button").forEach((b,i)=>b.onclick=()=>{stepIdx=i;renderSteps();});
+    const s = steps[stepIdx];
+    const panel = document.getElementById("stepPanel");
+    panel.innerHTML = `<h3>${ar(stepIdx+1)}. ${s.h}</h3><p>${s.p}</p><label class="hint" for="reachText" style="display:block;margin-top:8px">اكتبي هنا</label><textarea id="reachText" placeholder="${s.ph}">${esc(reach[stepIdx])}</textarea>
+      <div class="row">${stepIdx>0?'<button type="button" class="btn soft" id="rPrev">الخطوة السابقة</button>':''}${stepIdx<steps.length-1?'<button type="button" class="btn" id="rNext">الخطوة التالية</button>':'<button type="button" class="btn" id="rDone">أنهيتُ الرحلة</button>'}<button type="button" class="btn pink" id="rClear">امسحي الرحلة</button></div>`;
+    const ta = document.getElementById("reachText");
+    ta.oninput = ()=>{reach[stepIdx]=ta.value;store.set("reach",reach);};
+    const pv=document.getElementById("rPrev"); if(pv) pv.onclick=()=>{stepIdx--;renderSteps();};
+    const nx=document.getElementById("rNext"); if(nx) nx.onclick=()=>{stepIdx++;renderSteps();};
+    const dn=document.getElementById("rDone"); if(dn) dn.onclick=()=>{renderCert(); if(reach.every(x=>x.trim())){ track("رحلة المسامحة","إكمال الرحلة",""); addPts(15); }};
+    document.getElementById("rClear").onclick=()=>{for(let i=0;i<steps.length;i++)reach[i]="";store.set("reach",reach);stepIdx=0;document.getElementById("certificate").innerHTML="";renderSteps();};
+  }
+  function renderCert(){
+    const filled = reach.filter(x=>x.trim()).length;
+    const box = document.getElementById("certificate");
+    if(filled<steps.length){ box.innerHTML = `<p class="toast" style="background:var(--peach);color:var(--peach-deep)">بقي ${ar(steps.length-filled)} من الخطوات فارغة. أكمليها لتظهر بطاقة رحلتك.</p>`; return; }
+    box.innerHTML = `<div class="certificate"><h3>بطاقة رحلتي</h3><p class="hint">هذه البطاقة لكِ وحدك. عودي إليها حين تعود الذكرى.</p><dl>${steps.map((s,i)=>`<dt>${s.h}</dt><dd>${esc(reach[i])}</dd>`).join("")}</dl></div>`;
+  }
+  renderSteps();
+
+  /* ---------- scale ---------- */
+  const items = [
+    ["عندما تعتذر لي صديقتي، أقبل اعتذارها.",0],
+    ["أبقى زعلانة من الموقف أيامًا طويلة.",1],
+    ["أهدأ قبل أن أرد عندما أغضب.",0],
+    ["أرد على الإساءة بإساءة.",1],
+    ["أسامح نفسي عندما أخطئ، وأتعلم من خطئي.",0],
+    ["أضحك على من تختلف عني في لهجتها أو شكلها.",1],
+    ["أستطيع أن أصادق من تختلف عني في الرأي.",0],
+    ["أعتذر عندما أخطئ في حق أحد.",0]
+  ];
+  const likert = ["لا يشبهني","أحيانًا","يشبهني"];
+  const form = document.getElementById("scaleForm");
+  form.innerHTML = items.map((it,n)=>`<div class="q" role="radiogroup" aria-labelledby="qt${n}"><div class="q-text" id="qt${n}"><span class="q-num">${ar(n+1)}.</span>${it[0]}</div><div class="likert">${likert.map((l,v)=>`<input type="radio" name="q${n}" id="q${n}_${v}" value="${v}"><label for="q${n}_${v}">${l}</label>`).join("")}</div></div>`).join("");
+  function answered(){ return items.filter((_,i)=>form.querySelector(`input[name=q${i}]:checked`)).length; }
+  form.addEventListener("change",()=>{
+    const a = answered();
+    document.getElementById("scaleProg").textContent = `أجبتِ عن ${ar(a)} من ${ar(items.length)}`;
+    document.getElementById("scaleBar").style.width = (a/items.length*100)+"%";
+  });
+  document.getElementById("scaleBtn").onclick = ()=>{
+    const out = document.getElementById("scaleResults");
+    const a = answered();
+    if(a<items.length){ out.innerHTML = `<p class="toast" style="background:var(--peach);color:var(--peach-deep)">بقيت ${ar(items.length-a)} عبارات بلا إجابة. أكمليها لتظهر نتيجتك.</p>`; return; }
+    let sum=0; items.forEach((it,i)=>{ const v=+form.querySelector(`input[name=q${i}]:checked`).value; sum += it[1] ? 2-v : v; });
+    const pct = Math.round(sum/(items.length*2)*100);
+    const lv = pct>=75 ? {n:"قلبك واسع", c:"var(--mint-deep)", b:"var(--mint)", t:"تسامحين بسهولة وتحترمين الاختلاف. استمري، وكوني قدوة لصديقاتك."}
+             : pct>=50 ? {n:"في الطريق الصحيح", c:"var(--sky-deep)", b:"var(--sky)", t:"تسامحين في مواقف كثيرة، وبعض المواقف ما زالت صعبة. جرّبي رحلة المسامحة مع أحدها."}
+             : {n:"قلبك يحتاج تدريبًا", c:"var(--pink-deep)", b:"var(--pink)", t:"لا بأس، فالتسامح مهارة تكبر بالتدريب. ابدئي بتحدي ١٤ يومًا خطوة خطوة، وتحدثي مع موجهة الطالبات إن احتجتِ."};
+    out.innerHTML = `<div class="res" style="background:${lv.b}"><div class="res-top"><b style="color:${lv.c}">${lv.n}</b><span style="color:${lv.c}">${ar(pct)}٪</span></div><div class="bar"><i style="width:${Math.max(pct,3)}%;background:${lv.c}"></i></div><p>${lv.t}</p></div>`;
+    track("مقياس التسامح","إنهاء المقياس","النتيجة "+pct+"%");
+    addPts(15);
+  };
+  document.getElementById("scaleReset").onclick = ()=>{ form.reset(); form.dispatchEvent(new Event("change")); document.getElementById("scaleResults").innerHTML=""; };
+
+  /* ---------- debate ---------- */
+  const debates = [
+    {q:"هل أسامح صديقتي إذا لم تعتذر؟", yes:"المسامحة تريح قلبي أنا، حتى لو لم تعتذر.", no:"الاعتذار مهم، حتى تعرف أنها أخطأت ولا تكرر."},
+    {q:"هل أستطيع أن أصادق من تختلف عني كثيرًا؟", yes:"الاختلاف يجعلنا نتعلم من بعض، ويوسّع عالمنا.", no:"بعضهن يرين أن الصداقة أسهل مع من تشبهنا في الاهتمامات."},
+    {q:"هل الاعتذار ضعف؟", yes:"بعض الناس يظنون أن الاعتذار يقلل من مكانتهم.", no:"الاعتذار شجاعة، ويحتاج قوة للاعتراف بالخطأ."}
+  ];
+  const votes = store.get("votes", {});
+  function renderDebate(){
+    document.getElementById("debateBox").innerHTML = debates.map((d,i)=>{
+      const v = votes[i];
+      return `<div class="dq"><h3>${d.q}</h3><div class="vote" role="group" aria-label="${d.q}">
+        <button type="button" data-i="${i}" data-v="yes" class="${v==='yes'?'sel':''}" aria-pressed="${v==='yes'}">نعم</button>
+        <button type="button" data-i="${i}" data-v="no" class="${v==='no'?'sel':''}" aria-pressed="${v==='no'}">لا</button>
+        <button type="button" data-i="${i}" data-v="mid" class="${v==='mid'?'sel':''}" aria-pressed="${v==='mid'}">يعتمد على الموقف</button></div>
+        ${v?`<div class="sides"><div class="side p-lav"><b>من يقول نعم</b>${d.yes}</div><div class="side p-mint"><b>من يقول لا</b>${d.no}</div></div><p class="hint" style="margin-top:8px">هل تغيّر رأيك بعد قراءة الطرفين؟ يمكنكِ تغيير تصويتك.</p>`:''}</div>`;
+    }).join("");
+    document.querySelectorAll("#debateBox .vote button").forEach(b=>b.onclick=()=>{if(votes[b.dataset.i]===undefined)addPts(2);votes[b.dataset.i]=b.dataset.v;store.set("votes",votes);track("المناظرة","تصويت","السؤال "+(+b.dataset.i+1)+": "+({yes:"نعم",no:"لا",mid:"يعتمد"})[b.dataset.v]);renderDebate();});
+  }
+  renderDebate();
+
+  /* ---------- letter ---------- */
+  const lt = document.getElementById("letterText");
+  lt.value = store.get("letterDraft","");
+  lt.oninput = ()=>store.set("letterDraft", lt.value);
+  const kept = store.get("kept", []);
+  function renderKept(){
+    document.getElementById("keptList").innerHTML = kept.length ? `<p class="hint">رسائلك المحفوظة على هذا الجهاز</p>` + kept.map((k,i)=>`<div><small>${k.d}</small>${esc(k.t)}<div class="row" style="margin-top:6px"><button type="button" class="btn pink" data-r="${i}" style="padding:4px 14px;font-size:13.5px">أحررها الآن</button></div></div>`).join("") : "";
+    document.querySelectorAll("#keptList [data-r]").forEach(b=>b.onclick=()=>{kept.splice(+b.dataset.r,1);store.set("kept",kept);renderKept();msg("تحررت الرسالة. أحسنتِ.");});
+  }
+  function msg(t){ document.getElementById("letterMsg").innerHTML = `<p class="toast">${t}</p>`; }
+  document.getElementById("releaseBtn").onclick = ()=>{
+    if(lt.value.trim()){ track("رسالة لن تُرسل","تحرير رسالة",""); addPts(5); }
+    if(!lt.value.trim()){ msg("اكتبي شيئًا أولًا، ولو سطرًا واحدًا."); return; }
+    lt.classList.add("released");
+    setTimeout(()=>{ lt.value=""; store.set("letterDraft",""); lt.classList.remove("released"); msg("مضت الرسالة. ما كتبتِه خرج من قلبك إلى الورق، ثم رحل. خذي نفسًا عميقًا."); }, 1600);
+  };
+  document.getElementById("keepBtn").onclick = ()=>{
+    if(lt.value.trim()){ track("رسالة لن تُرسل","حفظ رسالة",""); addPts(5); }
+    if(!lt.value.trim()){ msg("اكتبي شيئًا أولًا، ولو سطرًا واحدًا."); return; }
+    kept.unshift({t:lt.value.trim(), d:new Date().toLocaleDateString("ar-SA-u-ca-gregory",{day:"numeric",month:"long",year:"numeric"})});
+    store.set("kept",kept); lt.value=""; store.set("letterDraft","");
+    renderKept(); msg("احتفظتِ بالرسالة. يمكنكِ تحريرها حين تكونين مستعدة.");
+  };
+  renderKept();
+
+  /* ---------- challenge ---------- */
+  const tasks = ["ابتسمي لزميلة لا تكلمينها عادة.","قولي «شكرًا» لثلاثة أشخاص اليوم.","اعتذري عن خطأ صغير.","لا تكتبي أي تعليق سلبي في القروبات اليوم.","ساعدي أحدًا من أسرتك دون أن يطلب.","امدحي صديقة بصدق.","حين تغضبين، عدّي إلى عشرة قبل أن تردي.","اجلسي مع زميلة جديدة أو وحيدة.","اكتبي ثلاث صفات جميلة في نفسك.","سامحي شخصًا في قلبك دون أن تخبريه.","استمعي لرأي مختلف دون أن تقاطعي.","ادعي بالخير لشخص زعلتِ منه.","اكتبي رسالة لطيفة لصديقة.","اكتبي لنفسك: ما الذي تغيّر فيكِ خلال أسبوعين؟"];
+  let done = store.get("challenge", []);
+  function renderDays(){
+    const box = document.getElementById("days");
+    box.innerHTML = tasks.map((t,i)=>`<button type="button" class="day ${done.includes(i)?'done':''}" aria-pressed="${done.includes(i)}" data-i="${i}"><b>اليوم ${ar(i+1)}</b>${t}</button>`).join("");
+    box.querySelectorAll(".day").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;const was=done.includes(i);done=was?done.filter(x=>x!==i):[...done,i];if(!was){track("تحدي ١٤ يومًا","إنجاز يوم","اليوم "+(i+1));addPts(10);}store.set("challenge",done);renderDays();});
+    document.getElementById("chCount").textContent = `${ar(done.length)} / ${ar(tasks.length)}`;
+    document.getElementById("chBar").style.width = (done.length/tasks.length*100)+"%";
+    document.getElementById("chBadge").innerHTML = done.length>=tasks.length ? '<span class="badge-earned">🏅 شارة سفيرة التسامح</span>' : done.length>=7 ? '<span class="badge-earned">⭐ شارة نصف الطريق</span>' : '<span class="hint">أنجزي ٧ أيام لتحصلي على أول شارة</span>';
+  }
+  document.getElementById("chReset").onclick = ()=>{done=[];store.set("challenge",done);renderDays();};
+  renderDays();
+
+  /* ---------- quotes ---------- */
+  const quotes = [
+    {t:"﴿وَلْيَعْفُوا وَلْيَصْفَحُوا ۗ أَلَا تُحِبُّونَ أَن يَغْفِرَ اللَّهُ لَكُمْ﴾", s:"سورة النور، الآية ٢٢"},
+    {t:"﴿ادْفَعْ بِالَّتِي هِيَ أَحْسَنُ﴾", s:"سورة فصلت، الآية ٣٤"},
+    {t:"«ليس الشديدُ بالصُّرَعة، إنما الشديدُ الذي يملك نفسه عند الغضب»", s:"حديث شريف، متفق عليه"},
+    {t:"الكلمة الطيبة تفتح القلوب.", s:"منصة سَعَة"},
+    {t:"أسامح لأن قلبي يستحق الراحة.", s:"منصة سَعَة"},
+    {t:"نختلف، ونبقى صديقات.", s:"منصة سَعَة"},
+    {t:"الاعتذار شجاعة.", s:"منصة سَعَة"},
+    {t:"أقوى رد على الإساءة أن أبقى لطيفة.", s:"منصة سَعَة"},
+    {t:"قلبي واسع، يتّسع للجميع.", s:"منصة سَعَة"}
+  ];
+  let qi = 0;
+  function renderQuote(){
+    document.getElementById("qBody").textContent = quotes[qi].t;
+    document.getElementById("qSrc").textContent = quotes[qi].s;
+    document.getElementById("qCount").textContent = `${ar(qi+1)} من ${ar(quotes.length)}`;
+  }
+  document.getElementById("qNext").onclick = ()=>{qi=(qi+1)%quotes.length;renderQuote();};
+  document.getElementById("qPrev").onclick = ()=>{qi=(qi-1+quotes.length)%quotes.length;renderQuote();};
+  document.getElementById("qCopy").onclick = async (e)=>{
+    track("العبارات","نسخ عبارة","العبارة "+(qi+1));
+    const b = e.currentTarget, txt = quotes[qi].t + " — " + quotes[qi].s;
+    try{ await navigator.clipboard.writeText(txt); b.textContent="نُسخت ✓"; }
+    catch(err){ b.textContent="ظلّلي العبارة وانسخيها"; }
+    setTimeout(()=>b.textContent="انسخي العبارة",1800);
+  };
+  renderQuote();
+  /* ---------- tabs (scoped) ---------- */
+  document.querySelectorAll(".htabs").forEach(list=>{
+    const btns=[...list.querySelectorAll(".htab")];
+    const collapsible=list.dataset.collapsible==="1";
+    btns.forEach(b=>b.onclick=()=>{
+      const closing=collapsible && b.classList.contains("on");
+      if(!closing) track(list.getAttribute("aria-label"),"فتح تبويب",b.textContent);
+      btns.forEach(x=>{const on=!closing && x===b;x.classList.toggle("on",on);x.setAttribute("aria-selected",on);document.getElementById("hp-"+x.dataset.t).hidden=!on;});
+    });
+  });
+
+  /* ---------- wheel ---------- */
+  const wheelTasks=[
+    ["قولي شيئًا جميلًا","عن زميلة تجلس بجانبك."],
+    ["اذكري موقفًا","سامحتِ فيه صديقة. كيف شعرتِ بعدها؟"],
+    ["ما الذي يغضبك بسرعة؟","وكيف تهدئين نفسك؟"],
+    ["أرسلي رسالة لطيفة","لصديقة أو لأحد من أهلك."],
+    ["صفة جميلة","اذكري صفة جميلة في شخص اختلفتِ معه."],
+    ["تحدي الهدوء","حين تغضبين اليوم، عدّي إلى عشرة قبل أن تردي."],
+    ["اعتذري اليوم","عن خطأ صغير تأخرتِ في الاعتذار عنه."],
+    ["سامحي نفسك","على خطأ واحد ما زلتِ تلومين نفسك عليه."]
+  ];
+  const wcolors=["#e6ddf8","#fadbe5","#d6f1e4","#fde6d3","#d9eaf8","#f4f3c6","#efe3fb","#fbe3d9"];
+  const wheel=document.getElementById("wheel"), seg=360/wheelTasks.length;
+  wheel.style.background="conic-gradient("+wcolors.map((c,i)=>`${c} ${i*seg}deg ${(i+1)*seg}deg`).join(",")+")";
+  wheel.innerHTML=wheelTasks.map((t,i)=>{const a=(i+.5)*seg*Math.PI/180, r=108;return `<span><i style="left:${Math.sin(a)*r}px;top:${-Math.cos(a)*r}px">${ar(i+1)}</i></span>`;}).join("");
+  let rot=0, spinning=false;
+  document.getElementById("spinBtn").onclick=()=>{
+    if(spinning) return; spinning=true; track("أنشطة: عجلة التسامح","تدوير","");addPts(2);
+    const pick=Math.floor(Math.random()*wheelTasks.length);
+    const target=360-((pick+.5)*seg);
+    rot += 360*5 + ((target - rot%360) + 360)%360;
+    wheel.style.transform=`rotate(${rot}deg)`;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setTimeout(()=>{const t=wheelTasks[pick];document.getElementById("wheelResult").innerHTML=`<b>${ar(pick+1)}. ${t[0]}</b><span>${t[1]}</span>`;spinning=false;}, reduce?50:3700);
+  };
+  window.addEventListener("resize",()=>{});
+
+  /* ---------- myths ---------- */
+  const myths=[
+    ["التسامح يعني أن أسكت إذا تنمّر عليّ أحد.",false,"التسامح لا يعني السكوت عن الأذى. أخبري موجهة الطالبات أو أهلك."],
+    ["أستطيع أن أسامح صديقتي وأبقى حزينة قليلًا.",true,"المشاعر تحتاج وقتًا، والمهم ألا أنتقم."],
+    ["من يسامح كثيرًا ضعيف.",false,"«ليس الشديد بالصُّرَعة، إنما الشديد الذي يملك نفسه عند الغضب». المسامحة تحتاج قوة."],
+    ["الاعتذار يقلّل من قيمتي.",false,"الاعتذار شجاعة، ويجعل الآخرين يحترمونك أكثر."],
+    ["من حقي أن أحظر من يسيء إليّ في الألعاب أو التطبيقات.",true,"الحظر يحميك، ويمكنك أن تسامحي وتحمي نفسك معًا."],
+    ["إذا اختلفت صديقتي معي في رأي، فهذا يعني أنها لا تحبني.",false,"الاختلاف في الرأي طبيعي، والصداقة الحقيقية تتسع له."]
+  ];
+  const mythAns={};
+  function renderMyths(){
+    document.getElementById("myths").innerHTML=myths.map((m,i)=>{
+      const a=mythAns[i];
+      let ans="";
+      if(a!==undefined){const right=a===m[1];ans=`<p class="ans ${right?'p-mint':'p-pink'}"><b>${right?'إجابة صحيحة.':'ليست صحيحة.'}</b> العبارة ${m[1]?'صحيحة':'خاطئة'}: ${m[2]}</p>`;}
+      return `<div class="myth"><p class="st">${m[0]}</p><div class="vote"><button type="button" data-i="${i}" data-v="1" class="${a===true?'sel':''}" ${a!==undefined?'disabled':''}>صح</button><button type="button" data-i="${i}" data-v="0" class="${a===false?'sel':''}" ${a!==undefined?'disabled':''}>خطأ</button></div>${ans}</div>`;
+    }).join("");
+    document.querySelectorAll("#myths .vote button").forEach(b=>b.onclick=()=>{mythAns[b.dataset.i]=b.dataset.v==="1";track("أنشطة: صح أم خطأ","إجابة",(mythAns[b.dataset.i]===myths[b.dataset.i][1]?"صحيحة":"خاطئة"));if(mythAns[b.dataset.i]===myths[b.dataset.i][1])addPts(5);renderMyths();});
+    const n=Object.keys(mythAns).length, c=Object.entries(mythAns).filter(([i,v])=>myths[i][1]===v).length;
+    document.getElementById("mythScore").textContent = n===myths.length ? `نتيجتك: ${ar(c)} من ${ar(myths.length)}. ${c>=5?'أحسنتِ، فهمك للتسامح رائع.':'راجعي قسم المفاهيم ثم أعيدي المحاولة.'}` : (n?`أجبتِ عن ${ar(n)} من ${ar(myths.length)}`:"");
+  }
+  renderMyths();
+
+  /* ---------- rephrase ---------- */
+  const rephr=[
+    ["في مشروع جماعي","أنتِ السبب في أن درجتنا نقصت!",["أنتِ لا تنفعين لأي شيء.","حزنت على الدرجة. تعالي نفكر كيف نتحسن المرة القادمة.","لن أعمل معكِ مرة أخرى."],1],
+    ["في القروب","رأيك سخيف، لا أحد طلبه.",["أفهم رأيك، لكني أراها بطريقة مختلفة.","لا أحد يهتم بكلامك أصلًا.","طيب، كما تريدين."],0],
+    ["بعد خلاف مع صديقة","لن أكلمك أبدًا!",["أنتِ لا تستحقين صداقتي.","افعلي ما تريدين.","أنا حزينة الآن، أحتاج وقتًا، وبعدها نتكلم."],2],
+    ["لأختك","ابتعدي عن أغراضي يا مزعجة!",["لا تلمسي أغراضي وإلا أخبرت أمي.","لو سمحتِ، اطلبي مني قبل أن تأخذي أغراضي.","كل مرة تخرّبين كل شيء."],1],
+    ["لنفسك","أنا فاشلة، لا أُحسن أي شيء.",["لا فائدة من المحاولة.","الكل أفضل مني.","أخطأت هذه المرة، وسأتعلم منها."],2]
+  ];
+  let rpi=0, rpPick=null;
+  function renderRephrase(){
+    const r=rephr[rpi];
+    let html=`<div class="rp-card"><small>${r[0]} · الجملة ${ar(rpi+1)} من ${ar(rephr.length)}</small>«${r[1]}»</div><div class="options">`;
+    r[2].forEach((o,i)=>{let cls="";if(rpPick!==null){if(i===r[3])cls="best";else if(i===rpPick)cls="low";}html+=`<button type="button" class="opt ${cls}" data-i="${i}" ${rpPick!==null?'disabled':''}>${o}</button>`;});
+    html+=`</div>`;
+    if(rpPick!==null) html+=`<div class="feedback"><strong>${rpPick===r[3]?'أحسنتِ.':'الصياغة الأفضل ملوّنة بالأخضر.'}</strong> الصياغة المتسامحة تصف الموقف لا الشخص، وتفتح بابًا للحل.</div>`;
+    html+=`<div class="row">${rpPick!==null&&rpi<rephr.length-1?'<button type="button" class="btn" id="rpNext">الجملة التالية</button>':''}${rpPick!==null&&rpi===rephr.length-1?'<button type="button" class="btn soft" id="rpAgain">ابدئي من جديد</button>':''}</div>`;
+    const box=document.getElementById("rephraseBox"); box.innerHTML=html;
+    box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{rpPick=+b.dataset.i;track("أنشطة: أعيدي الصياغة","اختيار",rpPick===rephr[rpi][3]?"صحيحة":"خاطئة");if(rpPick===rephr[rpi][3])addPts(5);renderRephrase();});
+    const n=document.getElementById("rpNext"); if(n) n.onclick=()=>{rpi++;rpPick=null;renderRephrase();};
+    const a=document.getElementById("rpAgain"); if(a) a.onclick=()=>{rpi=0;rpPick=null;renderRephrase();};
+  }
+  renderRephrase();
+
+  /* ---------- match ---------- */
+  const pairs=[
+    ["يوسف وإخوته","أسامح دون أن أذكّر بالخطأ"],
+    ["الأعرابي في المسجد","أعلّم المخطئ بلطف"],
+    ["يوم الطائف","أختار الخير بدل الانتقام"],
+    ["موسى وفرعون","الكلام اللطيف حتى مع المخالف"],
+    ["خلاف بين صديقين","أبادر بالصلح"]
+  ];
+  let mSel=null, mDone=[], mOrder=[];
+  function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+  function resetMatch(){mSel=null;mDone=[];mOrder=shuffle(pairs.map((_,i)=>i));renderMatch();}
+  function renderMatch(bad){
+    document.getElementById("matchL").innerHTML=pairs.map((p,i)=>`<button type="button" class="mitem ${mDone.includes(i)?'ok':''} ${mSel===i?'sel':''}" data-l="${i}" ${mDone.includes(i)?'disabled':''}>${p[0]}</button>`).join("");
+    document.getElementById("matchR").innerHTML=mOrder.map(i=>`<button type="button" class="mitem ${mDone.includes(i)?'ok':''} ${bad===i?'bad':''}" data-r="${i}" ${mDone.includes(i)?'disabled':''}>${pairs[i][1]}</button>`).join("");
+    document.querySelectorAll("#matchL .mitem").forEach(b=>b.onclick=()=>{mSel=+b.dataset.l;renderMatch();});
+    document.querySelectorAll("#matchR .mitem").forEach(b=>b.onclick=()=>{
+      if(mSel===null){document.getElementById("matchStatus").textContent="اختاري القصة أولًا من العمود الأول.";return;}
+      const r=+b.dataset.r;
+      if(r===mSel){mDone.push(r);mSel=null;if(mDone.length===pairs.length){track("أنشطة: طابقي القصة","إكمال المطابقة","");addPts(15);}renderMatch();}else{renderMatch(r);document.getElementById("matchStatus").textContent="ليس هذا درسها، جرّبي مرة أخرى.";}
+    });
+    document.getElementById("matchStatus").textContent = mDone.length===pairs.length ? "أحسنتِ، طابقتِ كل القصص بدروسها." : `طابقتِ ${ar(mDone.length)} من ${ar(pairs.length)}`;
+  }
+  document.getElementById("matchReset").onclick=resetMatch;
+  resetMatch();
+
+  /* ---------- apology ---------- */
+  const apOpts={
+    feel:["أعرف أن ذلك ضايقكِ","أعرف أن ذلك أحرجكِ","أعرف أن ذلك جرحكِ","أفهم أنكِ شعرتِ بالظلم"],
+    fix:["وأريد أن أصحّح ما حدث أمام الجميع","وأحب أن نتحدث لأفهمك أكثر","وسأعيد لكِ حقك كاملًا","وأقدّر لو أعطيتِني فرصة"],
+    promise:["وأعدكِ أن أنتبه لكلامي","وأعدكِ ألا يتكرر ذلك","وأعدكِ أن أسألكِ قبل أن أحكم","وسأحرص أن أعاملكِ كما أحب أن تعامليني"]
+  };
+  const apSel={feel:0,fix:1,promise:1};
+  document.querySelectorAll(".ap-chips").forEach(box=>{
+    const k=box.dataset.k;
+    const draw=()=>{box.innerHTML=apOpts[k].map((o,i)=>`<button type="button" class="${apSel[k]===i?'sel':''}" aria-pressed="${apSel[k]===i}" data-i="${i}">${o}</button>`).join("");box.querySelectorAll("button").forEach(b=>b.onclick=()=>{apSel[k]=+b.dataset.i;draw();renderAp();});};
+    draw();
+  });
+  const apWho=document.getElementById("apWho"), apWhat=document.getElementById("apWhat");
+  function apMsg(){
+    const who=apWho.value.trim()||"صديقتي", what=apWhat.value.trim()||"تصرفت معكِ بطريقة لم تكن لائقة";
+    return `عزيزتي ${who}،\nأعتذر منكِ لأنني ${what}.\n${apOpts.feel[apSel.feel]}، ${apOpts.fix[apSel.fix]}.\n${apOpts.promise[apSel.promise]}.\nمودّتي لكِ أكبر من أي موقف.`;
+  }
+  function renderAp(){document.getElementById("apText").textContent=apMsg();}
+  apWho.oninput=renderAp; apWhat.oninput=renderAp; renderAp();
+  document.getElementById("apCopy").onclick=async e=>{track("أنشطة: اكتبي اعتذارك","نسخ الاعتذار","");addPts(5);const b=e.currentTarget;try{await navigator.clipboard.writeText(apMsg());b.textContent="نُسخت ✓";}catch(err){b.textContent="ظلّلي الرسالة وانسخيها";}setTimeout(()=>b.textContent="انسخي الرسالة",1800);};
+  /* ---------- survey ---------- */
+  const svForm=document.getElementById("svForm");
+  const svOpen=document.getElementById("svOpen");
+  svOpen.onclick=()=>{const open=svForm.hidden;svForm.hidden=!open;svOpen.setAttribute("aria-expanded",open);svOpen.textContent=open?"إخفاء الاستبانة":"شاركينا رأيك";if(open)track("رأيك يهمنا","فتح الاستبانة","");};
+  if(store.get("svDone",false)) document.getElementById("svMsg").innerHTML='<p class="toast">أرسلتِ تقييمك من قبل، شكرًا لكِ. يمكنكِ إرسال تقييم جديد إن أردتِ.</p>';
+  svForm.addEventListener("submit",e=>{
+    e.preventDefault();
+    const ans=[0,1,2].map(i=>{const c=svForm.querySelector(`input[name=sv${i}]:checked`);return c?+c.value:null;});
+    const miss=ans.filter(a=>a===null).length;
+    const msg=document.getElementById("svMsg");
+    if(miss){ msg.innerHTML=`<p class="toast" style="background:var(--peach);color:var(--peach-deep)">بقي ${ar(miss)} من الأسئلة بلا تقييم.</p>`; return; }
+    send({type:"survey", q:[ans[0],ans[1],null,null,ans[2]], note:"[١٢–١٥] "+document.getElementById("svNote").value.trim()});addPts(10);
+    store.set("svDone",true);
+    svForm.reset();
+    msg.innerHTML='<p class="toast">وصل تقييمك، شكرًا لكِ. رأيك يساعدنا على تطوير المنصة.</p>';
+  });
+
+  /* ---------- visitor counter ---------- */
+  const showVisits=d=>{
+    if(!d||!d.visitors) return;
+    const el=document.getElementById("visits");
+    el.textContent=`زارت المنصة ${ar(d.visitors)} زائرة`;
+    el.hidden=false;
+  };
+  if(SUPA_URL && SUPA_KEY){
+    setTimeout(()=>supa("/rest/v1/rpc/visit_stats",{}).then(r=>r.json()).then(showVisits).catch(()=>{}),1200);
+  } else if(SHEET_URL){
+    fetch(SHEET_URL).then(r=>r.json()).then(d=>{
+      if(!d||!d.visitors) return;
+      const el=document.getElementById("visits");
+      el.textContent=`زارت المنصة ${ar(d.visitors)} زائرة`;
+      el.hidden=false;
+    }).catch(()=>{});
+  }
+
+  /* ---------- collapsible sections ---------- */
+  function setOpen(sec, open){
+    const head=sec.querySelector(".room-head[role=button]"), body=sec.querySelector(".room-body");
+    if(!head||!body) return;
+    body.hidden=!open; head.setAttribute("aria-expanded",open);
+  }
+  document.querySelectorAll("section.room").forEach(sec=>{
+    const head=sec.querySelector(".room-head[role=button]");
+    if(!head) return;
+    const toggle=()=>{const open=head.getAttribute("aria-expanded")!=="true";setOpen(sec,open);if(open)track(head.querySelector("h2").textContent,"فتح القسم","");};
+    head.addEventListener("click",toggle);
+    head.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle();}});
+  });
+  function openFromHash(){
+    const id=location.hash.slice(1); if(!id) return;
+    const sec=document.getElementById(id);
+    if(sec&&sec.classList.contains("room")){setOpen(sec,true);setTimeout(()=>sec.scrollIntoView({block:"start"}),0);}
+  }
+  document.querySelectorAll(".chips a").forEach(a=>a.addEventListener("click",()=>{const sec=document.querySelector(a.getAttribute("href"));if(sec&&sec.classList.contains("room"))setOpen(sec,true);}));
+  window.addEventListener("hashchange",openFromHash); openFromHash();
+  document.getElementById("openAll").onclick=()=>document.querySelectorAll("section.room").forEach(s=>setOpen(s,true));
+  document.getElementById("closeAll").onclick=()=>document.querySelectorAll("section.room").forEach(s=>setOpen(s,false));
+
+  /* ---------- active nav item ---------- */
+  const navLinks=[...document.querySelectorAll(".chips a")];
+  if("IntersectionObserver" in window){
+    const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+e.target.id));}});},{rootMargin:"-30% 0px -60% 0px"});
+    document.querySelectorAll("section.room").forEach(s=>io.observe(s));
+  }
+})();
+</script>
+</body>
+</html>
