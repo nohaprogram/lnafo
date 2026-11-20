@@ -423,8 +423,8 @@ button{cursor:pointer}
   /* ---------- feelings ---------- */
   const feelings=[
     {e:"😊",n:"سعيدة",c:"var(--sun)",t:"رائع! شاركي فرحتك، وابتسمي لصديقة 🌼"},
-    {e:"😢",n:"حزينة",c:"var(--sky-c)",t:"لا بأس أن تحزني. احكي لأمك أو معلمتك، أو ارسمي ما تشعرين به 🎨"},
-    {e:"😠",n:"غاضبة",c:"var(--pink)",t:"لنهدأ معًا: شمّي الوردة 🌹 ثم اطفئي الشمعة 🕯️. كرريها ثلاث مرات، ثم عدّي إلى عشرة.",breath:true},
+    {e:"😢",n:"حزينة",c:"var(--sky-c)",t:"لا بأس أن تحزني. تحدّثي مع والدتك أو معلمتك، أو ارسمي ما تشعرين به 🎨"},
+    {e:"😠",n:"غاضبة",c:"var(--pink)",t:"لنهدأ معًا: تنفّسي بعمق، شهيقًا كأنكِ تشمّين وردة 🌹، وزفيرًا كأنكِ تطفئين شمعة 🕯️. كرّريها ثلاث مرات، ثم عُدّي إلى عشرة.",breath:true},
     {e:"😟",n:"خائفة",c:"var(--lav)",t:"أنتِ لستِ وحدك. اذهبي إلى شخص تثقين به، وأخبريه بما يخيفك 💚"}
   ];
   const facesEl=document.getElementById("faces");
@@ -436,8 +436,9 @@ button{cursor:pointer}
     if(f.breath) html+=`<div class="breath"><div class="ball" id="ball"></div><p class="q" id="bText">اضغطي لنبدأ</p><button type="button" class="btn" id="bGo">لنتنفّس معًا</button></div>`;
     document.getElementById("feelOut").innerHTML=html;
     track("كيف أشعر؟","اختيار شعور",f.n);
-    sayKey.feelTip = 4+(+b.dataset.i);
-    say(f.t, 4+(+b.dataset.i));
+    const fn = [4,null,null,7][+b.dataset.i];
+    sayKey.feelTip = fn;
+    say(f.t, fn);
     const go=document.getElementById("bGo");
     if(go) go.onclick=()=>{
       let n=0; const ball=document.getElementById("ball"), tx=document.getElementById("bText"); go.disabled=true;
@@ -457,7 +458,7 @@ button{cursor:pointer}
     ], l:"نسامح مثل يوسف عليه السلام 🌷"},
     {t:"أنس والنبي ﷺ", pages:[
       {s:"👦🏡", x:"كان أنس رضي الله عنه ولدًا صغيرًا يساعد النبي ﷺ في بيته."},
-      {s:"📅🕰️", x:"بقي أنس مع النبي ﷺ عشر سنين."},
+      {s:"📅🕰️", x:"بقي أنس بن مالك رضي الله عنه مع النبي ﷺ عشر سنين يخدمه."},
       {s:"😊💛", x:"وما قال له النبي ﷺ يومًا كلمة «أُف»، ولا عاتبه على شيء."}
     ], l:"نكون لطيفات مع من حولنا 🌼"},
     {t:"الرجل في المسجد", pages:[
