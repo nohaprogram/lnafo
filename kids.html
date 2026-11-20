@@ -338,7 +338,7 @@ button{cursor:pointer}
   function speak(text){
     try{
       if(!("speechSynthesis" in window)) return false;
-      speechSynthesis.cancel();
+      speechSynthesis.cancel(); if(curAudio){ try{curAudio.pause();}catch(e){} curAudio=null; }
       const u = new SpeechSynthesisUtterance(text.replace(/[\u{1F300}-\u{1FAFF}☀-➿]/gu,""));
       u.lang="ar-SA"; u.rate=0.9; u.pitch=1.7;
       const vs = speechSynthesis.getVoices().filter(v=>/^ar/i.test(v.lang));
@@ -348,9 +348,17 @@ button{cursor:pointer}
     }catch(e){ return false; }
   }
   try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices(); }catch(e){}
+  const AUD = n => "audio/"+String(n).padStart(2,"0")+".m4a";
+  let curAudio=null, sayKey={hello:1, meaningText:2, feelTip:3, storyText:null, whatText:null};
+  function stopAll(){ try{ speechSynthesis.cancel(); }catch(e){} if(curAudio){ try{curAudio.pause();}catch(e){} curAudio=null; } }
+  function say(text, num){
+    stopAll();
+    if(num){ curAudio=new Audio(AUD(num)); curAudio.play().catch(()=>speak(text)); return; }
+    speak(text);
+  }
   document.addEventListener("click",e=>{
     const b=e.target.closest(".listen"); if(!b) return;
-    const el=document.getElementById(b.dataset.say); if(el) speak(el.innerText);
+    const el=document.getElementById(b.dataset.say); if(el) say(el.innerText, sayKey[b.dataset.say]);
   });
 
   /* ---------- stars ---------- */
@@ -370,7 +378,7 @@ button{cursor:pointer}
     spots.forEach(s=>s.hidden = s.id!==id);
     tiles.forEach(t=>t.classList.toggle("on", t.dataset.go===id));
     back.hidden = !id;
-    try{ speechSynthesis.cancel(); }catch(e){}
+    stopAll();
     if(id){ track(document.querySelector(`.tile[data-go="${id}"]`).innerText.replace(/\s+/g," ").trim(),"فتح الركن",""); if(scroll) setTimeout(()=>document.getElementById(id).scrollIntoView({behavior:"smooth",block:"start"}),30); }
   }
   tiles.forEach(t=>t.onclick=()=>{ open(t.dataset.go,true); history.replaceState(null,"","#"+t.dataset.go); });
@@ -428,7 +436,8 @@ button{cursor:pointer}
     if(f.breath) html+=`<div class="breath"><div class="ball" id="ball"></div><p class="q" id="bText">اضغطي لنبدأ</p><button type="button" class="btn" id="bGo">لنتنفّس معًا</button></div>`;
     document.getElementById("feelOut").innerHTML=html;
     track("كيف أشعر؟","اختيار شعور",f.n);
-    speak(f.t);
+    sayKey.feelTip = 4+(+b.dataset.i);
+    say(f.t, 4+(+b.dataset.i));
     const go=document.getElementById("bGo");
     if(go) go.onclick=()=>{
       let n=0; const ball=document.getElementById("ball"), tx=document.getElementById("bText"); go.disabled=true;
@@ -460,6 +469,7 @@ button{cursor:pointer}
   let si=0, pi=0;
   function renderStory(){
     const st=stories[si], pg=st.pages[pi], last=pi===st.pages.length-1;
+    sayKey.storyText = si===0 ? 13+pi : null;
     document.getElementById("storyTabs").innerHTML=stories.map((s,i)=>`<button type="button" class="${i===si?'on':''}" data-i="${i}">${s.t}</button>`).join("");
     document.querySelectorAll("#storyTabs button").forEach(b=>b.onclick=()=>{si=+b.dataset.i;pi=0;renderStory();});
     document.getElementById("storyPage").innerHTML=`<div class="scene" aria-hidden="true">${pg.s}</div><p class="txt" id="storyText">${pg.x}${last?" "+st.l:""}</p>${last?`<p class="lesson">${st.l}</p>`:""}<p class="page-n">صفحة ${ar(pi+1)} من ${ar(st.pages.length)}</p><div class="row">${pi>0?'<button type="button" class="btn soft" id="sPrev">السابقة</button>':''}${!last?'<button type="button" class="btn" id="sNext">التالية</button>':'<button type="button" class="btn" id="sDone">انتهت القصة ⭐</button>'}</div>`;
@@ -530,7 +540,7 @@ button{cursor:pointer}
   const lines=["قلبي كبير، أسامح كثير 💚","أنا أعتذر، وأنا أسامح 🌷","كلمة طيبة مثل الوردة 🌹","نلعب معًا، نضحك معًا 🌈","إذا زعلت، أعدّ إلى عشرة 🔟","﴿وَلْيَعْفُوا وَلْيَصْفَحُوا﴾ 📖"];
   const linesEl=document.getElementById("lines");
   linesEl.innerHTML=lines.map((l,i)=>`<button type="button" class="line" data-i="${i}">${l}<em aria-hidden="true">🔊</em></button>`).join("");
-  linesEl.querySelectorAll(".line").forEach(b=>b.onclick=()=>{ speak(lines[+b.dataset.i]); track("كلمات حلوة","استماع","الجملة "+(+b.dataset.i+1)); });
+  linesEl.querySelectorAll(".line").forEach(b=>b.onclick=()=>{ const li=+b.dataset.i; say(lines[li], li<5 ? 8+li : null); track("كلمات حلوة","استماع","الجملة "+(+b.dataset.i+1)); });
 
   /* ---------- did you like it ---------- */
   const vf=[{e:"😕",n:"لا",v:1,c:"var(--sky-c)"},{e:"😐",n:"قليلًا",v:3,c:"var(--sun)"},{e:"😍",n:"نعم كثيرًا",v:5,c:"var(--pink)"}];
