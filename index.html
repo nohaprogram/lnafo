@@ -49,6 +49,11 @@ h1,h2,p{margin:0}
 .d-old{background:var(--lav);color:var(--lav-deep)} .d-old:hover{border-color:var(--lav-deep)}
 .door.soon{opacity:.75}
 .note{font-size:13.5px;color:var(--muted)}
+.name-box{display:grid;gap:8px;width:100%;justify-items:center}
+.name-box input{width:100%;max-width:340px;padding:12px 16px;border-radius:16px;border:2px solid var(--line);background:#fff;font:inherit;font-size:18px;text-align:center;color:var(--ink)}
+.name-box input:focus{outline:none;border-color:var(--lav-deep)}
+.name-box input.err{border-color:#c0577e}
+.skip{background:none;border:none;color:var(--muted);font:inherit;font-size:13.5px;text-decoration:underline;cursor:pointer}
 .toast{padding:10px 14px;border-radius:14px;background:var(--sun);color:var(--sun-deep);font-size:14.5px}
 .foot{font-size:13.5px;color:var(--muted);display:grid;gap:6px}
 .foot a{color:var(--muted)}
@@ -70,6 +75,11 @@ h1,h2,p{margin:0}
     <h1>سَعَة</h1>
     <p>مساحةٌ لقلوبٍ تتّسع للعفو والتسامح</p>
   </div>
+  <div class="name-box">
+    <label for="stName" class="ask">ما اسمك؟</label>
+    <input id="stName" type="text" maxlength="20" autocomplete="given-name" placeholder="اكتبي اسمك الأول">
+    <p class="note">يبقى اسمك على جهازك فقط، لتناديكِ به المنصة.</p>
+  </div>
   <h2 class="ask">اختاري عمرك لتبدئي</h2>
   <nav class="doors" aria-label="اختيار العمر">
     <a class="door d-kids soon" href="#" data-age="kids" id="kidsDoor">
@@ -86,6 +96,7 @@ h1,h2,p{margin:0}
     </a>
   </nav>
   <div id="msg" aria-live="polite"></div>
+  <button type="button" class="skip" id="skipName" hidden>الدخول دون كتابة الاسم</button>
   <p class="note">تتذكر المنصة اختيارك، ويمكنك تغييره في أي وقت من داخل المنصة.</p>
   <div class="foot"><span>توجيه الطالبات</span><a href="admin.html">دخول الموجهة</a></div>
 </main>
@@ -103,8 +114,16 @@ h1,h2,p{margin:0}
     try{fetch(SUPA_URL+"/rest/v1/events",{method:"POST",keepalive:true,headers:{"apikey":SUPA_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify({visitor:vid,section:"البوابة",action:"اختيار العمر",detail:age})}).catch(()=>{});}catch(e){}
   }
   const names={kids:"٧–١١",middle:"١٢–١٥",older:"أكبر من ١٥"};
+  const nameIn=document.getElementById("stName");
+  nameIn.value=get("saaa_name","");
+  let skipName=false;
+  document.getElementById("skipName").onclick=()=>{skipName=true;document.getElementById("msg").innerHTML='<p class="toast">تمام، اختاري عمرك الآن.</p>';};
+  nameIn.addEventListener("input",()=>nameIn.classList.remove("err"));
   document.querySelectorAll(".door").forEach(d=>d.addEventListener("click",e=>{
     const age=d.dataset.age;
+    const nm=nameIn.value.trim().replace(/\s+/g," ").slice(0,20);
+    if(!nm && !skipName){ e.preventDefault(); nameIn.classList.add("err"); nameIn.focus(); document.getElementById("msg").innerHTML='<p class="toast">اكتبي اسمك أولًا لتناديكِ به المنصة.</p>'; document.getElementById("skipName").hidden=false; return; }
+    set("saaa_name", nm);
     if(age==="kids"){ e.preventDefault(); document.getElementById("msg").innerHTML='<p class="toast">بستان الصغيرات قيد التجهيز، وسيكون متاحًا قريبًا.</p>'; return; }
     set("saaa_age",age); track(names[age]);
   }));

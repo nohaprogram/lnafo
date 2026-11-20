@@ -158,6 +158,8 @@ section.room{padding-block:22px;margin:14px 0}
 .age-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
 .age-chip{padding:4px 12px;border-radius:999px;background:var(--lav);color:var(--lav-deep);font-size:13.5px;font-weight:600}
 .age-change{font-size:13.5px;color:var(--muted)}
+.hello{font-family:var(--font-display);font-size:22px;color:var(--lav-deep);margin-top:8px}
+.hello small{display:block;font-family:var(--font-body);font-size:13px;color:var(--muted);font-weight:400}
 @media (max-width:640px){.age-row{justify-content:center}}
 /* hero */
 .hero{padding:48px 0 28px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center}
@@ -418,7 +420,8 @@ footer b{color:var(--mint-deep)}
     <div class="hero-icon"><svg aria-hidden="true"><use href="#logo"/></svg></div>
     <div>
       <h1>سَعَة<span>مساحةٌ لقلوبٍ تتّسع للعفو والتسامح</span></h1>
-      <div class="age-row"><span class="age-chip">مساحة التأمل · أكبر من ١٥ سنة</span><a class="age-change" href="index.html?choose=1">تغيير العمر</a></div>
+      <div class="age-row"><span class="age-chip">مساحة التأمل · أكبر من ١٥ سنة</span><a class="age-change" href="index.html?choose=1">تغيير العمر</a><a class="age-change" href="index.html?choose=1">تغيير الاسم</a></div>
+      <p class="hello" id="hello" hidden></p>
       <p>مساحة هادئة تتأملين فيها معنى التسامح: مع الآخرين، ومع نفسك، وعند الاختلاف. حللي مواقف حقيقية، وقيسي مستوى تسامحك، وجرّبي رحلة المسامحة خطوة خطوة.</p>
     </div>
   </header>
@@ -938,7 +941,11 @@ footer b{color:var(--mint-deep)}
   }
   function track(section, action, detail){ send({type:"event", section, action, detail: detail==null ? "" : String(detail)}); }
   try{ if(!sessionStorage.getItem("samah_visit")){ sessionStorage.setItem("samah_visit","1"); track("المنصة","زيارة","أكبر من ١٥"); } }catch(e){ track("المنصة","زيارة","أكبر من ١٥"); }
+  const NAME = (()=>{ try{ const v=localStorage.getItem("saaa_name"); return v ? String(JSON.parse(v)).slice(0,20) : ""; }catch(e){ return ""; } })();
   const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+  if(NAME){ const hl=document.getElementById("hello"); hl.innerHTML = `أهلًا يا ${esc(NAME)} 🌸<small>اسمك محفوظ على جهازك فقط.</small>`; hl.hidden=false; }
+  const yaName = NAME ? " يا "+esc(NAME) : "";
 
   /* ---------- cases ---------- */
   const tiers = {
@@ -1005,7 +1012,7 @@ footer b{color:var(--mint-deep)}
     if(ans!==undefined){
       const o = c.opts[ans];
       const best = c.opts.find(x=>x.tier==="best");
-      html += `<div class="feedback" aria-live="polite"><strong>${tiers[o.tier].label}.</strong> ${o.fb}`;
+      html += `<div class="feedback" aria-live="polite">${o.tier==="best"?`<p style="font-weight:600;margin-bottom:4px">أحسنتِ${yaName}!</p>`:""}<strong>${tiers[o.tier].label}.</strong> ${o.fb}`;
       if(o.tier!=="best") html += `<p style="margin-top:8px"><strong>الرد الأنضج:</strong> ${best.t}</p>`;
       html += `<p class="reflect">سؤال للتأمل: ${c.reflect}</p></div>`;
     }
@@ -1066,7 +1073,7 @@ footer b{color:var(--mint-deep)}
     const filled = reach.filter(x=>x.trim()).length;
     const box = document.getElementById("certificate");
     if(filled<5){ box.innerHTML = `<p class="toast" style="background:var(--peach);color:var(--peach-deep)">بقي ${ar(5-filled)} من الخطوات فارغة. أكمليها لتظهر بطاقة رحلتك.</p>`; return; }
-    box.innerHTML = `<div class="certificate"><h3>بطاقة رحلة المسامحة</h3><p class="hint">هذه البطاقة لكِ وحدك. عودي إليها حين تعود الذكرى.</p><dl>${steps.map((s,i)=>`<dt>${s.h}</dt><dd>${esc(reach[i])}</dd>`).join("")}</dl></div>`;
+    box.innerHTML = `<div class="certificate"><h3>بطاقة رحلة المسامحة${NAME?" لـ"+esc(NAME):""}</h3><p class="hint">هذه البطاقة لكِ وحدك. عودي إليها حين تعود الذكرى.</p><dl>${steps.map((s,i)=>`<dt>${s.h}</dt><dd>${esc(reach[i])}</dd>`).join("")}</dl></div>`;
   }
   renderSteps();
 
@@ -1114,7 +1121,7 @@ footer b{color:var(--mint-deep)}
     const a = answered();
     if(a<15){ out.innerHTML = `<p class="toast" style="background:var(--peach);color:var(--peach-deep)">بقيت ${ar(15-a)} عبارات بلا إجابة. أكمليها لتظهر نتيجتك.</p>`; return; }
     const scoreLog=[];
-    out.innerHTML = dims.map(d=>{
+    out.innerHTML = (NAME?`<p class="hello" style="margin:0">نتيجتك${yaName}:</p>`:"") + dims.map(d=>{
       let sum = 0;
       items.forEach((it,i)=>{ if(it[0]!==d.k) return; const v=+form.querySelector(`input[name=q${i}]:checked`).value; sum += it[2] ? 6-v : v; });
       const pct = Math.round((sum-5)/20*100);
@@ -1271,7 +1278,7 @@ footer b{color:var(--mint-deep)}
     document.getElementById("myths").innerHTML=myths.map((m,i)=>{
       const a=mythAns[i];
       let ans="";
-      if(a!==undefined){const right=a===m[1];ans=`<p class="ans ${right?'p-mint':'p-pink'}"><b>${right?'إجابة صحيحة.':'ليست صحيحة.'}</b> العبارة ${m[1]?'صحيحة':'خاطئة'}: ${m[2]}</p>`;}
+      if(a!==undefined){const right=a===m[1];ans=`<p class="ans ${right?'p-mint':'p-pink'}"><b>${right?`أحسنتِ${yaName}، إجابة صحيحة.`:'ليست صحيحة.'}</b> العبارة ${m[1]?'صحيحة':'خاطئة'}: ${m[2]}</p>`;}
       return `<div class="myth"><p class="st">${m[0]}</p><div class="vote"><button type="button" data-i="${i}" data-v="1" class="${a===true?'sel':''}" ${a!==undefined?'disabled':''}>صح</button><button type="button" data-i="${i}" data-v="0" class="${a===false?'sel':''}" ${a!==undefined?'disabled':''}>خطأ</button></div>${ans}</div>`;
     }).join("");
     document.querySelectorAll("#myths .vote button").forEach(b=>b.onclick=()=>{mythAns[b.dataset.i]=b.dataset.v==="1";track("أنشطة: صح أم خطأ","إجابة",(mythAns[b.dataset.i]===myths[b.dataset.i][1]?"صحيحة":"خاطئة"));renderMyths();});
@@ -1345,7 +1352,7 @@ footer b{color:var(--mint-deep)}
   const apWho=document.getElementById("apWho"), apWhat=document.getElementById("apWhat");
   function apMsg(){
     const who=apWho.value.trim()||"صديقتي", what=apWhat.value.trim()||"تصرفت معكِ بطريقة لم تكن لائقة";
-    return `عزيزتي ${who}،\nأعتذر منكِ لأنني ${what}.\n${apOpts.feel[apSel.feel]}، ${apOpts.fix[apSel.fix]}.\n${apOpts.promise[apSel.promise]}.\nمودّتي لكِ أكبر من أي موقف.`;
+    return `عزيزتي ${who}،\nأعتذر منكِ لأنني ${what}.\n${apOpts.feel[apSel.feel]}، ${apOpts.fix[apSel.fix]}.\n${apOpts.promise[apSel.promise]}.\nمودّتي لكِ أكبر من أي موقف.${NAME?"\n"+NAME:""}`;
   }
   function renderAp(){document.getElementById("apText").textContent=apMsg();}
   apWho.oninput=renderAp; apWhat.oninput=renderAp; renderAp();
@@ -1364,7 +1371,7 @@ footer b{color:var(--mint-deep)}
     send({type:"survey", q:ans, note:document.getElementById("svNote").value.trim()});
     store.set("svDone",true);
     svForm.reset();
-    msg.innerHTML='<p class="toast">وصل تقييمك، شكرًا لكِ. رأيك يساعدنا على تطوير المنصة.</p>';
+    msg.innerHTML=`<p class="toast">وصل تقييمك، شكرًا لكِ${yaName}. رأيك يساعدنا على تطوير المنصة.</p>`;
   });
 
   /* ---------- visitor counter ---------- */
