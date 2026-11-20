@@ -201,7 +201,7 @@ button{cursor:pointer}
     <span class="age-chip">بستان الصغيرات · من ٧ إلى ١١ سنة</span>
     <div class="guide">
       <svg class="samoha" aria-hidden="true"><use href="#samoha"/></svg>
-      <div class="bubble"><p id="hello">أهلًا! أنا «سَموحة» 🌻 تعالي نتجوّل في بستان التسامح.</p><button type="button" class="listen" data-say="hello">🔊 اسمعي</button></div>
+      <div class="bubble"><p id="hello">أَهْلًا! أَنَا سَمّوحَة 🌻 تَعَالِي نَأْخُذُ جَوْلَةً فِي بُسْتَانِ التَّسَامُح.</p><button type="button" class="listen" data-say="hello">🔊 اسمعي</button></div>
     </div>
     <div class="stars" id="stars" aria-live="polite">⭐ ٠ نجمة</div>
   </div>
@@ -340,11 +340,14 @@ button{cursor:pointer}
       if(!("speechSynthesis" in window)) return false;
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text.replace(/[\u{1F300}-\u{1FAFF}☀-➿]/gu,""));
-      u.lang="ar-SA"; u.rate=0.85;
-      const v = speechSynthesis.getVoices().find(v=>/^ar/i.test(v.lang)); if(v) u.voice=v;
+      u.lang="ar-SA"; u.rate=0.9; u.pitch=1.7;
+      const vs = speechSynthesis.getVoices().filter(v=>/^ar/i.test(v.lang));
+      const girl = vs.find(v=>/laila|layla|hoda|zeina|zeinab|salma|mariam|maryam|amira|hala|female|أنثى/i.test(v.name));
+      const v = girl || vs[0]; if(v) u.voice=v;
       speechSynthesis.speak(u); return true;
     }catch(e){ return false; }
   }
+  try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices(); }catch(e){}
   document.addEventListener("click",e=>{
     const b=e.target.closest(".listen"); if(!b) return;
     const el=document.getElementById(b.dataset.say); if(el) speak(el.innerText);
@@ -359,7 +362,7 @@ button{cursor:pointer}
   }
   function addStars(n){ stars+=n; store.set("stars",stars); renderStars(true); }
   renderStars(false);
-  if(NAME) document.getElementById("hello").textContent = `أهلًا يا ${NAME}! أنا «سَموحة» 🌻 تعالي نتجوّل في بستان التسامح.`;
+  if(NAME) document.getElementById("hello").textContent = `أَهْلًا يَا ${NAME}! أَنَا سَمّوحَة 🌻 تَعَالِي نَأْخُذُ جَوْلَةً فِي بُسْتَانِ التَّسَامُح.`;
 
   /* ---------- navigation ---------- */
   const tiles=[...document.querySelectorAll(".tile")], spots=[...document.querySelectorAll(".spot")], back=document.getElementById("backBtn");
