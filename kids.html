@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>منصة سَعَة · بستان الصغيرات</title>
+<meta property="og:title" content="منصة سَعَة">
+<meta property="og:description" content="مساحةٌ لقلوبٍ تتّسع للعفو والتسامح. منصة تفاعلية من توجيه الطالبات في مدارس الذكر للبنات">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: a garden — rainbow sky header, flower tiles, one activity open at a time */
+:root{
+  --sky:#e6f4fd; --grass:#c6e8c0; --ink:#3b3550; --muted:#6c6680; --line:#ece6f4; --surface:#ffffff;
+  --pink:#fde2e8; --pink-deep:#b04a6d;
+  --sun:#fff1c7; --sun-deep:#8a5a12;
+  --leaf:#dcf3d8; --leaf-deep:#2f7a3d;
+  --sky-c:#dbeefb; --sky-deep:#2f6a99;
+  --lav:#ebe4fb; --lav-deep:#6c58ad;
+  --peach:#fde6d3; --peach-deep:#9c5a26;
+  --font-display:"Baloo Bhaijaan 2","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --font-body:"IBM Plex Sans Arabic",Tahoma,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:#fbfdf6}
+body{margin:0;background:linear-gradient(180deg,var(--sky) 0,#f4fbf2 520px,#fbfdf6 100%);color:var(--ink);font-family:var(--font-body);font-size:19px;line-height:1.8}
+h1,h2,p{margin:0}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:4px solid var(--lav-deep);outline-offset:3px;border-radius:14px}
+.sky{position:relative;overflow:hidden;padding:0 16px}
+.rainbow{position:absolute;inset-inline:0;top:70px;width:min(760px,120%);margin:auto;left:0;right:0;opacity:.95;pointer-events:none}
+.top-row{position:relative;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;max-width:900px;margin:0 auto;padding-top:14px}
+.school{display:flex;align-items:center;gap:10px}
+.school img{width:52px;height:52px;border-radius:14px;background:#fff;padding:3px;box-shadow:0 0 0 1px var(--line)}
+.school b{font-family:var(--font-display);font-size:19px;color:#7d2a5e}
+.links{display:flex;gap:12px;font-size:14px}
+.links a{color:var(--muted)}
+.hero{position:relative;display:grid;justify-items:center;text-align:center;gap:8px;padding:56px 0 20px;max-width:640px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:6px}
+.brand svg{width:56px;height:56px}
+.brand h1{font-family:var(--font-display);font-size:64px;line-height:1;color:var(--lav-deep);font-weight:700}
+.tag{font-family:var(--font-display);font-size:22px;color:#c97a9c;font-weight:600}
+.age-chip{padding:4px 14px;border-radius:999px;background:var(--sun);color:var(--sun-deep);font-size:15px;font-weight:600}
+.guide{display:flex;align-items:center;gap:10px;margin-top:10px;text-align:start}
+.samoha{width:92px;height:92px;flex-shrink:0;animation:sway 3s ease-in-out infinite}
+.samoha.sm{width:64px;height:64px}
+@keyframes sway{50%{transform:rotate(6deg)}}
+.bubble{position:relative;background:#fff;border-radius:22px;padding:12px 16px;box-shadow:0 4px 0 #e9e2f7;display:grid;gap:6px}
+.bubble p{font-family:var(--font-display);font-size:21px;line-height:1.5}
+.listen{justify-self:start;padding:4px 12px;border-radius:999px;border:none;background:var(--sky-c);color:var(--sky-deep);font-size:15px;font-weight:600}
+.stars{margin-top:8px;padding:6px 18px;border-radius:999px;background:#fff6cf;color:#7a5a00;font-weight:700;font-size:18px}
+.stars.bump{animation:bump .5s ease}
+@keyframes bump{40%{transform:scale(1.15)}}
+.ground{display:block;width:calc(100% + 32px);height:70px;margin:0 -16px -6px}
+.trees{position:absolute;bottom:0;inset-inline:0;display:flex;align-items:flex-end;justify-content:space-between;padding:0 4%;pointer-events:none}
+.trees svg{width:70px;height:94px}
+.trees span{font-size:26px;margin-bottom:8px}
+@media (max-width:560px){.trees span:nth-of-type(n+4){display:none}.trees svg{width:52px;height:70px}}
+.garden{max-width:900px;margin:0 auto;padding:10px 16px 40px;display:grid;gap:18px}
+.pick{font-family:var(--font-display);font-size:26px;text-align:center}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.tile{display:grid;justify-items:center;gap:4px;padding:16px 10px;border:none;border-radius:26px;font-family:var(--font-display);font-size:20px;font-weight:600;line-height:1.3;box-shadow:0 5px 0 rgba(0,0,0,.06);transition:transform .15s}
+.tile span{font-size:46px;line-height:1.1}
+.tile:hover{transform:translateY(-3px) rotate(-1deg)}
+.tile.on{outline:4px solid var(--lav-deep)}
+.t1{background:var(--sun);color:var(--sun-deep)} .t2{background:var(--pink);color:var(--pink-deep)} .t3{background:var(--leaf);color:var(--leaf-deep)}
+.t4{background:var(--sky-c);color:var(--sky-deep)} .t5{background:var(--lav);color:var(--lav-deep)} .t6{background:var(--peach);color:var(--peach-deep)}
+.t7{background:#fff6cf;color:#7a5a00} .t8{background:var(--leaf);color:var(--leaf-deep)} .t9{background:var(--pink);color:var(--pink-deep)}
+.spot{background:#fff;border-radius:30px;padding:22px;box-shadow:0 6px 0 #ecf3e6;display:grid;gap:14px;scroll-margin-top:14px}
+.spot[hidden]{display:none}
+.spot-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.spot-head span{font-size:40px}
+.spot-head h2{font-family:var(--font-display);font-size:30px;flex:1}
+.big{font-family:var(--font-display);font-size:26px;line-height:1.6}
+.soft{color:var(--muted)}
+.words3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.w{display:grid;justify-items:center;padding:14px 8px;border-radius:22px;font-family:var(--font-display);font-size:22px;font-weight:600}
+.w span{font-size:40px}
+.p-pink{background:var(--pink);color:var(--pink-deep)} .p-sun{background:var(--sun);color:var(--sun-deep)} .p-sky{background:var(--sky-c);color:var(--sky-deep)}
+.rule{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:20px;background:var(--leaf);color:var(--leaf-deep)}
+.rule span{font-size:30px}
+.ayah{text-align:center;font-family:var(--font-display);font-size:24px;color:var(--lav-deep)}
+.dots{display:flex;gap:8px;justify-content:center}
+.dots i{width:14px;height:14px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--lav-deep)} .dots i.done{background:#f2c94c}
+.scene{text-align:center;font-size:64px;line-height:1.2}
+.q{font-family:var(--font-display);font-size:25px;text-align:center;line-height:1.5}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:480px){.two{grid-template-columns:1fr}}
+.choice{display:grid;justify-items:center;gap:6px;padding:16px 12px;border-radius:24px;border:3px solid var(--line);background:#fff;font-size:18px;line-height:1.5;text-align:center}
+.choice span{font-size:46px}
+.choice:hover{border-color:var(--lav-deep)}
+.choice.good{background:var(--leaf);border-color:var(--leaf-deep)}
+.choice.bad{background:var(--pink);border-color:var(--pink-deep)}
+.say{display:flex;gap:10px;align-items:center;padding:12px 16px;border-radius:22px;background:#fffaf0}
+.say svg{width:60px;height:60px;flex-shrink:0}
+.say p{font-family:var(--font-display);font-size:21px;line-height:1.5}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+.btn{padding:10px 22px;border-radius:999px;border:none;background:var(--lav-deep);color:#fff;font-weight:600;font-size:18px}
+.btn.soft{background:var(--lav);color:var(--lav-deep)}
+.faces{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.face{display:grid;justify-items:center;padding:12px 6px;border-radius:24px;border:3px solid transparent;font-family:var(--font-display);font-size:20px;font-weight:600}
+.face span{font-size:54px;line-height:1.2}
+.face.on{border-color:var(--lav-deep)}
+.breath{display:grid;justify-items:center;gap:10px;padding:10px}
+.ball{width:90px;height:90px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffe0ea,#f7b9c4);transition:transform 4s ease-in-out}
+.ball.in{transform:scale(1.6)}
+.story-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.story-tabs button{padding:8px 16px;border-radius:999px;border:2px solid var(--line);background:#fff;font-family:var(--font-display);font-size:18px;font-weight:600}
+.story-tabs button.on{background:var(--sky-c);border-color:var(--sky-deep);color:var(--sky-deep)}
+.page{display:grid;gap:12px;padding:18px;border-radius:26px;background:linear-gradient(180deg,#f2f9ff,#fff)}
+.page .scene{font-size:72px}
+.page .txt{font-family:var(--font-display);font-size:25px;line-height:1.7;text-align:center}
+.page .lesson{text-align:center;padding:10px 14px;border-radius:18px;background:var(--sun);color:var(--sun-deep);font-family:var(--font-display);font-size:21px;font-weight:600}
+.page-n{text-align:center;color:var(--muted);font-size:15px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:460px;margin:0 auto;width:100%}
+.mc{aspect-ratio:1;border:none;border-radius:20px;background:var(--lav);font-size:40px;display:grid;place-items:center;transition:transform .25s}
+.mc.open{background:#fff;box-shadow:inset 0 0 0 3px var(--lav)}
+.mc.done{background:var(--leaf);box-shadow:none}
+.mc .back{font-size:28px;opacity:.6}
+.lbl{font-weight:600}
+.inp{width:100%;max-width:320px;padding:12px 16px;border-radius:16px;border:2px solid var(--line);font-size:19px}
+.inp:focus{outline:none;border-color:var(--lav-deep)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips button{padding:8px 16px;border-radius:999px;border:2px solid var(--line);background:#fff;font-size:17px}
+.chips button.on{background:var(--pink);border-color:var(--pink-deep);color:var(--pink-deep);font-weight:600}
+.chips.fl button{font-size:30px;padding:4px 14px}
+.peace-card{display:grid;justify-items:center;gap:6px;padding:24px 18px;border-radius:28px;background:linear-gradient(160deg,#fff1f5,#fff8e1);border:3px dashed #f2b8c9;text-align:center}
+.peace-card .fl{font-size:64px;line-height:1.1}
+.peace-card .to{font-family:var(--font-display);font-size:24px;color:var(--pink-deep)}
+.peace-card .msg{font-family:var(--font-display);font-size:27px;line-height:1.5}
+.peace-card .from{color:var(--muted)}
+.week{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.day{display:grid;justify-items:center;gap:4px;padding:14px 10px;border-radius:22px;border:3px solid var(--line);background:#fff;text-align:center;font-size:17px;line-height:1.5}
+.day b{font-family:var(--font-display);font-size:18px;color:var(--muted)}
+.day .st{font-size:34px;filter:grayscale(1);opacity:.35}
+.day.done{background:#fff6cf;border-color:#f2c94c}
+.day.done .st{filter:none;opacity:1}
+.win{text-align:center;padding:14px;border-radius:22px;background:#fff6cf;color:#7a5a00;font-family:var(--font-display);font-size:24px;font-weight:700}
+.lines{display:grid;gap:10px}
+.line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 18px;border-radius:22px;border:none;text-align:start;font-family:var(--font-display);font-size:23px;font-weight:600}
+.line:nth-child(5n+1){background:var(--pink);color:var(--pink-deep)} .line:nth-child(5n+2){background:var(--sun);color:var(--sun-deep)}
+.line:nth-child(5n+3){background:var(--leaf);color:var(--leaf-deep)} .line:nth-child(5n+4){background:var(--sky-c);color:var(--sky-deep)} .line:nth-child(5n){background:var(--lav);color:var(--lav-deep)}
+.line em{font-style:normal;font-size:22px}
+.toast{padding:12px 16px;border-radius:18px;background:var(--leaf);color:var(--leaf-deep);font-weight:600;text-align:center}
+.back{justify-self:center;padding:12px 26px;border-radius:999px;border:none;background:var(--leaf-deep);color:#fff;font-family:var(--font-display);font-size:21px;font-weight:600}
+.help{display:flex;gap:12px;align-items:flex-start;padding:18px;border-radius:28px;background:var(--leaf);margin-top:8px}
+.help b{font-family:var(--font-display);font-size:22px;color:var(--leaf-deep)}
+.num{display:inline-block;margin-top:8px;padding:6px 24px;border-radius:999px;background:var(--leaf-deep);color:#fff;font-family:var(--font-display);font-size:30px;font-weight:700;text-decoration:none;direction:ltr;letter-spacing:2px}
+.help-video{display:block;width:100%;max-width:300px;margin:0 auto;aspect-ratio:576/816;border-radius:20px;background:#e8f3ee}
+.credit{text-align:center;font-family:var(--font-display);font-size:20px;color:var(--lav-deep)}
+.small{text-align:center;font-size:14px;color:var(--muted)}
+.small a{color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="samoha" viewBox="0 0 100 100">
+    <g fill="#ffd36e">
+      <ellipse cx="50" cy="16" rx="11" ry="15"/><ellipse cx="50" cy="84" rx="11" ry="15"/>
+      <ellipse cx="16" cy="50" rx="15" ry="11"/><ellipse cx="84" cy="50" rx="15" ry="11"/>
+      <ellipse cx="26" cy="26" rx="11" ry="14" transform="rotate(-45 26 26)"/><ellipse cx="74" cy="26" rx="11" ry="14" transform="rotate(45 74 26)"/>
+      <ellipse cx="26" cy="74" rx="11" ry="14" transform="rotate(45 26 74)"/><ellipse cx="74" cy="74" rx="11" ry="14" transform="rotate(-45 74 74)"/>
+    </g>
+    <circle cx="50" cy="50" r="24" fill="#c98a4b"/>
+    <circle cx="42" cy="46" r="3.4" fill="#4a2f1a"/><circle cx="58" cy="46" r="3.4" fill="#4a2f1a"/>
+    <circle cx="37" cy="55" r="4" fill="#f4a7b9" opacity=".8"/><circle cx="63" cy="55" r="4" fill="#f4a7b9" opacity=".8"/>
+    <path d="M41 56 Q50 65 59 56" stroke="#4a2f1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="logo" viewBox="0 0 100 100">
+    <path d="M50 88 C22 68 8 52 8 35 C8 21 18 13 30 13 C40 13 47 19 50 28 Z" fill="#b9a6ec"/>
+    <path d="M50 88 C78 68 92 52 92 35 C92 21 82 13 70 13 C60 13 53 19 50 28 Z" fill="#f2a9c2" opacity=".9"/>
+    <path d="M50 30 C51 18 58 9 72 5 C70 18 62 27 50 30 Z" fill="#8fd3b4"/>
+  </symbol>
+</svg>
+
+<header class="sky">
+  <svg class="rainbow" viewBox="0 0 400 210" aria-hidden="true">
+    <g fill="none" stroke-width="13" stroke-linecap="round">
+      <path d="M20 205 A180 180 0 0 1 380 205" stroke="#f7b9c4"/>
+      <path d="M34 205 A166 166 0 0 1 366 205" stroke="#fbd3a8"/>
+      <path d="M48 205 A152 152 0 0 1 352 205" stroke="#fbeea1"/>
+      <path d="M62 205 A138 138 0 0 1 338 205" stroke="#bfe6c3"/>
+      <path d="M76 205 A124 124 0 0 1 324 205" stroke="#b9dcf3"/>
+      <path d="M90 205 A110 110 0 0 1 310 205" stroke="#d4c8f3"/>
+    </g>
+    <g fill="#fff"><circle cx="40" cy="190" r="22"/><circle cx="66" cy="182" r="26"/><circle cx="92" cy="194" r="18"/><circle cx="312" cy="194" r="18"/><circle cx="338" cy="182" r="26"/><circle cx="364" cy="190" r="22"/></g>
+  </svg>
+  <div class="top-row">
+    <div class="school"><img src="data:image/jpeg;base64,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" alt="شعار مدارس الذكر"><b>مدارس الذكر للبنات</b></div>
+    <div class="links"><a href="index.html?choose=1">تغيير العمر</a><a href="index.html?choose=1">تغيير الاسم</a></div>
+  </div>
+  <div class="hero">
+    <div class="brand"><svg aria-hidden="true"><use href="#logo"/></svg><h1>سَعَة</h1></div>
+    <p class="tag">مساحةٌ لقلوبٍ تتّسع للعفو والتسامح</p>
+    <span class="age-chip">بستان الصغيرات · من ٧ إلى ١١ سنة</span>
+    <div class="guide">
+      <svg class="samoha" aria-hidden="true"><use href="#samoha"/></svg>
+      <div class="bubble"><p id="hello">أهلًا! أنا «سَموحة» 🌻 تعالي نتجوّل في بستان التسامح.</p><button type="button" class="listen" data-say="hello">🔊 اسمعي</button></div>
+    </div>
+    <div class="stars" id="stars" aria-live="polite">⭐ ٠ نجمة</div>
+  </div>
+  <svg class="ground" viewBox="0 0 400 70" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 30 Q100 10 200 28 T400 24 V70 H0Z" fill="#c6e8c0"/>
+    <path d="M0 44 Q120 30 220 44 T400 40 V70 H0Z" fill="#a9dba4"/>
+  </svg>
+  <div class="trees" aria-hidden="true">
+    <svg viewBox="0 0 60 80"><rect x="26" y="44" width="8" height="32" rx="3" fill="#b98a5e"/><circle cx="30" cy="34" r="22" fill="#8fd08a"/><circle cx="18" cy="40" r="13" fill="#7cc778"/><circle cx="43" cy="40" r="13" fill="#7cc778"/><circle cx="24" cy="28" r="3" fill="#f7b9c4"/><circle cx="38" cy="24" r="3" fill="#f7b9c4"/></svg>
+    <span>🌷</span><span>🌼</span><span>🌸</span><span>🌻</span><span>🌷</span>
+    <svg viewBox="0 0 60 80"><rect x="26" y="44" width="8" height="32" rx="3" fill="#b98a5e"/><circle cx="30" cy="34" r="22" fill="#8fd08a"/><circle cx="18" cy="40" r="13" fill="#7cc778"/><circle cx="43" cy="40" r="13" fill="#7cc778"/><circle cx="34" cy="30" r="3" fill="#fbd3a8"/></svg>
+  </div>
+</header>
+
+<main class="garden">
+  <h2 class="pick">اختاري زهرة لتبدئي 🌼</h2>
+  <nav class="tiles" aria-label="أركان البستان">
+    <button type="button" class="tile t1" data-go="meaning"><span>🌼</span>ماذا يعني التسامح؟</button>
+    <button type="button" class="tile t2" data-go="what"><span>🤔</span>ماذا أفعل؟</button>
+    <button type="button" class="tile t3" data-go="feel"><span>😊</span>كيف أشعر؟</button>
+    <button type="button" class="tile t4" data-go="stories"><span>📖</span>قصص جميلة</button>
+    <button type="button" class="tile t5" data-go="memory"><span>🃏</span>لعبة الذاكرة</button>
+    <button type="button" class="tile t6" data-go="card"><span>💌</span>بطاقة صلح</button>
+    <button type="button" class="tile t7" data-go="week"><span>⭐</span>نجوم ٧ أيام</button>
+    <button type="button" class="tile t8" data-go="words"><span>🎵</span>كلمات حلوة</button>
+    <button type="button" class="tile t9" data-go="vote"><span>💬</span>هل أحببتِ البستان؟</button>
+  </nav>
+
+  <section class="spot" id="meaning" hidden>
+    <div class="spot-head"><span>🌼</span><h2>ماذا يعني التسامح؟</h2><button type="button" class="listen" data-say="meaningText">🔊 اسمعي</button></div>
+    <p class="big" id="meaningText">التسامح أن أعفو عن صديقتي إذا أخطأت، وأن أكون لطيفة مع الجميع.</p>
+    <div class="words3">
+      <div class="w p-pink"><span>💚</span>أعفو</div>
+      <div class="w p-sun"><span>🌸</span>ألطُف</div>
+      <div class="w p-sky"><span>🤝</span>أتصالح</div>
+    </div>
+    <div class="rule"><span>🛡️</span><p><b>تذكّري:</b> أسامح صديقتي، لكن إذا آذاني أحد مرة بعد مرة، أخبر أمي أو معلمتي.</p></div>
+    <p class="ayah">﴿وَلْيَعْفُوا وَلْيَصْفَحُوا﴾</p>
+  </section>
+
+  <section class="spot" id="what" hidden>
+    <div class="spot-head"><span>🤔</span><h2>ماذا أفعل؟</h2><button type="button" class="listen" data-say="whatText">🔊 اسمعي</button></div>
+    <div class="dots" id="whatDots"></div>
+    <div id="whatBox"></div>
+  </section>
+
+  <section class="spot" id="feel" hidden>
+    <div class="spot-head"><span>😊</span><h2>كيف أشعر الآن؟</h2><button type="button" class="listen" data-say="feelTip">🔊 اسمعي</button></div>
+    <div class="faces" id="faces"></div>
+    <div id="feelOut" aria-live="polite"><p class="big soft" id="feelTip">اختاري الوجه الذي يشبهك الآن.</p></div>
+  </section>
+
+  <section class="spot" id="stories" hidden>
+    <div class="spot-head"><span>📖</span><h2>قصص جميلة</h2><button type="button" class="listen" data-say="storyText">🔊 اسمعي</button></div>
+    <div class="story-tabs" id="storyTabs"></div>
+    <div class="page" id="storyPage"></div>
+  </section>
+
+  <section class="spot" id="memory" hidden>
+    <div class="spot-head"><span>🃏</span><h2>لعبة الذاكرة</h2></div>
+    <p class="soft">اقلبي بطاقتين، وابحثي عن الصورتين المتشابهتين.</p>
+    <div class="cards" id="memCards"></div>
+    <div class="row"><span id="memMsg" aria-live="polite"></span><button type="button" class="btn soft" id="memReset">العبي من جديد</button></div>
+  </section>
+
+  <section class="spot" id="card" hidden>
+    <div class="spot-head"><span>💌</span><h2>بطاقة صلح</h2></div>
+    <p class="soft">اصنعي بطاقة جميلة لصديقة زعلتِ منها أو زعلت منك.</p>
+    <label class="lbl" for="friend">اسم صديقتك</label>
+    <input id="friend" class="inp" type="text" maxlength="20" placeholder="مثلًا: ريم">
+    <p class="lbl">اختاري زهرة</p>
+    <div class="chips" id="flowerChips"></div>
+    <p class="lbl">اختاري الكلمات</p>
+    <div class="chips" id="msgChips"></div>
+    <div class="peace-card" id="peaceCard"></div>
+    <div class="row"><button type="button" class="btn" id="cardCopy">انسخي الكلمات</button></div>
+  </section>
+
+  <section class="spot" id="week" hidden>
+    <div class="spot-head"><span>⭐</span><h2>نجوم ٧ أيام</h2></div>
+    <p class="soft">كل يوم مهمة صغيرة. إذا فعلتِها، اضغطي عليها لتأخذي نجمة.</p>
+    <div class="week" id="weekBox"></div>
+    <div id="weekMsg" aria-live="polite"></div>
+  </section>
+
+  <section class="spot" id="words" hidden>
+    <div class="spot-head"><span>🎵</span><h2>كلمات حلوة</h2></div>
+    <p class="soft">اضغطي على الكلمات لتسمعيها، ورددِيها مع صديقاتك.</p>
+    <div class="lines" id="lines"></div>
+  </section>
+
+  <section class="spot" id="vote" hidden>
+    <div class="spot-head"><span>💬</span><h2>هل أحببتِ البستان؟</h2></div>
+    <div class="faces" id="voteFaces"></div>
+    <div id="voteMsg" aria-live="polite"></div>
+  </section>
+
+  <button type="button" class="back" id="backBtn" hidden>🌳 عودي إلى البستان</button>
+
+  <aside class="help">
+    <svg class="samoha sm" aria-hidden="true"><use href="#samoha"/></svg>
+    <div>
+      <b>إذا آذاكِ أحد</b>
+      <p>لا تسكتي. أخبري أمك أو أباك أو معلمتك. ويمكنك أيضًا أن تتصلي مجانًا على <b>خط مساندة الطفل</b>.</p>
+      <a class="num" href="tel:116111" aria-label="اتصلي بخط مساندة الطفل 116111">116111</a>
+    </div>
+  </aside>
+  <video class="help-video" src="helpline.mp4" poster="helpline-poster.jpg" controls playsinline preload="none" aria-label="فيديو تعريفي بخط مساندة الطفل"></video>
+
+  <p class="credit">توجيه الطالبات</p>
+  <p class="small">اسمك ونجومك محفوظة على جهازك فقط. <a href="admin.html">دخول الموجهة</a></p>
+</main>
+<script>
+(function(){
+  const SUPA_URL="https://rwigljdrxfqfmcbhceop.supabase.co", SUPA_KEY="sb_publishable_MW-LIAlBRB2NhA6DUWj3hA_UeEq4FXl";
+  const ar = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const store = {
+    get(k,d){ try{ const v=localStorage.getItem((k==="vid"?"samah_":"saaa_kid_")+k); return v?JSON.parse(v):d; }catch(e){ return d; } },
+    set(k,v){ try{ localStorage.setItem((k==="vid"?"samah_":"saaa_kid_")+k, JSON.stringify(v)); }catch(e){} }
+  };
+  const NAME = (()=>{ try{ const v=localStorage.getItem("saaa_name"); return v?String(JSON.parse(v)).slice(0,20):""; }catch(e){ return ""; } })();
+  const ya = NAME ? " يا "+NAME : "";
+  const visitor = (()=>{ let v=store.get("vid",""); if(!v){ v=Math.random().toString(36).slice(2,10); store.set("vid",v);} return v; })();
+  function supa(path, body){
+    return fetch(SUPA_URL+path,{method:"POST",keepalive:true,headers:{"apikey":SUPA_KEY,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify(body)});
+  }
+  function track(section, action, detail){
+    try{ supa("/rest/v1/events",{visitor, section:("٧–١١ · "+section).slice(0,80), action:String(action).slice(0,80), detail:String(detail||"").slice(0,300)}).catch(()=>{}); }catch(e){}
+  }
+  try{ if(!sessionStorage.getItem("samah_visit")){ sessionStorage.setItem("samah_visit","1"); supa("/rest/v1/visits",{visitor}).catch(()=>{}); } }catch(e){}
+
+  /* ---------- read aloud ---------- */
+  function speak(text){
+    try{
+      if(!("speechSynthesis" in window)) return false;
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text.replace(/[\u{1F300}-\u{1FAFF}☀-➿]/gu,""));
+      u.lang="ar-SA"; u.rate=0.85;
+      const v = speechSynthesis.getVoices().find(v=>/^ar/i.test(v.lang)); if(v) u.voice=v;
+      speechSynthesis.speak(u); return true;
+    }catch(e){ return false; }
+  }
+  document.addEventListener("click",e=>{
+    const b=e.target.closest(".listen"); if(!b) return;
+    const el=document.getElementById(b.dataset.say); if(el) speak(el.innerText);
+  });
+
+  /* ---------- stars ---------- */
+  let stars = store.get("stars",0);
+  function renderStars(bump){
+    const el=document.getElementById("stars");
+    el.textContent = `⭐ ${ar(stars)} نجمة${NAME?" · "+NAME:""}`;
+    if(bump){ el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
+  }
+  function addStars(n){ stars+=n; store.set("stars",stars); renderStars(true); }
+  renderStars(false);
+  if(NAME) document.getElementById("hello").textContent = `أهلًا يا ${NAME}! أنا «سَموحة» 🌻 تعالي نتجوّل في بستان التسامح.`;
+
+  /* ---------- navigation ---------- */
+  const tiles=[...document.querySelectorAll(".tile")], spots=[...document.querySelectorAll(".spot")], back=document.getElementById("backBtn");
+  function open(id, scroll){
+    spots.forEach(s=>s.hidden = s.id!==id);
+    tiles.forEach(t=>t.classList.toggle("on", t.dataset.go===id));
+    back.hidden = !id;
+    try{ speechSynthesis.cancel(); }catch(e){}
+    if(id){ track(document.querySelector(`.tile[data-go="${id}"]`).innerText.replace(/\s+/g," ").trim(),"فتح الركن",""); if(scroll) setTimeout(()=>document.getElementById(id).scrollIntoView({behavior:"smooth",block:"start"}),30); }
+  }
+  tiles.forEach(t=>t.onclick=()=>{ open(t.dataset.go,true); history.replaceState(null,"","#"+t.dataset.go); });
+  back.onclick=()=>{ open(null); history.replaceState(null,"",location.pathname+location.search); document.querySelector(".pick").scrollIntoView({behavior:"smooth"}); };
+  const startHash=location.hash.slice(1); if(startHash && document.getElementById(startHash)?.classList.contains("spot")) open(startHash,true);
+
+  /* ---------- what do I do ---------- */
+  const what=[
+    {s:"✏️", q:"أخذت صديقتك قلمك دون أن تستأذن.", g:{e:"🙂",t:"أقول لها بلطف: لو سمحتِ أعيديه."}, b:{e:"😠",t:"أصرخ عليها وآخذه بقوة."}, fb:"الكلمة اللطيفة تُرجع القلم وتُبقي الصداقة."},
+    {s:"🏃‍♀️", q:"اصطدمت بك زميلة في الفسحة بالخطأ، وقالت: آسفة.", g:{e:"🤝",t:"أقول: لا بأس."}, b:{e:"😤",t:"أدفعها."}, fb:"هي لم تقصد، واعتذرت. المسامحة هنا سهلة وجميلة."},
+    {s:"⚽", q:"صديقاتك يلعبن، ولم يدعونك للعب معهن.", g:{e:"💬",t:"أقول: أحب أن ألعب معكن، هل أستطيع؟"}, b:{e:"😡",t:"أخرّب لعبتهن."}, fb:"طلبتِ بلطف، وهذا أفضل من الغضب."},
+    {s:"🧸", q:"أختك الصغيرة كسرت لعبتك، ثم بكت.", g:{e:"💐",t:"أقول لها: سامحتك، انتبهي المرة القادمة."}, b:{e:"💢",t:"أكسر لعبتها."}, fb:"سامحتِها وعلّمتِها بلطف. أنتِ أخت رائعة!"},
+    {s:"🌸", q:"في الفصل طالبة جديدة تجلس وحدها في الفسحة.", g:{e:"😊",t:"أدعوها لتلعب معنا."}, b:{e:"🙈",t:"أضحك عليها مع صديقاتي."}, fb:"دعوتِها، فصار لها صديقات. هذا قلب واسع!"},
+    {s:"😔", q:"زميلة تقول لكِ كلامًا يضايقك كل يوم.", g:{e:"🧑‍🏫",t:"أخبر معلمتي أو أمي."}, b:{e:"🤐",t:"أسكت ولا أخبر أحدًا."}, fb:"إذا تكرر الأذى نخبر الكبار. هذا ليس عيبًا، بل شجاعة."}
+  ];
+  const order = what.map(()=>Math.random()<.5);
+  let wi=0; const wdone=store.get("what",[]);
+  function renderWhat(state){
+    const it=what[wi], goodFirst=order[wi];
+    document.getElementById("whatDots").innerHTML = what.map((_,i)=>`<i class="${i===wi?'on':wdone.includes(i)?'done':''}"></i>`).join("");
+    const btn=(o,k)=>`<button type="button" class="choice ${state&&state.pick===k?(k==='g'?'good':'bad'):''}" data-k="${k}"><span>${o.e}</span>${o.t}</button>`;
+    let html=`<div class="scene" aria-hidden="true">${it.s}</div><p class="q" id="whatText">${it.q} ماذا تفعلين؟</p><div class="two">${goodFirst?btn(it.g,'g')+btn(it.b,'b'):btn(it.b,'b')+btn(it.g,'g')}</div>`;
+    if(state){
+      html += state.pick==='g'
+        ? `<div class="say"><svg aria-hidden="true"><use href="#samoha"/></svg><p>أحسنتِ${esc(ya)}! ⭐ ${it.fb}</p></div>`
+        : `<div class="say"><svg aria-hidden="true"><use href="#samoha"/></svg><p>فكّري مرة أخرى 🌱 هل هذا يجعل صديقتك سعيدة؟</p></div>`;
+    }
+    html += `<div class="row">${wi>0?'<button type="button" class="btn soft" id="wPrev">السابق</button>':''}${wi<what.length-1?'<button type="button" class="btn" id="wNext">التالي</button>':''}</div>`;
+    const box=document.getElementById("whatBox"); box.innerHTML=html;
+    box.querySelectorAll(".choice").forEach(c=>c.onclick=()=>{
+      const k=c.dataset.k;
+      if(k==='g' && !wdone.includes(wi)){ wdone.push(wi); store.set("what",wdone); addStars(1); }
+      track("ماذا أفعل؟","اختيار","الموقف "+(wi+1)+": "+(k==='g'?"صحيح":"خطأ"));
+      renderWhat({pick:k});
+      if(k==='g') speak("أحسنت"+(NAME?" يا "+NAME:"")+". "+it.fb);
+    });
+    const p=document.getElementById("wPrev"); if(p) p.onclick=()=>{wi--;renderWhat();};
+    const n=document.getElementById("wNext"); if(n) n.onclick=()=>{wi++;renderWhat();};
+  }
+  renderWhat();
+
+  /* ---------- feelings ---------- */
+  const feelings=[
+    {e:"😊",n:"سعيدة",c:"var(--sun)",t:"رائع! شاركي فرحتك، وابتسمي لصديقة 🌼"},
+    {e:"😢",n:"حزينة",c:"var(--sky-c)",t:"لا بأس أن تحزني. احكي لأمك أو معلمتك، أو ارسمي ما تشعرين به 🎨"},
+    {e:"😠",n:"غاضبة",c:"var(--pink)",t:"لنهدأ معًا: شمّي الوردة 🌹 ثم اطفئي الشمعة 🕯️. كرريها ثلاث مرات، ثم عدّي إلى عشرة.",breath:true},
+    {e:"😟",n:"خائفة",c:"var(--lav)",t:"أنتِ لستِ وحدك. اذهبي إلى شخص تثقين به، وأخبريه بما يخيفك 💚"}
+  ];
+  const facesEl=document.getElementById("faces");
+  facesEl.innerHTML=feelings.map((f,i)=>`<button type="button" class="face" style="background:${f.c}" data-i="${i}"><span>${f.e}</span>${f.n}</button>`).join("");
+  facesEl.querySelectorAll(".face").forEach(b=>b.onclick=()=>{
+    facesEl.querySelectorAll(".face").forEach(x=>x.classList.toggle("on",x===b));
+    const f=feelings[+b.dataset.i];
+    let html=`<p class="big" id="feelTip">${f.t}</p>`;
+    if(f.breath) html+=`<div class="breath"><div class="ball" id="ball"></div><p class="q" id="bText">اضغطي لنبدأ</p><button type="button" class="btn" id="bGo">لنتنفّس معًا</button></div>`;
+    document.getElementById("feelOut").innerHTML=html;
+    track("كيف أشعر؟","اختيار شعور",f.n);
+    speak(f.t);
+    const go=document.getElementById("bGo");
+    if(go) go.onclick=()=>{
+      let n=0; const ball=document.getElementById("ball"), tx=document.getElementById("bText"); go.disabled=true;
+      const stepB=()=>{ if(n>=6){ tx.textContent="أحسنتِ، هل تشعرين بهدوء أكثر؟ 🌷"; go.disabled=false; addStars(1); return; }
+        const inhale=n%2===0; ball.classList.toggle("in",inhale); tx.textContent=inhale?"شمّي الوردة… 🌹":"اطفئي الشمعة… 🕯️"; n++; setTimeout(stepB,4000); };
+      stepB();
+    };
+  });
+
+  /* ---------- stories ---------- */
+  const stories=[
+    {t:"يوسف وإخوته", pages:[
+      {s:"🧒🌙⭐", x:"كان يوسف عليه السلام طفلًا طيبًا، يحبه أبوه كثيرًا."},
+      {s:"😟🐑", x:"غار منه إخوته، وأبعدوه عن أبيه، فحزن حزنًا كبيرًا."},
+      {s:"👑🌾", x:"كبر يوسف وصار عزيزًا في مصر، وجاءه إخوته يطلبون الطعام."},
+      {s:"💚🤝", x:"فقال لهم: «لا تثريب عليكم اليوم»، أي: لن ألومكم. وسامحهم."}
+    ], l:"نسامح مثل يوسف عليه السلام 🌷"},
+    {t:"أنس والنبي ﷺ", pages:[
+      {s:"👦🏡", x:"كان أنس رضي الله عنه ولدًا صغيرًا يساعد النبي ﷺ في بيته."},
+      {s:"📅🕰️", x:"بقي أنس مع النبي ﷺ عشر سنين."},
+      {s:"😊💛", x:"وما قال له النبي ﷺ يومًا كلمة «أُف»، ولا عاتبه على شيء."}
+    ], l:"نكون لطيفات مع من حولنا 🌼"},
+    {t:"الرجل في المسجد", pages:[
+      {s:"🕌🚶", x:"دخل رجل المسجد، وأخطأ فيه لأنه لا يعرف."},
+      {s:"😠📢", x:"غضب الناس منه، وأرادوا أن يصرخوا عليه."},
+      {s:"🤲🌸", x:"فقال النبي ﷺ: «دعوه»، ثم علّمه بهدوء ولطف."}
+    ], l:"إذا أخطأت صديقتي، أعلّمها بلطف 🌸"}
+  ];
+  let si=0, pi=0;
+  function renderStory(){
+    const st=stories[si], pg=st.pages[pi], last=pi===st.pages.length-1;
+    document.getElementById("storyTabs").innerHTML=stories.map((s,i)=>`<button type="button" class="${i===si?'on':''}" data-i="${i}">${s.t}</button>`).join("");
+    document.querySelectorAll("#storyTabs button").forEach(b=>b.onclick=()=>{si=+b.dataset.i;pi=0;renderStory();});
+    document.getElementById("storyPage").innerHTML=`<div class="scene" aria-hidden="true">${pg.s}</div><p class="txt" id="storyText">${pg.x}${last?" "+st.l:""}</p>${last?`<p class="lesson">${st.l}</p>`:""}<p class="page-n">صفحة ${ar(pi+1)} من ${ar(st.pages.length)}</p><div class="row">${pi>0?'<button type="button" class="btn soft" id="sPrev">السابقة</button>':''}${!last?'<button type="button" class="btn" id="sNext">التالية</button>':'<button type="button" class="btn" id="sDone">انتهت القصة ⭐</button>'}</div>`;
+    const p=document.getElementById("sPrev"); if(p) p.onclick=()=>{pi--;renderStory();};
+    const n=document.getElementById("sNext"); if(n) n.onclick=()=>{pi++;renderStory();};
+    const d=document.getElementById("sDone"); if(d) d.onclick=()=>{ const read=store.get("storiesRead",[]); if(!read.includes(si)){read.push(si);store.set("storiesRead",read);addStars(1);} track("قصص جميلة","إنهاء قصة",st.t); d.textContent="أحسنتِ"+ya+"! 🌟"; d.disabled=true; };
+  }
+  renderStory();
+
+  /* ---------- memory game ---------- */
+  const icons=["🌈","🌷","🌳","🤝","💌","😊"];
+  let deck=[], openC=[], matched=0, lock=false;
+  function newGame(){
+    deck=[...icons,...icons].map(v=>({v})).sort(()=>Math.random()-.5); openC=[]; matched=0; lock=false;
+    document.getElementById("memMsg").textContent="";
+    const box=document.getElementById("memCards");
+    box.innerHTML=deck.map((c,i)=>`<button type="button" class="mc" data-i="${i}" aria-label="بطاقة ${ar(i+1)}"><span class="back">🌼</span></button>`).join("");
+    box.querySelectorAll(".mc").forEach(b=>b.onclick=()=>flip(b));
+  }
+  function flip(b){
+    const i=+b.dataset.i; if(lock||b.classList.contains("open")||b.classList.contains("done")) return;
+    b.classList.add("open"); b.innerHTML=deck[i].v; openC.push(b);
+    if(openC.length===2){
+      lock=true; const [a,c]=openC;
+      if(deck[+a.dataset.i].v===deck[+c.dataset.i].v){
+        setTimeout(()=>{ a.classList.add("done"); c.classList.add("done"); openC=[]; lock=false; matched++;
+          if(matched===icons.length){ document.getElementById("memMsg").textContent="رائع"+ya+"! وجدتِ كل البطاقات 🎉"; addStars(2); track("لعبة الذاكرة","إكمال اللعبة",""); speak("رائع"+ya+"، وجدت كل البطاقات"); }
+        },350);
+      } else {
+        setTimeout(()=>{ [a,c].forEach(x=>{x.classList.remove("open");x.innerHTML='<span class="back">🌼</span>';}); openC=[]; lock=false; },900);
+      }
+    }
+  }
+  document.getElementById("memReset").onclick=newGame;
+  newGame();
+
+  /* ---------- peace card ---------- */
+  const flowers=["🌷","🌻","🌹","🌼","💐"], msgs=["آسفة، أنتِ صديقتي الغالية","سامحتك، لنلعب معًا","أحبك يا صديقتي، لنتصالح","نبدأ من جديد، صديقتان دائمًا"];
+  let fi=0, mi=0;
+  const friend=document.getElementById("friend");
+  function chips(id, arr, cur, cb, cls){
+    const el=document.getElementById(id); if(cls) el.classList.add(cls);
+    el.innerHTML=arr.map((t,i)=>`<button type="button" class="${i===cur?'on':''}" data-i="${i}" aria-pressed="${i===cur}">${t}</button>`).join("");
+    el.querySelectorAll("button").forEach(b=>b.onclick=()=>{cb(+b.dataset.i);});
+  }
+  function cardText(){ const fr=friend.value.trim()||"صديقتي"; return `إلى ${fr}\n${msgs[mi]} ${flowers[fi]}${NAME?"\nمن "+NAME:""}`; }
+  function renderCard(){
+    chips("flowerChips",flowers,fi,i=>{fi=i;renderCard();},"fl");
+    chips("msgChips",msgs,mi,i=>{mi=i;renderCard();});
+    const fr=friend.value.trim()||"صديقتي";
+    document.getElementById("peaceCard").innerHTML=`<div class="fl" aria-hidden="true">${flowers[fi]}</div><p class="to">إلى ${esc(fr)}</p><p class="msg">${msgs[mi]}</p>${NAME?`<p class="from">من ${esc(NAME)}</p>`:""}`;
+  }
+  friend.oninput=renderCard; renderCard();
+  document.getElementById("cardCopy").onclick=async e=>{ const b=e.currentTarget; try{ await navigator.clipboard.writeText(cardText()); b.textContent="نُسخت ✓"; }catch(err){ b.textContent="صوّري البطاقة وأرسليها"; } if(!store.get("cardDone",false)){store.set("cardDone",true);addStars(1);} track("بطاقة صلح","نسخ البطاقة",""); setTimeout(()=>b.textContent="انسخي الكلمات",1800); };
+
+  /* ---------- 7 days ---------- */
+  const tasks=[["😊","ابتسمي لصديقة"],["🙏","قولي «شكرًا» ثلاث مرات"],["🧺","ساعدي أمك في شيء"],["🤝","العبي مع زميلة وحيدة"],["💚","سامحي من أخطأت عليكِ"],["🌷","قولي «آسفة» إذا أخطأتِ"],["💌","ارسمي قلبًا وأهديه لأحد"]];
+  let wk=store.get("week",[]);
+  function renderWeek(){
+    const box=document.getElementById("weekBox");
+    box.innerHTML=tasks.map((t,i)=>`<button type="button" class="day ${wk.includes(i)?'done':''}" data-i="${i}" aria-pressed="${wk.includes(i)}"><b>اليوم ${ar(i+1)}</b><span style="font-size:30px">${t[0]}</span>${t[1]}<span class="st">⭐</span></button>`).join("");
+    box.querySelectorAll(".day").forEach(b=>b.onclick=()=>{ const i=+b.dataset.i; if(wk.includes(i)){wk=wk.filter(x=>x!==i);} else {wk=[...wk,i]; addStars(1); track("نجوم ٧ أيام","إنجاز يوم","اليوم "+(i+1));} store.set("week",wk); renderWeek(); });
+    document.getElementById("weekMsg").innerHTML = wk.length===tasks.length ? `<p class="win">🏆 مبروك${esc(ya)}! أنتِ بطلة التسامح</p>` : `<p class="soft" style="text-align:center">جمعتِ ${ar(wk.length)} من ${ar(tasks.length)} نجوم</p>`;
+  }
+  renderWeek();
+
+  /* ---------- sweet words ---------- */
+  const lines=["قلبي كبير، أسامح كثير 💚","أنا أعتذر، وأنا أسامح 🌷","كلمة طيبة مثل الوردة 🌹","نلعب معًا، نضحك معًا 🌈","إذا زعلت، أعدّ إلى عشرة 🔟","﴿وَلْيَعْفُوا وَلْيَصْفَحُوا﴾ 📖"];
+  const linesEl=document.getElementById("lines");
+  linesEl.innerHTML=lines.map((l,i)=>`<button type="button" class="line" data-i="${i}">${l}<em aria-hidden="true">🔊</em></button>`).join("");
+  linesEl.querySelectorAll(".line").forEach(b=>b.onclick=()=>{ speak(lines[+b.dataset.i]); track("كلمات حلوة","استماع","الجملة "+(+b.dataset.i+1)); });
+
+  /* ---------- did you like it ---------- */
+  const vf=[{e:"😕",n:"لا",v:1,c:"var(--sky-c)"},{e:"😐",n:"قليلًا",v:3,c:"var(--sun)"},{e:"😍",n:"نعم كثيرًا",v:5,c:"var(--pink)"}];
+  const vEl=document.getElementById("voteFaces");
+  vEl.innerHTML=vf.map((f,i)=>`<button type="button" class="face" style="background:${f.c}" data-i="${i}"><span>${f.e}</span>${f.n}</button>`).join("");
+  vEl.querySelectorAll(".face").forEach(b=>b.onclick=()=>{
+    vEl.querySelectorAll(".face").forEach(x=>x.classList.toggle("on",x===b));
+    const f=vf[+b.dataset.i];
+    try{ supa("/rest/v1/survey",{visitor, q1:f.v, q2:null, q3:null, q4:null, q5:null, note:"[٧–١١]"}).catch(()=>{}); }catch(e){}
+    if(!store.get("voted",false)){ store.set("voted",true); addStars(1); }
+    document.getElementById("voteMsg").innerHTML=`<p class="toast">شكرًا لكِ${esc(ya)}! 🌸</p>`;
+  });
+})();
+</script>
+</body>
+</html>
