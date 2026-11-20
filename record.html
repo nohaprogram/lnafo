@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>تسجيل أصوات بستان الصغيرات</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3b3550;--muted:#6c6680;--line:#ece6f4;--lav:#ebe4fb;--lav-deep:#6c58ad;--leaf:#dcf3d8;--leaf-deep:#2f7a3d;--pink:#fde2e8;--pink-deep:#b04a6d;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f7f9f3;color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;font-size:17px;line-height:1.8}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px;display:grid;gap:14px}
+h1{font-family:"Baloo Bhaijaan 2",sans-serif;font-size:28px;margin:0;color:var(--lav-deep)}
+.intro{background:#fff;border-radius:20px;padding:16px;display:grid;gap:6px}
+.intro ol{margin:0;padding-inline-start:20px}
+.prog{font-weight:600;color:var(--leaf-deep)}
+.item{background:#fff;border-radius:20px;padding:14px 16px;display:grid;gap:10px;border:2px solid transparent}
+.item.done{border-color:var(--leaf-deep)}
+.item.rec{border-color:var(--pink-deep)}
+.top{display:flex;gap:10px;align-items:flex-start}
+.n{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--lav);color:var(--lav-deep);display:grid;place-items:center;font-weight:700;font-family:monospace;direction:ltr}
+.item.done .n{background:var(--leaf);color:var(--leaf-deep)}
+.t{font-family:"Baloo Bhaijaan 2",sans-serif;font-size:22px;line-height:1.7}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+button,a.dl{font:inherit;font-size:15px;font-weight:600;padding:8px 16px;border-radius:999px;border:none;cursor:pointer;text-decoration:none}
+.r{background:var(--pink);color:var(--pink-deep)} .r.on{background:var(--pink-deep);color:#fff}
+.p{background:var(--lav);color:var(--lav-deep)}
+a.dl{background:var(--leaf);color:var(--leaf-deep)}
+button[disabled]{opacity:.45;cursor:default}
+.err{background:var(--pink);color:var(--pink-deep);padding:12px 16px;border-radius:16px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>تسجيل أصوات بستان الصغيرات 🎙️</h1>
+  <div class="intro">
+    <ol>
+      <li>اضغطي <b>⏺ سجّلي</b> واقرئي الجملة، ثم <b>⏹ أوقفي</b>.</li>
+      <li>اضغطي <b>▶ استمعي</b>. إن لم يعجبك، سجّلي مرة أخرى.</li>
+      <li>اضغطي <b>⬇ نزّلي</b>، فيُحفظ الملف باسم رقمه في جهازك.</li>
+      <li>أرسلي الملفات في المحادثة.</li>
+    </ol>
+    <p class="prog" id="prog"></p>
+    <p style="color:var(--muted);font-size:14px">لا تغلقي الصفحة قبل تنزيل التسجيلات، فهي لا تُحفظ تلقائيًا.</p>
+  </div>
+  <div id="msg"></div>
+  <div id="list"></div>
+</main>
+<script>
+(function(){
+  const lines = ["أَهْلًا! أَنَا سَمّوحَة، تَعَالِي نَأْخُذُ جَوْلَةً فِي بُسْتَانِ التَّسَامُح.", "التَّسَامُحُ أَنْ أَعْفُوَ عَنْ صَدِيقَتِي إِذَا أَخْطَأَتْ، وَأَنْ أَكُونَ لَطِيفَةً مَعَ الجَمِيع.", "اِخْتَارِي الوَجْهَ الَّذِي يُشْبِهُكِ الآن.", "رَائِع! شَارِكِي فَرْحَتَكِ، وَابْتَسِمِي لِصَدِيقَة.", "لَا بَأْسَ أَنْ تَحْزَنِي. اِحْكِي لِأُمِّكِ أَوْ مُعَلِّمَتِكِ، أَوِ ارْسُمِي مَا تَشْعُرِينَ بِه.", "لِنَهْدَأْ مَعًا: شُمِّي الوَرْدَة، ثُمَّ اطْفِئِي الشَّمْعَة. كَرِّرِيهَا ثَلَاثَ مَرَّات، ثُمَّ عُدِّي إِلَى عَشَرَة.", "أَنْتِ لَسْتِ وَحْدَكِ. اِذْهَبِي إِلَى شَخْصٍ تَثِقِينَ بِه، وَأَخْبِرِيهِ بِمَا يُخِيفُكِ.", "قَلْبِي كَبِير، أُسَامِحُ كَثِير.", "أَنَا أَعْتَذِر، وَأَنَا أُسَامِح.", "كَلِمَةٌ طَيِّبَةٌ مِثْلُ الوَرْدَة.", "نَلْعَبُ مَعًا، نَضْحَكُ مَعًا.", "إِذَا زَعِلْتُ، أَعُدُّ إِلَى عَشَرَة.", "كَانَ يُوسُفُ عَلَيْهِ السَّلَامُ طِفْلًا طَيِّبًا، يُحِبُّهُ أَبُوهُ كَثِيرًا.", "غَارَ مِنْهُ إِخْوَتُهُ، وَأَبْعَدُوهُ عَنْ أَبِيهِ، فَحَزِنَ حُزْنًا كَبِيرًا.", "كَبِرَ يُوسُفُ وَصَارَ عَزِيزًا فِي مِصْرَ، وَجَاءَهُ إِخْوَتُهُ يَطْلُبُونَ الطَّعَام.", "فَقَالَ لَهُمْ: لَا تَثْرِيبَ عَلَيْكُمُ اليَوْمَ، أَيْ: لَنْ أَلُومَكُمْ، وَسَامَحَهُمْ. نُسَامِحُ مِثْلَ يُوسُفَ عَلَيْهِ السَّلَام.", "كَانَ أَنَسٌ رَضِيَ اللهُ عَنْهُ وَلَدًا صَغِيرًا، يُسَاعِدُ النَّبِيَّ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ فِي بَيْتِه.", "بَقِيَ أَنَسٌ مَعَ النَّبِيِّ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ عَشْرَ سِنِين.", "وَمَا قَالَ لَهُ النَّبِيُّ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ يَوْمًا: أُفّ، وَلَا عَاتَبَهُ عَلَى شَيْء. نَكُونُ لَطِيفَاتٍ مَعَ مَنْ حَوْلَنَا.", "دَخَلَ رَجُلٌ المَسْجِدَ، وَأَخْطَأَ فِيهِ لِأَنَّهُ لَا يَعْرِف.", "غَضِبَ النَّاسُ مِنْهُ، وَأَرَادُوا أَنْ يَصْرُخُوا عَلَيْه.", "فَقَالَ النَّبِيُّ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ: دَعُوه، ثُمَّ عَلَّمَهُ بِهُدُوءٍ وَلُطْف. إِذَا أَخْطَأَتْ صَدِيقَتِي، أُعَلِّمُهَا بِلُطْف.", "أَخَذَتْ صَدِيقَتُكِ قَلَمَكِ دُونَ أَنْ تَسْتَأْذِن. مَاذَا تَفْعَلِين؟", "اِصْطَدَمَتْ بِكِ زَمِيلَةٌ فِي الفُسْحَةِ بِالخَطَأ، وَقَالَتْ: آسِفَة. مَاذَا تَفْعَلِين؟", "صَدِيقَاتُكِ يَلْعَبْنَ، وَلَمْ يَدْعُونَكِ لِلَّعِبِ مَعَهُنّ. مَاذَا تَفْعَلِين؟", "أُخْتُكِ الصَّغِيرَةُ كَسَرَتْ لُعْبَتَكِ، ثُمَّ بَكَتْ. مَاذَا تَفْعَلِين؟", "فِي الفَصْلِ طَالِبَةٌ جَدِيدَةٌ، تَجْلِسُ وَحْدَهَا فِي الفُسْحَة. مَاذَا تَفْعَلِين؟", "زَمِيلَةٌ تَقُولُ لَكِ كَلَامًا يُضَايِقُكِ كُلَّ يَوْم. مَاذَا تَفْعَلِين؟", "أَحْسَنْتِ! الكَلِمَةُ اللَّطِيفَةُ تُرْجِعُ القَلَمَ، وَتُبْقِي الصَّدَاقَة.", "أَحْسَنْتِ! هِيَ لَمْ تَقْصِدْ وَاعْتَذَرَتْ. المُسَامَحَةُ هُنَا سَهْلَةٌ وَجَمِيلَة.", "أَحْسَنْتِ! طَلَبْتِ بِلُطْف، وَهَذَا أَفْضَلُ مِنَ الغَضَب.", "أَحْسَنْتِ! سَامَحْتِهَا وَعَلَّمْتِهَا بِلُطْف. أَنْتِ أُخْتٌ رَائِعَة!", "أَحْسَنْتِ! دَعَوْتِهَا، فَصَارَ لَهَا صَدِيقَات. هَذَا قَلْبٌ وَاسِع!", "أَحْسَنْتِ! إِذَا تَكَرَّرَ الأَذَى نُخْبِرُ الكِبَار. هَذَا لَيْسَ عَيْبًا، بَلْ شَجَاعَة.", "فَكِّرِي مَرَّةً أُخْرَى. هَلْ هَذَا يَجْعَلُ صَدِيقَتَكِ سَعِيدَة؟", "شُمِّي الوَرْدَة…", "اِطْفِئِي الشَّمْعَة…", "أَحْسَنْتِ، هَلْ تَشْعُرِينَ بِهُدُوءٍ أَكْثَر؟", "رَائِع! وَجَدْتِ كُلَّ البِطَاقَات.", "مَبْرُوك! أَنْتِ بَطَلَةُ التَّسَامُح.", "شُكْرًا لَكِ!"];
+  const recs = {};
+  let stream=null, rec=null, chunks=[], cur=null;
+  const mime = ["audio/mp4","audio/webm;codecs=opus","audio/webm","audio/ogg"].find(t=>window.MediaRecorder&&MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t)) || "";
+  const ext = mime.includes("mp4")?"m4a":mime.includes("ogg")?"ogg":"webm";
+  const pad = i => String(i+1).padStart(2,"0");
+  const list = document.getElementById("list");
+  list.innerHTML = lines.map((t,i)=>`<div class="item" id="it${i}"><div class="top"><span class="n">${pad(i)}</span><p class="t">${t}</p></div><div class="btns"><button type="button" class="r" data-i="${i}">⏺ سجّلي</button><button type="button" class="p" data-i="${i}" disabled>▶ استمعي</button><a class="dl" id="dl${i}" hidden>⬇ نزّلي</a></div></div>`).join("");
+  function prog(){ document.getElementById("prog").textContent = `سجّلتِ ${Object.keys(recs).length} من ${lines.length}`; }
+  prog();
+  function fail(m){ document.getElementById("msg").innerHTML = `<p class="err">${m}</p>`; }
+  async function start(i, btn){
+    if(!window.MediaRecorder){ fail("هذا المتصفح لا يدعم التسجيل. جرّبي Chrome أو Safari الحديث."); return; }
+    try{ if(!stream) stream = await navigator.mediaDevices.getUserMedia({audio:true}); }
+    catch(e){ fail("لم يُسمح باستخدام الميكروفون. اسمحي للمتصفح باستخدامه ثم أعيدي المحاولة."); return; }
+    chunks=[]; cur=i;
+    rec = new MediaRecorder(stream, mime?{mimeType:mime}:undefined);
+    rec.ondataavailable = e=>{ if(e.data.size) chunks.push(e.data); };
+    rec.onstop = ()=>{
+      const blob = new Blob(chunks,{type:rec.mimeType||mime||"audio/webm"});
+      if(recs[i]) URL.revokeObjectURL(recs[i]);
+      recs[i] = URL.createObjectURL(blob);
+      const it=document.getElementById("it"+i); it.classList.remove("rec"); it.classList.add("done");
+      it.querySelector(".p").disabled=false;
+      const dl=document.getElementById("dl"+i); dl.href=recs[i]; dl.download=pad(i)+"."+ext; dl.hidden=false;
+      prog();
+    };
+    rec.start();
+    document.querySelectorAll(".r").forEach(b=>{ if(b!==btn) b.disabled=true; });
+    btn.classList.add("on"); btn.textContent="⏹ أوقفي";
+    document.getElementById("it"+i).classList.add("rec");
+  }
+  function stop(btn){
+    if(rec && rec.state!=="inactive") rec.stop();
+    btn.classList.remove("on"); btn.textContent="⏺ سجّلي مرة أخرى";
+    document.querySelectorAll(".r").forEach(b=>b.disabled=false);
+    cur=null;
+  }
+  list.addEventListener("click",e=>{
+    const r=e.target.closest(".r"), p=e.target.closest(".p");
+    if(r){ const i=+r.dataset.i; if(cur===i) stop(r); else if(cur===null) start(i,r); }
+    if(p){ const i=+p.dataset.i; if(recs[i]) new Audio(recs[i]).play(); }
+  });
+})();
+</script>
+</body>
+</html>
