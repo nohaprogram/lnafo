@@ -447,6 +447,7 @@ footer b{color:var(--mint-deep)}
       <a href="#challenge">تحدي ١٤ يومًا</a>
       <a href="#quotes">عبارات</a>
       <a href="#song">اكتبي نشيدك</a>
+      <a href="#color">لوّني بالأرقام</a>
       <a href="#survey">رأيك يهمنا</a>
     </div>
   </div>
@@ -874,10 +875,22 @@ footer b{color:var(--mint-deep)}
     </div>
   </section>
 
+  <!-- color -->
+  <section class="room" id="color">
+    <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-color">
+      <div class="room-mark p-lemon">١٤</div>
+      <div><h2>لوّني بالأرقام</h2><p>زخارف عن التسامح والعفو: لوّني كل جزء بلون رقمه، وتحدّي نفسك في الوقت، ثم أعيدي تلوينها بألوانك واحفظيها.</p></div>
+      <span class="chev" aria-hidden="true"></span>
+    </div>
+    <div class="room-body" id="body-color" hidden>
+      <div class="cbn" data-level="mid"></div>
+    </div>
+  </section>
+
   <!-- survey -->
   <section class="room" id="survey">
     <div class="room-head" role="button" tabindex="0" aria-expanded="false" aria-controls="body-survey">
-      <div class="room-mark p-mint">١٤</div>
+      <div class="room-mark p-mint">١٥</div>
       <div><h2>رأيك يهمنا</h2><p>ثلاثة أسئلة سريعة عن المنصة. اختاري الوجه الذي يعبّر عنكِ. الاستبانة بلا اسم.</p></div>
       <span class="chev" aria-hidden="true"></span>
     </div>
@@ -955,6 +968,7 @@ footer b{color:var(--mint-deep)}
     try{ fetch(SHEET_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)}).catch(()=>{}); }catch(e){}
   }
   function track(section, action, detail){ send({type:"event", section, action, detail: detail==null ? "" : String(detail)}); }
+  window.cbnDone=(name,secs)=>{track("لوّني بالأرقام","إكمال الصورة",name+" · "+secs+" ث");addPts(10);};
   try{ if(!sessionStorage.getItem("samah_visit")){ sessionStorage.setItem("samah_visit","1"); track("المنصة","زيارة","١٢–١٥"); } }catch(e){ track("المنصة","زيارة","أكبر من ١٥"); }
   let pts = store.get("pts",0);
   function lvl(p){ return p>=150 ? "سفيرة التسامح" : p>=60 ? "مستكشفة" : "مبتدئة"; }
@@ -1466,5 +1480,6 @@ footer b{color:var(--mint-deep)}
   }));
 })();
 </script>
+<script src="colorbook.js?v=1"></script>
 </body>
 </html>

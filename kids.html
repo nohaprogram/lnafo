@@ -246,6 +246,7 @@ button{cursor:pointer}
     <button type="button" class="tile t6" data-go="card"><span>💌</span>بطاقة صلح</button>
     <button type="button" class="tile t7" data-go="week"><span>⭐</span>نجوم ٧ أيام</button>
     <button type="button" class="tile t8" data-go="words"><span>🎵</span>كلمات حلوة</button>
+    <button type="button" class="tile t3" data-go="color"><span>🎨</span>لوّني بالأرقام</button>
     <button type="button" class="tile t6" data-go="song"><span>✏️</span>اكتبي نشيدًا</button>
     <button type="button" class="tile t9" data-go="vote"><span>💬</span>هل أحببتِ البستان؟</button>
   </nav>
@@ -313,6 +314,12 @@ button{cursor:pointer}
     <div class="lines" id="lines"></div>
   </section>
 
+  <section class="spot" id="color" hidden>
+    <div class="spot-head"><span>🎨</span><h2>لوّني بالأرقام</h2></div>
+    <p class="soft">كل رقم له لون، لوّني الأشكال حتى تكتمل الصورة 🌈</p>
+    <div class="cbn" data-level="kids"></div>
+  </section>
+
   <section class="spot" id="song" hidden>
     <div class="spot-head"><span>✏️</span><h2>اكتبي نشيدًا</h2></div>
     <figure class="yt">
@@ -320,7 +327,7 @@ button{cursor:pointer}
       <div class="yt-box"><iframe id="ytFrame" src="https://www.youtube-nocookie.com/embed/fmUlNy-Mkg4?rel=0" title="أنشودة عن التسامح" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
       <figcaption>🎵 استمعي لأنشودة عن التسامح، ثم اكتبي نشيدك 🌼</figcaption>
     </figure>
-    <p class="soft">اختاري كلمة لكل سطر، فيصير عندك نشيد عن التسامح 🎶</p>
+    <p class="soft">اختاري كلمة لكل سطر، ليصبح لديك نشيد عن التسامح 🎶</p>
     <div id="songLines"></div>
     <label class="lbl" for="kSongMine">وإن أحببتِ، اكتبي سطرًا من عندك</label>
     <input id="kSongMine" class="inp" type="text" maxlength="50" placeholder="مثلًا: نضحك ونلعب في كل مكان">
@@ -404,6 +411,7 @@ button{cursor:pointer}
     if(bump){ el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
   }
   function addStars(n){ stars+=n; store.set("stars",stars); renderStars(true); }
+  window.cbnDone=(name)=>{track("لوّني بالأرقام","إكمال الصورة",name);addStars(3);};
   renderStars(false);
   if(NAME) document.getElementById("hello").textContent = `أَهْلًا يَا ${NAME}! أَنَا سَمّوحَة 🌻 تَعَالِي نَأْخُذُ جَوْلَةً فِي بُسْتَانِ التَّسَامُح.`;
 
@@ -624,5 +632,6 @@ button{cursor:pointer}
   }));
 })();
 </script>
+<script src="colorbook.js?v=1"></script>
 </body>
 </html>
