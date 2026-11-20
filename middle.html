@@ -841,6 +841,11 @@ footer b{color:var(--mint-deep)}
       <span class="chev" aria-hidden="true"></span>
     </div>
     <div class="room-body" id="body-song" hidden>
+    <figure class="yt">
+      <div class="yt-pick" role="group" aria-label="اختاري الأنشودة"><button type="button" class="on" data-v="fmUlNy-Mkg4">«سامح» · مولانا كورتش (بدون موسيقى)</button><button type="button" data-v="REG3-zVSSuQ">التسامح · ماهر زين</button></div>
+      <div class="yt-box"><iframe id="ytFrame" src="https://www.youtube-nocookie.com/embed/fmUlNy-Mkg4?rel=0" title="أنشودة عن التسامح" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <figcaption>🎵 استمعي لأنشودة عن التسامح، ثم اكتبي نشيدك</figcaption>
+    </figure>
     <div class="song-tips">
       <div class="p-lav"><b>١. فكرة واحدة</b><span>مثل: أسامح صديقتي، أو نختلف ونبقى معًا.</span></div>
       <div class="p-mint"><b>٢. قافية واحدة</b><span>اجعلي نهايات الأبيات متشابهة: سلام، وئام، أيام.</span></div>
@@ -1454,6 +1459,11 @@ footer b{color:var(--mint-deep)}
     const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+e.target.id));}});},{rootMargin:"-30% 0px -60% 0px"});
     document.querySelectorAll("section.room").forEach(s=>io.observe(s));
   }
+  document.querySelectorAll(".yt-pick button").forEach(b=>b.addEventListener("click",()=>{
+    b.parentElement.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
+    const fr=b.closest(".yt").querySelector("iframe"); fr.src="https://www.youtube-nocookie.com/embed/"+b.dataset.v+"?rel=0";
+    try{ track("أنشودة التسامح","اختيار أنشودة",b.textContent); }catch(e){}
+  }));
 })();
 </script>
 </body>
