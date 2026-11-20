@@ -308,11 +308,6 @@ button{cursor:pointer}
 
   <section class="spot" id="song" hidden>
     <div class="spot-head"><span>✏️</span><h2>اكتبي نشيدًا</h2></div>
-    <figure class="yt">
-      <div class="yt-pick" role="group" aria-label="اختاري الأنشودة"><button type="button" class="on" data-v="fmUlNy-Mkg4">«سامح» · مولانا كورتش (بدون موسيقى)</button><button type="button" data-v="REG3-zVSSuQ">التسامح · ماهر زين</button></div>
-      <div class="yt-box"><iframe id="ytFrame" src="https://www.youtube-nocookie.com/embed/fmUlNy-Mkg4?rel=0" title="أنشودة عن التسامح" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-      <figcaption>🎵 استمعي لأنشودة عن التسامح، ثم اكتبي نشيدك 🌼</figcaption>
-    </figure>
     <p class="soft">اختاري كلمة لكل سطر، فيصير عندك نشيد عن التسامح 🎶</p>
     <div id="songLines"></div>
     <label class="lbl" for="kSongMine">وإن أحببتِ، اكتبي سطرًا من عندك</label>
@@ -610,11 +605,6 @@ button{cursor:pointer}
     if(!store.get("voted",false)){ store.set("voted",true); addStars(1); }
     document.getElementById("voteMsg").innerHTML=`<p class="toast">شكرًا لكِ${esc(ya)}! 🌸</p>`;
   });
-  document.querySelectorAll(".yt-pick button").forEach(b=>b.addEventListener("click",()=>{
-    b.parentElement.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
-    const fr=b.closest(".yt").querySelector("iframe"); fr.src="https://www.youtube-nocookie.com/embed/"+b.dataset.v+"?rel=0";
-    try{ track("أنشودة التسامح","اختيار أنشودة",b.textContent); }catch(e){}
-  }));
 })();
 </script>
 </body>
