@@ -149,6 +149,8 @@ button{cursor:pointer}
 .line:nth-child(5n+1){background:var(--pink);color:var(--pink-deep)} .line:nth-child(5n+2){background:var(--sun);color:var(--sun-deep)}
 .line:nth-child(5n+3){background:var(--leaf);color:var(--leaf-deep)} .line:nth-child(5n+4){background:var(--sky-c);color:var(--sky-deep)} .line:nth-child(5n){background:var(--lav);color:var(--lav-deep)}
 .line em{font-style:normal;font-size:22px}
+.line{flex-wrap:wrap}
+.line small{flex-basis:100%;font-size:17px;font-weight:500;opacity:.85;line-height:1.8}
 .toast{padding:12px 16px;border-radius:18px;background:var(--leaf);color:var(--leaf-deep);font-weight:600;text-align:center}
 .back{justify-self:center;padding:12px 26px;border-radius:999px;border:none;background:var(--leaf-deep);color:#fff;font-family:var(--font-display);font-size:21px;font-weight:600}
 .help{display:flex;gap:12px;align-items:flex-start;padding:18px;border-radius:28px;background:var(--leaf);margin-top:8px}
@@ -580,7 +582,7 @@ button{cursor:pointer}
   renderWeek();
 
   /* ---------- sweet words ---------- */
-  const lines=["قلبي كبير، أسامح كثير 💚","أنا أعتذر، وأنا أسامح 🌷","كلمة طيبة مثل الوردة 🌹","نلعب معًا، نضحك معًا 🌈","إذا زعلت، أعدّ إلى عشرة 🔟","﴿وَلْيَعْفُوا وَلْيَصْفَحُوا﴾ 📖"];
+  const lines=["قلبي كبير، أسامح كثير 💚","أنا أعتذر، وأنا أسامح 🌷","كلمة طيبة مثل الوردة 🌹","نلعب معًا، نضحك معًا 🌈","إذا حزنتُ أقول: سبحان الله 🤍<small>﴿وَلَقَدْ نَعْلَمُ أَنَّكَ يَضِيقُ صَدْرُكَ بِمَا يَقُولُونَ ۝ فَسَبِّحْ بِحَمْدِ رَبِّكَ﴾ الحجر: ٩٧–٩٨</small>","﴿وَلْيَعْفُوا وَلْيَصْفَحُوا﴾ 📖"];
   const linesEl=document.getElementById("lines");
   linesEl.innerHTML=lines.map((l,i)=>`<button type="button" class="line" data-i="${i}">${l}</button>`).join("");
   linesEl.querySelectorAll(".line").forEach(b=>b.onclick=()=>{ const li=+b.dataset.i; say(lines[li], li<5 ? 8+li : null); track("كلمات حلوة","استماع","الجملة "+(+b.dataset.i+1)); });
