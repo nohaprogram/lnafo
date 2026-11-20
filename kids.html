@@ -201,7 +201,7 @@ button{cursor:pointer}
     <span class="age-chip">بستان الصغيرات · من ٧ إلى ١١ سنة</span>
     <div class="guide">
       <svg class="samoha" aria-hidden="true"><use href="#samoha"/></svg>
-      <div class="bubble"><p id="hello">أَهْلًا! أَنَا سَمّوحَة 🌻 تَعَالِي نَأْخُذُ جَوْلَةً فِي بُسْتَانِ التَّسَامُح.</p><button type="button" class="listen" data-say="hello">🔊 اسمعي</button></div>
+      <div class="bubble"><p id="hello">أَهْلًا! أَنَا سَمّوحَة 🌻 تَعَالِي نَأْخُذُ جَوْلَةً فِي بُسْتَانِ التَّسَامُح.</p></div>
     </div>
     <div class="stars" id="stars" aria-live="polite">⭐ ٠ نجمة</div>
   </div>
@@ -231,7 +231,7 @@ button{cursor:pointer}
   </nav>
 
   <section class="spot" id="meaning" hidden>
-    <div class="spot-head"><span>🌼</span><h2>ماذا يعني التسامح؟</h2><button type="button" class="listen" data-say="meaningText">🔊 اسمعي</button></div>
+    <div class="spot-head"><span>🌼</span><h2>ماذا يعني التسامح؟</h2></div>
     <p class="big" id="meaningText">التسامح أن أعفو عن صديقتي إذا أخطأت، وأن أكون لطيفة مع الجميع.</p>
     <div class="words3">
       <div class="w p-pink"><span>💚</span>أعفو</div>
@@ -243,19 +243,19 @@ button{cursor:pointer}
   </section>
 
   <section class="spot" id="what" hidden>
-    <div class="spot-head"><span>🤔</span><h2>ماذا أفعل؟</h2><button type="button" class="listen" data-say="whatText">🔊 اسمعي</button></div>
+    <div class="spot-head"><span>🤔</span><h2>ماذا أفعل؟</h2></div>
     <div class="dots" id="whatDots"></div>
     <div id="whatBox"></div>
   </section>
 
   <section class="spot" id="feel" hidden>
-    <div class="spot-head"><span>😊</span><h2>كيف أشعر الآن؟</h2><button type="button" class="listen" data-say="feelTip">🔊 اسمعي</button></div>
+    <div class="spot-head"><span>😊</span><h2>كيف أشعر الآن؟</h2></div>
     <div class="faces" id="faces"></div>
     <div id="feelOut" aria-live="polite"><p class="big soft" id="feelTip">اختاري الوجه الذي يشبهك الآن.</p></div>
   </section>
 
   <section class="spot" id="stories" hidden>
-    <div class="spot-head"><span>📖</span><h2>قصص جميلة</h2><button type="button" class="listen" data-say="storyText">🔊 اسمعي</button></div>
+    <div class="spot-head"><span>📖</span><h2>قصص جميلة</h2></div>
     <div class="story-tabs" id="storyTabs"></div>
     <div class="page" id="storyPage"></div>
   </section>
@@ -289,7 +289,7 @@ button{cursor:pointer}
 
   <section class="spot" id="words" hidden>
     <div class="spot-head"><span>🎵</span><h2>كلمات حلوة</h2></div>
-    <p class="soft">اضغطي على الكلمات لتسمعيها، ورددِيها مع صديقاتك.</p>
+    <p class="soft">ردّدي هذه الكلمات مع صديقاتك.</p>
     <div class="lines" id="lines"></div>
   </section>
 
@@ -335,7 +335,7 @@ button{cursor:pointer}
   try{ if(!sessionStorage.getItem("samah_visit")){ sessionStorage.setItem("samah_visit","1"); supa("/rest/v1/visits",{visitor}).catch(()=>{}); } }catch(e){}
 
   /* ---------- read aloud ---------- */
-  function speak(text){
+  function speak(text){ return false;
     try{
       if(!("speechSynthesis" in window)) return false;
       speechSynthesis.cancel(); if(curAudio){ try{curAudio.pause();}catch(e){} curAudio=null; }
@@ -351,7 +351,7 @@ button{cursor:pointer}
   const AUD = n => "audio/"+String(n).padStart(2,"0")+".m4a?v=2";
   let curAudio=null, sayKey={hello:1, meaningText:2, feelTip:3, storyText:null, whatText:null};
   function stopAll(){ try{ speechSynthesis.cancel(); }catch(e){} if(curAudio){ try{curAudio.pause();}catch(e){} curAudio=null; } }
-  function say(text, num){
+  function say(text, num){ return;
     stopAll();
     if(num){ curAudio=new Audio(AUD(num)); curAudio.play().catch(()=>speak(text)); return; }
     speak(text);
@@ -540,7 +540,7 @@ button{cursor:pointer}
   /* ---------- sweet words ---------- */
   const lines=["قلبي كبير، أسامح كثير 💚","أنا أعتذر، وأنا أسامح 🌷","كلمة طيبة مثل الوردة 🌹","نلعب معًا، نضحك معًا 🌈","إذا زعلت، أعدّ إلى عشرة 🔟","﴿وَلْيَعْفُوا وَلْيَصْفَحُوا﴾ 📖"];
   const linesEl=document.getElementById("lines");
-  linesEl.innerHTML=lines.map((l,i)=>`<button type="button" class="line" data-i="${i}">${l}<em aria-hidden="true">🔊</em></button>`).join("");
+  linesEl.innerHTML=lines.map((l,i)=>`<button type="button" class="line" data-i="${i}">${l}</button>`).join("");
   linesEl.querySelectorAll(".line").forEach(b=>b.onclick=()=>{ const li=+b.dataset.i; say(lines[li], li<5 ? 8+li : null); track("كلمات حلوة","استماع","الجملة "+(+b.dataset.i+1)); });
 
   /* ---------- did you like it ---------- */
